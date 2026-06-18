@@ -60,14 +60,14 @@ export default function Navbar({ cartCount, onCartClick }) {
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-10">
-        <Link to="/" className="flex items-center gap-4 shrink-0 transition-all duration-300 hover:-translate-y-px" style={{ textDecoration: 'none' }}>
+      <div className="mx-auto flex h-[70px] w-full max-w-7xl items-center justify-between gap-3 px-3 sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
+        <Link to="/" className="flex items-center gap-3 shrink-0 transition-all duration-300 hover:-translate-y-px" style={{ textDecoration: 'none' }}>
           <img
             src={imageAssets.logo.main}
             alt="Lion Spices logo"
-            className="h-[34px] w-auto rounded-2xl object-contain bg-white/90 shadow-sm ring-1 ring-red-100"
+            className="h-[42px] w-auto rounded-2xl object-contain bg-white/90 shadow-sm ring-1 ring-red-100"
           />
-          <span className="text-sm font-extrabold uppercase tracking-[0.35em] text-gray-900 leading-none">Lion Spices</span>
+          <span className="text-[0.85rem] sm:text-sm font-extrabold uppercase tracking-[0.35em] text-gray-900 leading-none">Lion Spices</span>
         </Link>
 
         <nav className="hidden flex-1 justify-center gap-8 lg:flex">
@@ -87,7 +87,7 @@ export default function Navbar({ cartCount, onCartClick }) {
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <motion.button
             type="button"
             onClick={() => setIsSearchOpen((prev) => !prev)}

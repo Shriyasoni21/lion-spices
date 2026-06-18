@@ -46,7 +46,7 @@ const RecipeSection = () => {
   };
 
   return (
-    <section id="recipes" className="section-padding-lg bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <section id="recipes" className="py-14 md:py-20 lg:py-24 bg-gradient-to-b from-cream to-white relative overflow-hidden">
       <div className="absolute top-0 right-0 w-72 h-72 bg-saffron/5 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="container-custom relative z-10">
@@ -118,7 +118,7 @@ const RecipeSection = () => {
                 </div>
                 <Link
                   to={`/recipe/${recipe.id}`}
-                  className="btn-standard btn-standard-primary w-full text-center"
+                  className="btn-standard btn-standard-primary w-full min-h-[52px] text-center"
                 >
                   Read Recipe
                 </Link>

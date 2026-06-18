@@ -51,9 +51,10 @@ export default function AboutSection() {
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-red/5 rounded-full blur-3xl pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left - Content */}
           <motion.div
+            className="text-center lg:text-left"
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -135,7 +136,7 @@ export default function AboutSection() {
             />
 
             {/* Image Container */}
-            <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-3xl shadow-2xl border border-gray-100 lg:max-w-lg">
+            <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl shadow-2xl border border-gray-100 sm:max-w-md lg:max-w-lg">
               <div className="relative bg-white p-4 rounded-3xl">
                 <img
                   src={imageAssets.about.hero}
