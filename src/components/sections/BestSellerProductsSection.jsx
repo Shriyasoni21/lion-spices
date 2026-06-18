@@ -15,10 +15,12 @@ const BestSellerProductsSection = ({ onAddToCart }) => {
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-stretch">
           {top.map((p, i) => (
-            <motion.div key={p.id} className="flex-1 bg-white rounded-2xl p-6 shadow" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}>
-              <div className="flex flex-col lg:flex-row gap-4 items-center">
-                <img src={p.image} alt={p.title} className="w-full lg:w-48 h-48 object-contain rounded-lg" />
-                <div className="flex-1">
+            <motion.div key={p.id} className="flex-1 bg-white rounded-2xl p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl h-full" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}>
+              <div className="flex flex-col lg:flex-row gap-4 items-center h-full">
+                <div className="flex-shrink-0 rounded-3xl border border-gray-100 bg-white p-4 shadow-sm">
+                  <img src={p.image} alt={p.title} className="w-full lg:w-48 h-48 object-contain rounded-2xl" />
+                </div>
+                <div className="flex-1 flex flex-col h-full">
                   <h3 className="text-xl font-semibold text-gray-900">{p.title}</h3>
                   <p className="text-gray-500 mt-2">{p.description}</p>
                   <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

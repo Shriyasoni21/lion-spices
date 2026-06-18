@@ -95,7 +95,19 @@ a {
 }
 
 .card-premium {
-  @apply bg-white rounded-3xl shadow-premium hover:shadow-premium-lg transition-all duration-500 border border-gray-100;
+  @apply bg-white rounded-3xl shadow-premium transition-all duration-500 border border-gray-100 transform-gpu;
+}
+
+.card-premium:hover {
+  @apply hover:-translate-y-1 hover:shadow-premium-lg;
+}
+
+.card-equal {
+  @apply h-full min-h-[24rem] rounded-[32px] border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 transform-gpu;
+}
+
+.card-equal:hover {
+  @apply hover:-translate-y-1 hover:shadow-premium-lg;
 }
 
 .card-hover-lift {
@@ -121,15 +133,15 @@ a {
 
 /* ===== SECTION SPACING ===== */
 .section-padding {
-  @apply py-16 md:py-20 lg:py-24;
+  @apply py-14 md:py-16 lg:py-20;
 }
 
 .section-padding-lg {
-  @apply py-20 md:py-28 lg:py-32;
+  @apply py-16 md:py-20 lg:py-24;
 }
 
 .section-padding-xl {
-  @apply py-24 md:py-32 lg:py-40;
+  @apply py-20 md:py-24 lg:py-28;
 }
 
 /* ===== SCROLLBAR STYLING ===== */
@@ -157,15 +169,29 @@ a {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-spice text-white rounded-[28px] font-semibold text-base shadow-premium hover:shadow-premium-lg transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-spice text-white rounded-[28px] font-semibold text-lg shadow-premium hover:shadow-premium-lg transition-all duration-300 transform-gpu;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-turmeric text-dark-brown font-semibold rounded-[28px] text-base shadow-md hover:shadow-lg transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-turmeric text-dark-brown font-semibold rounded-[28px] text-lg shadow-md hover:shadow-lg transition-all duration-300 transform-gpu;
 }
 
 .btn-outline {
-  @apply inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-primary-red text-primary-red rounded-[28px] font-semibold text-base hover:bg-primary-red hover:text-white transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-primary-red text-primary-red rounded-[28px] font-semibold text-lg hover:bg-primary-red hover:text-white transition-all duration-300 transform-gpu;
+}
+
+.btn-standard:hover,
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-outline:hover {
+  transform: translateY(-2px);
+}
+
+.btn-standard:active,
+.btn-primary:active,
+.btn-secondary:active,
+.btn-outline:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-icon {
@@ -181,10 +207,6 @@ a {
   @apply inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 text-green-700 text-sm font-semibold;
 }
 
-.card-equal {
-  @apply h-full rounded-[32px] border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-premium-lg;
-}
-
 .card-image-hero {
   @apply h-72 overflow-hidden rounded-[28px] bg-gray-100;
 }
@@ -194,7 +216,7 @@ a {
 }
 
 .btn-standard {
-  @apply inline-flex items-center justify-center gap-2 rounded-[28px] px-6 py-3 font-semibold text-base transition-all duration-300;
+  @apply inline-flex items-center justify-center gap-2 rounded-[28px] px-6 py-4 font-semibold text-base transition-all duration-300;
 }
 
 .btn-standard-primary {

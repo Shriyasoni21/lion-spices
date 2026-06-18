@@ -76,15 +76,15 @@ const RecipeSection = () => {
           {recipes.map((recipe, idx) => (
             <motion.div
               key={recipe.id}
-              className="group card-equal overflow-hidden cursor-pointer h-full flex flex-col"
+              className="group card-equal overflow-hidden cursor-pointer h-full flex flex-col transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)]"
               variants={itemVariants}
               whileHover={{ y: -8 }}
             >
-              <div className="relative h-56 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 sm:h-64">
+              <div className="relative h-56 overflow-hidden bg-white p-4 sm:h-64">
                 <img
                   src={recipe.image}
                   alt={recipe.title}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300"></div>
                 <motion.div

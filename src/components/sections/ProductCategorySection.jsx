@@ -60,15 +60,15 @@ const ProductCategorySection = () => {
             <MotionLink
               key={category.id}
               to={`/products?category=${category.slug}`}
-              className="group card-equal overflow-hidden transition-transform duration-300 hover:-translate-y-1"
+              className="group card-equal overflow-hidden transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)] h-full"
               variants={itemVariants}
               whileHover={{ y: -8 }}
             >
-              <div className="relative card-image-hero overflow-hidden bg-gray-100">
+              <div className="relative card-image-hero overflow-hidden bg-white p-4">
                 <img
                   src={category.image}
                   alt={category.name}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 <div className="absolute top-4 right-4 rounded-full bg-primary-red px-3 py-1 text-xs font-bold text-white shadow-lg">

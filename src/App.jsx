@@ -6,7 +6,6 @@ import CartDrawer from './components/common/CartDrawer';
 import HomePage from './pages/Home';
 import Footer from './components/common/Footer';
 import ScrollToTopButton from './components/common/ScrollToTopButton';
-import FloatingWhatsApp from './components/common/FloatingWhatsApp';
 import ProductsPage from './pages/Products';
 import ProductDetailsPage from './pages/ProductDetails';
 import RecipesPage from './pages/Recipes';
@@ -71,7 +70,6 @@ function App() {
 
       <Footer />
       <ScrollToTopButton />
-      <FloatingWhatsApp />
     </div>
   );
 }

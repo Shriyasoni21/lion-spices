@@ -99,7 +99,7 @@ const WhyChooseUsSection = () => {
             return (
               <motion.div
                 key={feature.id}
-                className="group relative"
+                className="group relative h-full"
                 variants={itemVariants}
                 whileHover={{ y: -10 }}
               >

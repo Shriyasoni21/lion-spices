@@ -46,7 +46,7 @@ export default function AboutSection() {
   };
 
   return (
-    <section id="about" className="py-20 md:py-28 bg-white relative overflow-hidden">
+    <section id="about" className="py-16 md:py-20 bg-white relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-red/5 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -135,15 +135,17 @@ export default function AboutSection() {
             />
 
             {/* Image Container */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
-              <img
-                src={imageAssets.about.hero}
-                alt="About Lion Spices"
-                className="w-full h-full object-cover"
-              />
+            <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-3xl shadow-2xl border border-gray-100 lg:max-w-lg">
+              <div className="relative bg-white p-4 rounded-3xl">
+                <img
+                  src={imageAssets.about.hero}
+                  alt="About Lion Spices"
+                  className="w-full h-full rounded-[24px] object-contain"
+                />
+              </div>
 
               {/* Decorative Spice Pattern Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary-red/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary-red/20 to-transparent pointer-events-none"></div>
 
               {/* Floating Stats Badges */}
               <motion.div

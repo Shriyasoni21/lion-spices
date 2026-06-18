@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiShoppingCart, FiMenu, FiX, FiSearch } from 'react-icons/fi';
 import { imageAssets } from '../../config/imageAssets';
 
 export default function Navbar({ cartCount, onCartClick }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -45,33 +46,45 @@ export default function Navbar({ cartCount, onCartClick }) {
     { label: 'Cart', href: '/cart' },
   ];
 
+  const isActiveLink = (href) => {
+    if (href === location.pathname) return true;
+    if (href.startsWith('/#') && location.pathname === '/' && location.hash === href.slice(1)) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <motion.header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-[0_20px_50px_-25px_rgba(15,23,42,0.18)] border-b border-gray-200' : 'bg-white/95 backdrop-blur-sm border-b border-transparent'}`}
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[70px] w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-3" style={{ textDecoration: 'none' }}>
+      <div className="mx-auto flex h-[72px] w-full max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-10">
+        <Link to="/" className="flex items-center gap-4 shrink-0 transition-all duration-300 hover:-translate-y-px" style={{ textDecoration: 'none' }}>
           <img
             src={imageAssets.logo.main}
             alt="Lion Spices logo"
-            className="h-[46px] w-auto rounded-2xl object-contain bg-white/90 shadow-md ring-1 ring-red-100"
+            className="h-[34px] w-auto rounded-2xl object-contain bg-white/90 shadow-sm ring-1 ring-red-100"
           />
-          <span className="text-base font-extrabold tracking-[0.14em] text-gray-900 leading-none">Lion Spices</span>
+          <span className="text-sm font-extrabold uppercase tracking-[0.35em] text-gray-900 leading-none">Lion Spices</span>
         </Link>
 
         <nav className="hidden flex-1 justify-center gap-8 lg:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              to={link.href}
-              className="group relative text-sm font-medium text-gray-700 transition-colors hover:text-primary-red"
-            >
-              {link.label}
-              <span className="absolute bottom-0 left-0 h-[2px] w-0 rounded-full bg-primary-red transition-all duration-300 group-hover:w-full" />
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const active = isActiveLink(link.href);
+            return (
+              <Link
+                key={link.label}
+                to={link.href}
+                aria-current={active ? 'page' : undefined}
+                className={`group relative text-sm ${active ? 'font-semibold text-primary-red' : 'font-medium text-gray-700'} transition-all duration-300 hover:text-primary-red hover:-translate-y-px focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-red/30 focus-visible:ring-offset-2 focus-visible:ring-offset-white`}
+              >
+                {link.label}
+                <span className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-primary-red transition-all duration-300 ${active ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-2">

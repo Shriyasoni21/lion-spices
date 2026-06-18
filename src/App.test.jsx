@@ -15,7 +15,6 @@ import NewsletterSection from './components/sections/NewsletterSection';
 import ContactSection from './components/sections/ContactSection';
 import Footer from './components/common/Footer';
 import ScrollToTopButton from './components/common/ScrollToTopButton';
-import FloatingWhatsApp from './components/common/FloatingWhatsApp';
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -70,7 +69,6 @@ function App() {
       <ContactSection />
       <Footer />
       <ScrollToTopButton />
-      <FloatingWhatsApp />
     </div>
   );
 }

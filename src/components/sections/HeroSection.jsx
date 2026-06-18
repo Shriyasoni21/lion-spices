@@ -26,33 +26,20 @@ const HeroSection = () => {
     }
   };
 
-  const floatingSpices = [
-    { id: 1, delay: 0, rotation: -10 },
-    { id: 2, delay: 0.5, rotation: 10 },
-    { id: 3, delay: 1, rotation: -5 }
-  ];
-
   return (
-    <section className="bg-gradient-to-b from-white via-cream to-cream pt-24 pb-12 md:pt-28 md:pb-16 lg:pt-32 lg:pb-24 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {floatingSpices.map((spice) => (
-          <motion.div
-            key={spice.id}
-            className="absolute text-5xl opacity-10 md:text-6xl"
-            animate={{ y: [0, -20, 0], rotate: [0, 20, 0] }}
-            transition={{ duration: 6, delay: spice.delay, repeat: Infinity }}
-            style={{ top: `${18 + spice.id * 18}%`, right: `${6 + spice.id * 12}%` }}
-          >
-            ✦
-          </motion.div>
-        ))}
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(252,211,77,0.12),_transparent_22%),radial-gradient(circle_at_top_right,_rgba(239,68,68,0.06),_transparent_20%),linear-gradient(180deg,#fffdf8_0%,#fff3e8_100%)] pt-[30px] pb-[30px] lg:min-h-[85vh]">
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#fde8d9] via-transparent to-transparent opacity-60 pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-8%] top-16 h-64 w-64 rounded-full bg-[#fef3c7]/30 blur-3xl" />
+        <div className="absolute right-[-10%] top-24 h-80 w-80 rounded-full bg-[#fee2e2]/20 blur-3xl" />
+        <div className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#fff7ed]/40 blur-2xl" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+        <div className="grid min-h-[85vh] grid-cols-1 gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
           {/* Left Content */}
           <motion.div
-            className="space-y-6"
+            className="space-y-6 lg:max-w-2xl"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -66,14 +53,14 @@ const HeroSection = () => {
             </motion.span>
 
             <motion.h1
-              className="text-4xl font-extrabold text-gray-900 leading-tight sm:text-5xl lg:text-6xl"
+              className="text-4xl font-extrabold text-gray-900 leading-tight sm:text-5xl lg:text-[3.75rem] lg:leading-[1.05]"
               variants={itemVariants}
             >
               Pure Indian spices, delivered with <span className="text-primary-red">premium care</span>
             </motion.h1>
 
             <motion.p
-              className="text-gray-600 max-w-2xl text-base leading-relaxed sm:text-lg"
+              className="text-gray-600 max-w-lg text-base leading-relaxed sm:text-lg"
               variants={itemVariants}
             >
               Lion Spices brings you authentic masalas and spice blends crafted from the finest Indian farms, packed hygienically for modern kitchens.
@@ -83,38 +70,41 @@ const HeroSection = () => {
               className="flex flex-col gap-4 sm:flex-row sm:flex-wrap"
               variants={itemVariants}
             >
-              <Link
-                to="/products"
-                className="btn-primary w-full sm:w-auto justify-center"
-              >
+              <Link to="/products" className="btn-primary w-full sm:w-auto justify-center">
                 Shop Best Sellers
                 <FiArrowRight className="h-5 w-5" />
               </Link>
-              <Link
-                to="/#about"
-                className="btn-outline w-full sm:w-auto justify-center"
-              >
+              <Link to="/#about" className="btn-outline w-full sm:w-auto justify-center">
                 Discover More
               </Link>
             </motion.div>
 
             <motion.div
-              className="grid gap-3 pt-6 sm:grid-cols-2"
+              className="rounded-[32px] border border-gray-200 bg-white px-6 py-5 shadow-[0_24px_80px_-50px_rgba(15,23,42,0.18)]"
               variants={itemVariants}
             >
-              <div className="rounded-3xl border border-gray-200 bg-white px-4 py-4 text-center shadow-sm">
-                <div className="text-2xl text-turmeric">★★★★★</div>
-                <div className="mt-2 text-sm font-semibold text-gray-900">4.9/5 customer rating</div>
-                <div className="text-xs text-gray-500">2,847 reviews</div>
-              </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {trustBadges.slice(0, 4).map((badge) => (
-                  <div key={badge.id} className="rounded-3xl border border-gray-200 bg-white px-3 py-3 text-center text-xs font-semibold text-gray-700 shadow-sm">
-                    <span className="block text-lg" style={{ color: badge.color }}>
-                      {badge.icon}
-                    </span>
-                    {badge.text}
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl text-turmeric">★★★★★</span>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-gray-500">Customer Rating</p>
+                    <p className="mt-1 text-lg font-semibold text-gray-900">4.9/5</p>
                   </div>
+                </div>
+                <div className="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary-red">
+                  Premium Quality
+                </div>
+              </div>
+
+              <div className="mt-5 flex flex-col gap-3 text-sm text-gray-700 sm:flex-row sm:flex-wrap sm:items-center">
+                {trustBadges.map((badge) => (
+                  <span
+                    key={badge.id}
+                    className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-3 py-2 shadow-sm"
+                  >
+                    <span className="text-primary-red">✓</span>
+                    {badge.text}
+                  </span>
                 ))}
               </div>
             </motion.div>
@@ -122,48 +112,21 @@ const HeroSection = () => {
 
           {/* Right - Image Section */}
           <motion.div
-            className="relative overflow-hidden rounded-[34px] border border-gray-100 bg-white shadow-[0_28px_60px_-30px_rgba(0,0,0,0.3)]"
+            className="relative overflow-hidden rounded-[40px] border border-gray-100 bg-white shadow-[0_32px_70px_-30px_rgba(15,23,42,0.18)] self-start"
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.75, delay: 0.2 }}
           >
-            <div className="relative min-h-[360px] sm:min-h-[420px] bg-gradient-to-br from-red-50 via-white to-yellow-50 flex items-center justify-center px-6 py-6">
-              <div className="absolute inset-8 rounded-[36px] bg-gradient-radial-saffron/15 blur-3xl" />
-              <div className="relative z-10 flex h-full w-full items-center justify-center">
-                <img
+            <div className="px-3 py-3 sm:px-5 lg:px-6 lg:py-4">
+              <div className="relative mx-auto flex h-[300px] w-full max-w-[280px] items-center justify-center overflow-hidden rounded-[32px] border border-gray-200 bg-gradient-to-br from-red-50 via-white to-yellow-50 shadow-inner lg:h-[380px] lg:max-w-[460px]">
+                <motion.img
                   src={imageAssets.hero.background}
                   alt="Lion Spices Red Chilli Powder packet"
-                  className="h-full max-h-[88%] w-auto object-contain"
+                  loading="lazy"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                  className="h-[92%] w-auto max-w-full object-contain object-center lg:h-[95%]"
                 />
-              </div>
-            </div>
-
-            <div className="relative bottom-0 mx-auto w-full max-w-3xl px-4 pb-6 sm:px-6">
-              <div className="grid gap-4 md:grid-cols-2">
-                {[
-                  { name: 'Red Chilli Powder', img: imageAssets.products.redChilliPowder },
-                  { name: 'Turmeric Powder', img: imageAssets.products.turmericPowder }
-                ].map((product, idx) => (
-                  <motion.div
-                    key={idx}
-                    className="rounded-[28px] bg-white p-5 shadow-[0_18px_30px_-18px_rgba(0,0,0,0.18)] border border-gray-100 transition-all hover:-translate-y-1 hover:shadow-[0_22px_40px_-20px_rgba(0,0,0,0.22)]"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 + idx * 0.1 }}
-                  >
-                    <div className="flex items-center justify-center">
-                      <img
-                        src={product.img}
-                        alt={product.name}
-                        className="h-20 object-contain"
-                      />
-                    </div>
-                    <h4 className="mt-4 text-sm font-semibold text-gray-900 text-center">
-                      {product.name}
-                    </h4>
-                    <p className="mt-1 text-xs text-gray-500 text-center">Premium quality</p>
-                  </motion.div>
-                ))}
               </div>
             </div>
           </motion.div>

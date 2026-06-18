@@ -12,9 +12,9 @@ export default function ProductCard({ product, onAddToCart }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       whileHover={{ y: -8, scale: 1.01 }}
-      className="group h-full flex flex-col rounded-[28px] border border-gray-100 bg-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)] transition-all duration-300 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.45)]"
+      className="group h-full flex flex-col rounded-[28px] border border-gray-100 bg-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.20)] transition-all duration-300 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.30)]"
     >
-      <div className="relative overflow-hidden rounded-[24px] bg-cream p-4">
+      <div className="relative overflow-hidden rounded-[24px] bg-white p-5 border border-gray-100 shadow-sm">
         <img
           src={product.image}
           alt={product.title}
