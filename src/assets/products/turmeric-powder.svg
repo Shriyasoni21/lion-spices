@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="Turmeric Powder packet illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fffaf0"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" rx="36" fill="url(#bg)"/>
+  <rect x="86" y="58" width="228" height="384" rx="30" fill="#fff" stroke="#d97706" stroke-width="6"/>
+  <rect x="112" y="86" width="176" height="52" rx="18" fill="#f59e0b"/>
+  <text x="200" y="122" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800" fill="#fff">LION SPICES</text>
+  <text x="200" y="182" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="22" font-weight="700" fill="#92400e">Turmeric Powder</text>
+  <text x="200" y="220" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" fill="#6b7280">Premium Haldi Powder</text>
+  <circle cx="200" cy="282" r="54" fill="#fbbf24" opacity="0.98"/>
+  <path d="M170 252c10-26 34-42 62-42 18 0 32 5 46 15-17 28-45 43-74 42-13 0-25-5-34-15z" fill="#b45309" opacity="0.45"/>
+  <text x="200" y="352" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">Golden Color • Earthy Aroma</text>
+  <text x="200" y="384" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#6b7280">100g | 250g | 500g | 1kg</text>
+</svg>

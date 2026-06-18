@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="20" fill="#fff" />
+  <circle cx="30" cy="30" r="18" fill="#b91c1c" />
+  <path d="M48 36c6 0 14 6 18 12s6 12 6 18c0 6-4 10-10 10s-20-8-24-12-6-16 10-28z" fill="#f59e0b" />
+  <text x="60" y="102" font-family="sans-serif" font-size="14" fill="#111" text-anchor="middle">Shriya Spices</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-label="Indian vegetable curry with mustard tempering and spices">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fff7ed" offset="0"/>
+      <stop stop-color="#fef3c7" offset="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="560" rx="36" fill="url(#bg)"/>
+  <circle cx="640" cy="110" r="92" fill="#fbbf24" opacity="0.18"/>
+  <circle cx="150" cy="420" r="120" fill="#22c55e" opacity="0.14"/>
+  <rect x="150" y="130" width="470" height="310" rx="44" fill="#fffaf0" stroke="#d97706" stroke-width="8"/>
+  <path d="M210 318c73-72 145-106 228-102 64 4 126 29 181 83-39 72-121 110-217 113-86 2-148-19-192-94z" fill="#f59e0b" opacity="0.22"/>
+  <path d="M236 286c48-30 96-42 146-38 58 4 110 24 157 64" stroke="#b45309" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <path d="M242 330c58 38 116 56 178 55" stroke="#a16207" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.55"/>
+  <circle cx="500" cy="195" r="32" fill="#166534" opacity="0.18"/>
+  <path d="M500 170c14 14 23 31 29 52" stroke="#15803d" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M454 206c26 8 50 10 76 4" stroke="#65a30d" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M204 372c72 14 132 12 194-4" stroke="#92400e" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.45"/>
+  <text x="110" y="472" fill="#7c2d12" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="800">Rai Tempered Vegetable Curry</text>
+  <text x="110" y="515" fill="#92400e" font-family="Segoe UI, Arial, sans-serif" font-size="20">Mustard tempering • rich vegetables • authentic spice balance</text>
+</svg>

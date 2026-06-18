@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Indian pickle preparation illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fff7ed"/>
+      <stop offset="100%" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="30" fill="url(#bg)"/>
+  <rect x="92" y="72" width="216" height="156" rx="32" fill="#fff" stroke="#fbbf24" stroke-width="6"/>
+  <path d="M160 118c18-28 55-40 87-29 28 10 47 36 48 66-41 14-78 16-117 6-10-22-14-33-18-43z" fill="#dc2626"/>
+  <path d="M178 126c17-13 39-19 63-17 17 1 33 8 46 18-11 22-30 38-53 41-25 4-43-7-56-42z" fill="#f59e0b" opacity="0.88"/>
+  <circle cx="138" cy="114" r="18" fill="#fbbf24" opacity="0.85"/>
+  <circle cx="286" cy="96" r="13" fill="#b45309" opacity="0.9"/>
+  <path d="M132 208c22 9 44 12 68 8" stroke="#7c2d12" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M211 208c25 9 48 11 69 4" stroke="#b45309" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M100 222c16-14 37-26 63-33" stroke="#dc2626" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

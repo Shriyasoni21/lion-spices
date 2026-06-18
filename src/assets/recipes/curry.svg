@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Spicy curry bowl illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fff7ed"/>
+      <stop offset="100%" stop-color="#fee2e2"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="30" fill="url(#bg)"/>
+  <ellipse cx="210" cy="180" rx="118" ry="58" fill="#7f1d1d" opacity="0.95"/>
+  <path d="M115 165c36-45 114-56 174-32 23 9 39 24 54 45-50 35-125 49-201 28-30-8-44-18-27-41z" fill="#dc2626"/>
+  <path d="M149 145c34-32 76-49 123-49 27 0 53 7 78 18-9 26-31 48-57 58-47 18-95 18-144-27z" fill="#f59e0b" opacity="0.9"/>
+  <circle cx="285" cy="101" r="23" fill="#fbbf24" opacity="0.85"/>
+  <circle cx="330" cy="130" r="14" fill="#f59e0b" opacity="0.9"/>
+  <path d="M90 220c26 11 52 12 80 3" stroke="#9a5b00" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M112 193c19 7 41 8 61 2" stroke="#b45309" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M268 78c16 7 31 4 43-4" stroke="#dc2626" stroke-width="6" fill="none" stroke-linecap="round"/>
+</svg>

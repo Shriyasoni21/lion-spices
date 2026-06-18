@@ -1,0 +1,382 @@
+// ========================================
+// LION SPICES - PREMIUM JAVASCRIPT
+// Production-Ready Functionality
+// ========================================
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+    initializeApp();
+});
+
+// Main App Initialization
+function initializeApp() {
+    hideLoadingAnimation();
+    setupNavigation();
+    setupScrollAnimations();
+    setupCarousel();
+    setupCart();
+    setupButtons();
+    setupSearch();
+    setupNewsletter();
+}
+
+// ========================================
+// 1. LOADING ANIMATION
+// ========================================
+function hideLoadingAnimation() {
+    const loading = document.getElementById('loading');
+    setTimeout(() => {
+        loading.style.opacity = '0';
+        loading.style.visibility = 'hidden';
+    }, 1500);
+}
+
+// ========================================
+// 2. STICKY NAVBAR
+// ========================================
+function setupNavigation() {
+    const navbar = document.getElementById('navbar');
+    const hamburger = document.getElementById('hamburger');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Hamburger menu toggle
+    hamburger.addEventListener('click', () => {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(anchor.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+}
+
+// ========================================
+// 3. SCROLL ANIMATIONS (Intersection Observer)
+// ========================================
+function setupScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in, .fade-in-up').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// ========================================
+// 4. REVIEWS CAROUSEL
+// ========================================
+function setupCarousel() {
+    const prevBtn = document.getElementById('prevReview');
+    const nextBtn = document.getElementById('nextReview');
+    const reviewCards = document.querySelectorAll('.review-card');
+    const dotsContainer = document.getElementById('reviewDots');
+    
+    let currentIndex = 0;
+
+    // Create dots
+    reviewCards.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = `dot ${index === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    function goToSlide(index) {
+        reviewCards.forEach((card, i) => {
+            card.classList.remove('active', 'prev-active');
+            if (i === index) {
+                card.classList.add('active');
+            }
+        });
+
+        document.querySelectorAll('.dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+
+        currentIndex = index;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + reviewCards.length) % reviewCards.length;
+        goToSlide(currentIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % reviewCards.length;
+        goToSlide(currentIndex);
+    });
+
+    // Auto carousel
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % reviewCards.length;
+        goToSlide(currentIndex);
+    }, 5000);
+}
+
+// ========================================
+// 5. SHOPPING CART
+// ========================================
+function setupCart() {
+    const cart = JSON.parse(localStorage.getItem('lionCart')) || [];
+    const cartCount = document.querySelector('.cart-count');
+    const addCartBtns = document.querySelectorAll('.btn-add-cart');
+
+    function updateCartCount() {
+        cartCount.textContent = cart.length;
+    }
+
+    addCartBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const productName = btn.dataset.product;
+            cart.push(productName);
+            localStorage.setItem('lionCart', JSON.stringify(cart));
+            updateCartCount();
+
+            // Show toast
+            showToast(`${productName} added to cart!`);
+        });
+    });
+
+    updateCartCount();
+}
+
+// ========================================
+// 6. BUTTONS & INTERACTIONS
+// ========================================
+function setupButtons() {
+    // CTA buttons with scroll
+    document.querySelectorAll('[data-scroll]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = document.querySelector(btn.dataset.scroll);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        backToTop.classList.toggle('show', window.scrollY > 300);
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ========================================
+// 7. SEARCH FUNCTIONALITY
+// ========================================
+function setupSearch() {
+    const searchInput = document.querySelector('.search-input');
+    const searchBtn = document.querySelector('.search-btn');
+
+    const products = [
+        'Red Chilli Powder',
+        'Turmeric Powder',
+        'Garam Masala',
+        'Cumin Seeds',
+        'Coriander Powder',
+        'Black Pepper',
+        'Cardamom',
+        'Fenugreek'
+    ];
+
+    function performSearch(query) {
+        const results = products.filter(p => 
+            p.toLowerCase().includes(query.toLowerCase())
+        );
+        
+        if (results.length > 0) {
+            const productsSection = document.getElementById('products');
+            productsSection.scrollIntoView({ behavior: 'smooth' });
+            showToast(`Found ${results.length} products matching "${query}"`);
+        } else {
+            showToast('No products found');
+        }
+    }
+
+    searchBtn.addEventListener('click', () => {
+        const query = searchInput.value;
+        if (query) performSearch(query);
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch(searchInput.value);
+        }
+    });
+}
+
+// ========================================
+// 8. NEWSLETTER SUBSCRIPTION
+// ========================================
+function setupNewsletter() {
+    const form = document.getElementById('newsletterForm');
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = form.querySelector('input[type="email"]').value;
+        
+        // Save to localStorage
+        const subscribers = JSON.parse(localStorage.getItem('subscribers')) || [];
+        if (!subscribers.includes(email)) {
+            subscribers.push(email);
+            localStorage.setItem('subscribers', JSON.stringify(subscribers));
+        }
+        
+        showToast('🎉 Thanks for subscribing! Check your email for 10% OFF');
+        form.reset();
+    });
+}
+
+// ========================================
+// 9. TOAST NOTIFICATIONS
+// ========================================
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: #DC2626;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+        font-weight: 500;
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// ========================================
+// 10. INTERSECTION OBSERVER FOR ANIMATIONS
+// ========================================
+function initIntersectionObserver() {
+    const options = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, options);
+
+    document.querySelectorAll('[class*="fade-in"]').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// ========================================
+// 11. UTILITY: SCROLL SPY FOR ACTIVE NAV
+// ========================================
+window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section[id]');
+    const scrollPosition = window.scrollY + 100;
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        const sectionId = section.getAttribute('id');
+        const navLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
+
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            document.querySelectorAll('.nav-links a').forEach(link => link.style.color = '');
+            if (navLink) navLink.style.color = '#DC2626';
+        }
+    });
+});
+
+// ========================================
+// 12. PERFORMANCE: LAZY LOAD IMAGES
+// ========================================
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                observer.unobserve(img);
+            }
+        });
+    });
+
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+// ========================================
+// 13. PWA SUPPORT (Optional)
+// ========================================
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+        // Service worker registration failed, app will still work
+    });
+}
+
+// ========================================
+// 14. ACCESSIBILITY
+// ========================================
+document.addEventListener('keydown', (e) => {
+    // Escape key closes modals
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('quickViewModal');
+        if (modal.classList.contains('show')) {
+            modal.classList.remove('show');
+        }
+    }
+});
+
+// Mobile menu close on link click
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks.style.display === 'flex') {
+            navLinks.style.display = 'none';
+        }
+    });
+});
+
+console.log('✓ Lion Spices Premium Website Initialized');

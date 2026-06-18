@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Lion Spices logo">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#fff8f0"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="188" fill="#fff" stroke="#f5d7b3" stroke-width="8"/>
+  <path d="M182 304c28-84 115-97 153-36 7 11 13 18 19 28-26 24-53 37-82 42-34 6-63 0-90-34z" fill="#b91c1c"/>
+  <path d="M211 198c-13 23-27 39-47 50 18 5 35 7 52 6 19-1 38-6 55-14-14-18-29-33-45-42-5-2-10-4-15 0z" fill="#7f1d1d"/>
+  <circle cx="228" cy="208" r="14" fill="#ffd166"/>
+  <circle cx="286" cy="214" r="14" fill="#ffd166"/>
+  <path d="M244 169c19 27 26 52 40 79 11-29 10-58-1-88-18-4-28-4-39 9z" fill="#c2410c"/>
+  <path d="M275 133c19 23 28 50 25 81-17-15-30-30-43-49 7-11 11-19 18-32z" fill="#a16207"/>
+  <path d="M155 271c38 5 72 4 110-8 20-6 40-15 59-29-8 38-37 72-78 83-40 11-88 4-118-18 6-8 12-14 27-28z" fill="#dc2626"/>
+  <path d="M354 260c8 30 4 61-12 87 29-5 54-20 74-42-20-17-37-29-62-45z" fill="#b45309"/>
+  <text x="256" y="394" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="800" fill="#111827">Lion Spices</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-label="Yellow turmeric dal with tadka and coriander leaves">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fff7ed" offset="0"/>
+      <stop stop-color="#fef3c7" offset="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="560" rx="36" fill="url(#bg)"/>
+  <circle cx="620" cy="120" r="90" fill="#fbbf24" opacity="0.18"/>
+  <circle cx="170" cy="430" r="120" fill="#84cc16" opacity="0.14"/>
+  <rect x="160" y="130" width="460" height="310" rx="42" fill="#fffaf0" stroke="#d97706" stroke-width="8"/>
+  <path d="M206 316c56-70 117-102 187-105 85-4 170 33 230 110-63 58-140 92-228 93-74 1-139-14-189-98z" fill="#facc15" opacity="0.75"/>
+  <path d="M236 318c56-64 112-93 181-91 74 2 132 25 185 75" stroke="#ca8a04" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M338 150c12 40 8 98-20 154" stroke="#16a34a" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.25"/>
+  <path d="M444 162c29 37 40 81 40 128" stroke="#b45309" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.35"/>
+  <path d="M218 352c68 16 138 15 212-4" stroke="#92400e" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.45"/>
+  <path d="M570 185c12 22 17 47 14 72" stroke="#15803d" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M535 220c29-3 58 3 88 18" stroke="#65a30d" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <text x="110" y="472" fill="#7c2d12" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="800">Traditional Turmeric Dal</text>
+  <text x="110" y="515" fill="#92400e" font-family="Segoe UI, Arial, sans-serif" font-size="20">Comforting yellow dal • tadka and coriander garnish</text>
+</svg>
