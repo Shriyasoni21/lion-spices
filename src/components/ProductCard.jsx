@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiStar } from 'react-icons/fi';
+import ImageWithFallback from './common/ImageWithFallback';
 
 export default function ProductCard({ product, onAddToCart }) {
   const price = product.variantPrices?.['500g'] ?? product.price ?? 0;
@@ -15,17 +16,14 @@ export default function ProductCard({ product, onAddToCart }) {
       className="group h-full flex flex-col rounded-[28px] border border-gray-100 bg-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.20)] transition-all duration-300 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.30)]"
     >
       <div className="relative overflow-hidden rounded-[24px] bg-white p-5 border border-gray-100 shadow-sm">
-        <img
-          src={product.image}
-          alt={product.title}
-          className="h-48 w-full rounded-[20px] object-contain transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
-        {product.bestSeller && (
-          <span className="absolute left-4 top-4 rounded-full bg-primary-red px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white shadow-lg">
-            Best Seller
-          </span>
-        )}
+        <div className="relative h-[220px] sm:h-[260px] md:h-[300px] w-full rounded-[20px] bg-white p-5">
+          <ImageWithFallback
+            src={product.image}
+            alt={product.title}
+            className="h-full w-full object-contain"
+            loading="lazy"
+          />
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col p-5">

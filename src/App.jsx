@@ -25,18 +25,17 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
     if (location.hash) {
       setTimeout(() => {
         const el = document.getElementById(location.hash.replace('#', ''));
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }, 120);
-      return;
     }
-
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location]);
+  }, [location.pathname, location.search, location.hash]);
 
   const toggleCartOpen = () => setIsCartOpen((prev) => !prev);
 

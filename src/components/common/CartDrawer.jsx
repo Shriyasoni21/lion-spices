@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiX, FiTrash2, FiArrowLeftCircle } from 'react-icons/fi';
+import ImageWithFallback from './ImageWithFallback';
 
 const CartDrawer = ({ open, items, onClose, onRemove, onClear, onUpdateQuantity }) => {
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ const CartDrawer = ({ open, items, onClose, onRemove, onClear, onUpdateQuantity 
                       {items.map((item) => (
                         <div key={item.id} className="rounded-3xl border border-gray-100 p-4 shadow-sm">
                           <div className="flex items-start gap-4">
-                            <img src={item.image} alt={item.title} className="w-20 h-20 rounded-2xl object-cover" />
+                            <ImageWithFallback src={item.image} alt={item.title} className="w-20 h-20 rounded-2xl object-cover" loading="lazy" />
                             <div className="flex-1">
                               <div className="flex items-start justify-between gap-4">
                                 <div>

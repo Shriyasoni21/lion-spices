@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiFacebook, FiInstagram, FiTwitter, FiYoutube, FiMapPin, FiPhone, FiMail, FiMessageCircle, FiLinkedin } from 'react-icons/fi';
 import { imageAssets } from '../../config/imageAssets';
+import ImageWithFallback from './ImageWithFallback';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -16,12 +17,12 @@ export default function Footer() {
   ];
 
   const productLinks = [
-    { label: 'Red Chilli Powder', href: '/products?category=chilli-powders' },
-    { label: 'Turmeric Powder', href: '/products?category=chilli-powders' },
-    { label: 'Coriander Powder', href: '/products?category=pure-veg-masalas' },
-    { label: 'Aachar Mirchi', href: '/products?category=chilli-powders' },
-    { label: 'Rai Powder', href: '/products?category=pure-veg-masalas' },
-    { label: 'Rai Dal', href: '/products?category=pure-veg-masalas' }
+    { label: 'Red Chilli Powder', href: '/products' },
+    { label: 'Turmeric Powder', href: '/products' },
+    { label: 'Coriander Powder', href: '/products' },
+    { label: 'Aachar Mirchi', href: '/products' },
+    { label: 'Rai Powder', href: '/products' },
+    { label: 'Rai Dal', href: '/products' }
   ];
 
   const socialLinks = [
@@ -70,7 +71,7 @@ export default function Footer() {
         >
           <motion.div className="space-y-5" variants={itemVariants}>
             <div className="flex items-center gap-3">
-              <img src={imageAssets.logo.main} alt="Lion Spices logo" className="h-12 w-12 rounded-2xl object-contain shadow-lg" loading="lazy" />
+              <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] md:h-[60px] w-auto object-contain" loading="lazy" />
               <h3 className="text-2xl font-bold text-white">Lion Spices</h3>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">

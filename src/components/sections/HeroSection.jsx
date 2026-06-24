@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FiArrowRight, FiStar } from 'react-icons/fi';
 import { trustBadges } from '../../data/productData';
 import { imageAssets } from '../../config/imageAssets';
+import ImageWithFallback from '../common/ImageWithFallback';
 
 const HeroSection = () => {
   const containerVariants = {
@@ -72,7 +73,7 @@ const HeroSection = () => {
               variants={itemVariants}
             >
               <Link to="/products" className="btn-primary w-full min-h-[56px] sm:w-auto sm:min-h-auto justify-center">
-                Shop Best Sellers
+                Explore Products
                 <FiArrowRight className="h-5 w-5" />
               </Link>
               <Link to="/#about" className="btn-outline w-full min-h-[56px] sm:w-auto sm:min-h-auto justify-center">
@@ -120,14 +121,18 @@ const HeroSection = () => {
           >
             <div className="px-3 py-3 sm:px-5 lg:px-6 lg:py-4">
               <div className="relative mx-auto flex h-[260px] w-full max-w-[280px] items-center justify-center overflow-hidden rounded-[32px] border border-gray-200 bg-gradient-to-br from-red-50 via-white to-yellow-50 shadow-lg lg:h-[380px] lg:max-w-[460px]">
-                <motion.img
-                  src={imageAssets.hero.background}
-                  alt="Lion Spices Red Chilli Powder packet"
-                  loading="lazy"
+                <motion.div
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                  className="h-[92%] w-auto max-w-full object-contain object-center lg:h-[95%]"
-                />
+                >
+                  <ImageWithFallback
+                    src={imageAssets.hero.background}
+                    alt="Lion Spices Red Chilli Powder packet"
+                    loading="eager"
+                    fetchPriority="high"
+                    className="h-[92%] w-auto max-w-full object-contain object-center lg:h-[95%]"
+                  />
+                </motion.div>
               </div>
             </div>
           </motion.div>

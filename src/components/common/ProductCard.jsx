@@ -26,18 +26,6 @@ function ProductCard({ product, index = 0, onAddToCart }) {
     >
       {/* Image Container */}
       <div className="relative h-80 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
-        {/* Best Seller Badge */}
-        {product.bestSeller && (
-          <motion.div
-            className="absolute top-4 right-4 bg-primary-red text-white px-3 py-1 rounded-full text-xs font-bold uppercase z-10"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            ⭐ Best Seller
-          </motion.div>
-        )}
-
         <img
           src={product.image}
           alt={product.title}

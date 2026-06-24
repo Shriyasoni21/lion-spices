@@ -6,6 +6,7 @@ import { products } from '../data/productData';
 import WeightSelector from '../components/WeightSelector';
 import QuantitySelector from '../components/QuantitySelector';
 import { useCart } from '../context/CartContext';
+import ImageWithFallback from '../components/common/ImageWithFallback';
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
@@ -31,13 +32,12 @@ export default function ProductDetailsPage() {
             <div className="flex flex-col gap-3">
               {[product.image, product.image, product.image].map((img, idx) => (
                 <button key={idx} type="button" className="rounded-2xl border border-gray-100 bg-gray-50 p-2 hover:border-primary-red">
-                  <img src={img} alt={`${product.title}-${idx + 1}`} className="h-16 w-full rounded-xl object-contain" />
+                  <ImageWithFallback src={img} alt={`${product.title}-${idx + 1}`} className="h-16 w-full rounded-xl object-contain" loading="lazy" />
                 </button>
               ))}
             </div>
             <div className="relative overflow-hidden rounded-[28px] bg-cream p-4">
-              <img src={product.image} alt={product.title} className="h-[420px] w-full rounded-[24px] object-contain transition duration-500 hover:scale-110" />
-              {product.bestSeller && <span className="absolute left-6 top-6 rounded-full bg-primary-red px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-white">Best Seller</span>}
+              <ImageWithFallback src={product.image} alt={product.title} className="h-[420px] w-full rounded-[24px] object-contain transition duration-500 hover:scale-110" loading="eager" />
             </div>
           </div>
         </motion.div>
@@ -112,7 +112,7 @@ export default function ProductDetailsPage() {
         <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {relatedProducts.map((item) => (
             <article key={item.id} className="rounded-[28px] bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]">
-              <img src={item.image} alt={item.title} className="h-44 w-full rounded-[22px] object-contain" />
+              <ImageWithFallback src={item.image} alt={item.title} className="h-44 w-full rounded-[22px] object-contain" loading="lazy" />
               <h3 className="mt-4 text-xl font-semibold text-gray-900">{item.title}</h3>
               <p className="mt-2 text-sm text-gray-600">{item.description}</p>
               <Link to={`/product/${item.id}`} className="mt-4 inline-flex rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white">View Details</Link>

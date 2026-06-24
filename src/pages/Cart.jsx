@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import { useCart } from '../context/CartContext';
 import { imageAssets } from '../config/imageAssets';
+import ImageWithFallback from '../components/common/ImageWithFallback';
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart, subtotal, deliveryCharge, finalTotal, clearCart } = useCart();
@@ -76,7 +77,7 @@ export default function CartPage() {
           <div className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <img src={imageAssets.logo.main} alt="Lion Spices logo" className="h-12 w-12 rounded-2xl object-contain shadow-sm sm:h-14 sm:w-14" loading="lazy" />
+                <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] md:h-[60px] w-auto object-contain shadow-sm" loading="lazy" />
                 <div>
                   <p className="text-sm uppercase tracking-[0.28em] text-primary-red">Cart & Checkout</p>
                   <h1 className="mt-2 text-3xl font-bold text-gray-900">Complete your spice order</h1>
@@ -91,7 +92,7 @@ export default function CartPage() {
               ) : (
                 cartItems.map((item) => (
                   <article key={`${item.id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[28px] border border-gray-100 bg-gray-50 p-4 md:flex-row md:items-center">
-                    <img src={item.image} alt={item.title} className="h-24 w-24 rounded-[22px] object-cover" />
+                    <ImageWithFallback src={item.image} alt={item.title} className="h-24 w-24 rounded-[22px] object-cover" loading="lazy" />
                     <div className="flex-1">
                       <h2 className="text-xl font-semibold text-gray-900">{item.title}</h2>
                       <p className="mt-1 text-sm text-gray-500">Weight: {item.selectedWeight}</p>

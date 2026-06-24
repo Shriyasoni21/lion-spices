@@ -9,7 +9,7 @@ const BestSellerProductsSection = ({ onAddToCart }) => {
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <p className="text-sm font-semibold text-red-600">Best Sellers</p>
+          <p className="text-sm font-semibold text-red-600">Popular Picks</p>
           <h2 className="text-3xl font-extrabold text-gray-900">Customer Favorites</h2>
         </div>
 

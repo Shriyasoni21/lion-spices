@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiShoppingCart, FiMenu, FiX, FiSearch } from 'react-icons/fi';
 import { imageAssets } from '../../config/imageAssets';
+import ImageWithFallback from './ImageWithFallback';
 
 export default function Navbar({ cartCount, onCartClick }) {
   const navigate = useNavigate();
@@ -62,10 +63,11 @@ export default function Navbar({ cartCount, onCartClick }) {
     >
       <div className="mx-auto flex h-[70px] w-full max-w-7xl items-center justify-between gap-3 px-3 sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
         <Link to="/" className="flex items-center gap-3 shrink-0 transition-all duration-300 hover:-translate-y-px" style={{ textDecoration: 'none' }}>
-          <img
+          <ImageWithFallback
             src={imageAssets.logo.main}
             alt="Lion Spices logo"
-            className="h-[42px] w-auto rounded-2xl object-contain bg-white/90 shadow-sm ring-1 ring-red-100"
+            className="h-[42px] md:h-[60px] w-auto object-contain"
+            loading="eager"
           />
           <span className="text-[0.85rem] sm:text-sm font-extrabold uppercase tracking-[0.35em] text-gray-900 leading-none">Lion Spices</span>
         </Link>

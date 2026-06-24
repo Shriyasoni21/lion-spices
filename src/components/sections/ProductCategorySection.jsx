@@ -59,7 +59,7 @@ const ProductCategorySection = () => {
           {categories.map((category, idx) => (
             <MotionLink
               key={category.id}
-              to={`/products?category=${category.slug}`}
+              to="/products"
               className="group card-equal overflow-hidden transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)] h-full"
               variants={itemVariants}
               whileHover={{ y: -8 }}

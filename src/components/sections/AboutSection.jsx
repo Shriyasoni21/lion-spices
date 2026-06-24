@@ -18,13 +18,6 @@ export default function AboutSection() {
     navigate('/#about');
   };
 
-  const stats = [
-    { id: 1, value: '10+', label: 'Years Experience', icon: '🏆' },
-    { id: 2, value: '5000+', label: 'Happy Customers', icon: '😊' },
-    { id: 3, value: '100%', label: 'Natural Products', icon: '🌾' },
-    { id: 4, value: '50+', label: 'Product Range', icon: '🌶️' }
-  ];
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -170,35 +163,6 @@ export default function AboutSection() {
           </motion.div>
         </div>
 
-        {/* Statistics Section */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 pt-20 border-t border-gray-200"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-        >
-          {stats.map((stat) => (
-            <motion.div
-              key={stat.id}
-              className="card-premium p-8 text-center"
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-            >
-              <motion.p
-                className="text-4xl mb-2"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                {stat.icon}
-              </motion.p>
-              <p className="text-3xl font-bold text-primary-red mb-2">
-                {stat.value}
-              </p>
-              <p className="text-gray-600 font-medium">{stat.label}</p>
-            </motion.div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

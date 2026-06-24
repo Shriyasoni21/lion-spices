@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { recipes } from '../data/recipeData';
 import { products } from '../data/productData';
+import ImageWithFallback from '../components/common/ImageWithFallback';
 
 export default function RecipeDetailsPage() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function RecipeDetailsPage() {
     <main className="pt-28 bg-cream pb-16 text-gray-900">
       <section className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
         <article className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
-          <img src={recipe.image} alt={recipe.title} className="h-[420px] w-full rounded-[28px] object-cover" />
+          <ImageWithFallback src={recipe.image} alt={recipe.title} className="h-[420px] w-full rounded-[28px] object-cover" loading="eager" />
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-gray-700">
             <span className="rounded-full bg-amber-50 px-3 py-1">Time: {recipe.cookTime}</span>
             <span className="rounded-full bg-green-50 px-3 py-1">Difficulty: {recipe.difficulty}</span>
@@ -60,7 +61,7 @@ export default function RecipeDetailsPage() {
         <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {relatedProducts.map((item) => (
             <article key={item.id} className="rounded-[28px] bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]">
-              <img src={item.image} alt={item.title} className="h-44 w-full rounded-[22px] object-contain" />
+              <ImageWithFallback src={item.image} alt={item.title} className="h-44 w-full rounded-[22px] object-contain" loading="lazy" />
               <h3 className="mt-4 text-xl font-semibold text-gray-900">{item.title}</h3>
               <p className="mt-2 text-sm text-gray-600">{item.description}</p>
               <Link to={`/product/${item.id}`} className="mt-4 inline-flex rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white">View Product</Link>

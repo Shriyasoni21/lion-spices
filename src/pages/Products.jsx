@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import SearchBar from '../components/SearchBar';
 import FilterSidebar from '../components/FilterSidebar';
@@ -9,55 +9,11 @@ import { useCart } from '../context/CartContext';
 export default function ProductsPage() {
   const { addToCart } = useCart();
   const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
   const highlightSpices = location.state?.highlight || [];
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All');
-  const [sortBy, setSortBy] = useState('best');
-
-  useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    if (categoryParam === 'pure-veg-masalas') {
-      setCategory('Pure Veg Masalas');
-    } else if (categoryParam === 'chilli-powders') {
-      setCategory('Chilli Powders');
-    } else {
-      setCategory('All');
-    }
-
-    const searchParam = searchParams.get('search') || '';
-    if (search !== searchParam) {
-      setSearch(searchParam);
-    }
-  }, [searchParams]);
-
-  const handleCategoryChange = (selected) => {
-    setCategory(selected);
-    const params = new URLSearchParams(searchParams);
-
-    if (selected === 'Pure Veg Masalas') {
-      params.set('category', 'pure-veg-masalas');
-    } else if (selected === 'Chilli Powders') {
-      params.set('category', 'chilli-powders');
-    } else {
-      params.delete('category');
-    }
-
-    setSearchParams(params);
-  };
 
   const handleSearchChange = (value) => {
     setSearch(value);
-    const params = new URLSearchParams(searchParams);
-    const cleanValue = value.trim();
-
-    if (cleanValue) {
-      params.set('search', cleanValue);
-    } else {
-      params.delete('search');
-    }
-
-    setSearchParams(params);
   };
 
   const filteredProducts = useMemo(() => {
@@ -67,18 +23,12 @@ export default function ProductsPage() {
         product.title.toLowerCase().includes(query) ||
         product.description.toLowerCase().includes(query) ||
         product.category.toLowerCase().includes(query);
-      const matchesCategory = category === 'All' || product.category === category;
       const matchesHighlight = highlightSpices.length === 0 || highlightSpices.includes(product.title);
-      return matchesSearch && matchesCategory && matchesHighlight;
+      return matchesSearch && matchesHighlight;
     });
 
-    return list.sort((a, b) => {
-      if (sortBy === 'low') return (a.variantPrices?.['500g'] ?? a.price) - (b.variantPrices?.['500g'] ?? b.price);
-      if (sortBy === 'high') return (b.variantPrices?.['500g'] ?? b.price) - (a.variantPrices?.['500g'] ?? a.price);
-      if (sortBy === 'rating') return (b.rating ?? 0) - (a.rating ?? 0);
-      return (b.bestSeller ? 1 : 0) - (a.bestSeller ? 1 : 0);
-    });
-  }, [search, category, sortBy]);
+    return list.sort((a, b) => a.id - b.id);
+  }, [search, highlightSpices]);
 
   return (
     <main className="pt-28 bg-cream pb-16 text-gray-900">
@@ -94,7 +44,7 @@ export default function ProductsPage() {
         </div>
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[300px_1fr]">
-          <FilterSidebar selectedCategory={category} onCategoryChange={handleCategoryChange} sortBy={sortBy} onSortChange={setSortBy} />
+          <FilterSidebar selectedCategory="All" />
 
           <div className="space-y-6">
             <SearchBar value={search} onChange={handleSearchChange} />
