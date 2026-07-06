@@ -155,7 +155,7 @@ const WhyChooseUsSection = () => {
           viewport={{ once: true }}
         >
           <p className="text-lg text-gray-600">
-            <span className="font-bold text-primary-red">4.9/5</span> Customer Rating Based on <span className="font-bold">2,847+ Reviews</span>
+            Trusted by <span className="font-bold text-primary-red">10,000+</span> happy customers for premium quality.
           </p>
         </motion.div>
       </div>

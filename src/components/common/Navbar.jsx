@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FiShoppingCart, FiMenu, FiX, FiSearch } from 'react-icons/fi';
 import { imageAssets } from '../../config/imageAssets';
 import ImageWithFallback from './ImageWithFallback';
@@ -25,6 +25,10 @@ export default function Navbar({ cartCount, onCartClick }) {
       searchInputRef.current.focus();
     }
   }, [isSearchOpen]);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname, location.hash]);
 
   const handleNavbarSearch = (event) => {
     event.preventDefault();
@@ -57,7 +61,7 @@ export default function Navbar({ cartCount, onCartClick }) {
 
   return (
     <motion.header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-[0_20px_50px_-25px_rgba(15,23,42,0.18)] border-b border-gray-200' : 'bg-white/95 backdrop-blur-sm border-b border-transparent'}`}
+      className={`fixed inset-x-0 top-0 z-[60] transition-all duration-300 ${isScrolled ? 'bg-white shadow-[0_20px_50px_-25px_rgba(15,23,42,0.18)] border-b border-gray-200' : 'bg-white/95 backdrop-blur-sm border-b border-transparent'}`}
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
@@ -66,7 +70,8 @@ export default function Navbar({ cartCount, onCartClick }) {
           <ImageWithFallback
             src={imageAssets.logo.main}
             alt="Lion Spices logo"
-            className="h-[42px] md:h-[60px] w-auto object-contain"
+            className="h-[50px] sm:h-[55px] md:h-[72px] lg:h-[78px] w-auto object-contain"
+            style={{ imageRendering: 'auto' }}
             loading="eager"
           />
           <span className="text-[0.85rem] sm:text-sm font-extrabold uppercase tracking-[0.35em] text-gray-900 leading-none">Lion Spices</span>
@@ -152,7 +157,7 @@ export default function Navbar({ cartCount, onCartClick }) {
 
       {isSearchOpen && (
         <motion.div
-          className="absolute inset-x-0 top-full z-40 border-b border-gray-200 bg-white/95 px-4 py-3 shadow-lg backdrop-blur-sm md:hidden"
+          className="absolute inset-x-0 top-full z-[55] border-b border-gray-200 bg-white/95 px-4 py-3 shadow-lg backdrop-blur-sm md:hidden"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25 }}
@@ -170,26 +175,30 @@ export default function Navbar({ cartCount, onCartClick }) {
         </motion.div>
       )}
 
-      <motion.div
-        className="border-t border-gray-100 bg-white md:hidden"
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: isMobileMenuOpen ? 'auto' : 0, opacity: isMobileMenuOpen ? 1 : 0 }}
-        transition={{ duration: 0.25 }}
-        style={{ overflow: 'hidden' }}
-      >
-        <div className="space-y-2 px-4 pb-6 pt-4">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              to={link.href}
-              className="block rounded-2xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-primary-red/10 hover:text-primary-red"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </motion.div>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0, y: -10 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="absolute inset-x-0 top-full z-[55] overflow-hidden border-t border-gray-100 bg-white shadow-[0_20px_40px_-25px_rgba(15,23,42,0.2)] md:hidden"
+          >
+            <div className="space-y-2 px-4 pb-6 pt-4">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.href}
+                  className="block rounded-2xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-primary-red/10 hover:text-primary-red"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

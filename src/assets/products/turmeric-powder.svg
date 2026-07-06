@@ -14,5 +14,5 @@
   <circle cx="200" cy="282" r="54" fill="#fbbf24" opacity="0.98"/>
   <path d="M170 252c10-26 34-42 62-42 18 0 32 5 46 15-17 28-45 43-74 42-13 0-25-5-34-15z" fill="#b45309" opacity="0.45"/>
   <text x="200" y="352" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">Golden Color • Earthy Aroma</text>
-  <text x="200" y="384" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#6b7280">100g | 250g | 500g | 1kg</text>
+  <text x="200" y="384" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#6b7280">100g | 500g | 1kg</text>
 </svg>

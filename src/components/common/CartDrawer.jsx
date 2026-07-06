@@ -97,8 +97,15 @@ const CartDrawer = ({ open, items, onClose, onRemove, onClear, onUpdateQuantity 
               {step === 'cart' && (
                 <>
                   {items.length === 0 ? (
-                    <div className="py-20 text-center text-gray-500">
-                      <p>Your cart is empty.</p>
+                    <div className="flex flex-col items-center justify-center gap-4 py-20 text-center text-gray-500">
+                      <span className="text-6xl">🛒</span>
+                      <div className="space-y-2">
+                        <p className="text-xl font-semibold text-gray-900">Your Cart is Empty</p>
+                        <p className="text-sm text-gray-500">Explore our premium spices and start shopping.</p>
+                      </div>
+                      <button onClick={onClose} className="rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white hover:bg-red-700 transition">
+                        Continue Shopping
+                      </button>
                     </div>
                   ) : (
                     <div className="space-y-5">

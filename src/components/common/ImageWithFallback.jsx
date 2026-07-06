@@ -7,6 +7,7 @@ export default function ImageWithFallback({
   className = '',
   loading = 'lazy',
   decoding = 'async',
+  fetchPriority,
   ...props
 }) {
   const [hasError, setHasError] = useState(false);

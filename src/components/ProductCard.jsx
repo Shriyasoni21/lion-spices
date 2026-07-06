@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiStar } from 'react-icons/fi';
 import ImageWithFallback from './common/ImageWithFallback';
+import WeightSelector from './WeightSelector';
 
 export default function ProductCard({ product, onAddToCart }) {
-  const price = product.variantPrices?.['500g'] ?? product.price ?? 0;
+  const initialVariant = product.variants?.[0] || { weight: product.weight || '500g', price: product.price ?? 0 };
+  const [selectedVariant, setSelectedVariant] = useState(initialVariant);
+
+  useEffect(() => {
+    if (!product.variants?.length) {
+      setSelectedVariant({ weight: product.weight || '500g', price: product.price ?? 0 });
+      return;
+    }
+
+    const nextVariant = product.variants.find((variant) => variant.weight === selectedVariant?.weight) || product.variants[0];
+    setSelectedVariant(nextVariant);
+  }, [product.id]);
+
+  const price = selectedVariant?.price ?? product.price ?? 0;
+
+  const handleSelectVariant = (weight) => {
+    const nextVariant = product.variants?.find((variant) => variant.weight === weight);
+    if (nextVariant) {
+      setSelectedVariant(nextVariant);
+    }
+  };
 
   return (
     <motion.article
@@ -40,29 +61,34 @@ export default function ProductCard({ product, onAddToCart }) {
         <div className="mt-4 flex flex-wrap gap-2 text-sm text-amber-500">
           <FiStar className="fill-current" />
           <span className="font-semibold text-gray-800">{product.rating}</span>
-          <span className="text-gray-500">({product.reviews} reviews)</span>
+          <span className="text-gray-500">Premium Quality</span>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2 text-sm text-gray-700">
-          {product.weightOptions?.map((weight) => (
-            <span key={weight} className="rounded-full bg-gray-100 px-3 py-1 font-semibold">{weight}</span>
-          ))}
-        </div>
+        {product.variants?.length ? (
+          <div className="mt-4">
+            <WeightSelector
+              options={product.variants.map((variant) => variant.weight)}
+              selectedWeight={selectedVariant?.weight}
+              onSelect={handleSelectVariant}
+            />
+          </div>
+        ) : null}
 
         <div className="mt-6 flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-gray-400">Starting at</p>
-            <p className="text-2xl font-bold text-primary-red">₹{price}</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-gray-400">Selected variant</p>
+            <p className="text-xl font-bold text-primary-red">₹{price}</p>
+            <p className="text-sm text-gray-500">{selectedVariant?.weight || product.weight}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link
-              to={`/product/${product.id}`}
+              to={{ pathname: `/product/${product.id}`, state: { selectedVariant } }}
               className="btn-standard btn-standard-outline"
             >
               View Details
             </Link>
             <button
-              onClick={() => onAddToCart(product, '500g', 1)}
+              onClick={() => onAddToCart?.(product, selectedVariant, 1)}
               className="btn-standard btn-standard-primary"
             >
               Add to Cart

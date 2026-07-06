@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { imageAssets } from '../../config/imageAssets';
+import ImageWithFallback from '../common/ImageWithFallback';
 
 export default function AboutSection() {
   const location = useLocation();
@@ -131,10 +132,12 @@ export default function AboutSection() {
             {/* Image Container */}
             <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl shadow-2xl border border-gray-100 sm:max-w-md lg:max-w-lg">
               <div className="relative bg-white p-4 rounded-3xl">
-                <img
+                <ImageWithFallback
                   src={imageAssets.about.hero}
                   alt="About Lion Spices"
                   className="w-full h-full rounded-[24px] object-contain"
+                  width={600}
+                  height={450}
                 />
               </div>
 

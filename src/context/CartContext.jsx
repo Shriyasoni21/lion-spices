@@ -15,8 +15,12 @@ export function CartProvider({ children }) {
     localStorage.setItem('lion-spices-cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product, selectedWeight = product.weight || '500g', quantity = 1) => {
-    const price = product.variantPrices?.[selectedWeight] ?? product.price ?? 0;
+  const addToCart = (product, selectedVariantOrWeight = product.variants?.[0] || product.weight || '500g', quantity = 1) => {
+    const selectedVariant = selectedVariantOrWeight && typeof selectedVariantOrWeight === 'object' && 'weight' in selectedVariantOrWeight
+      ? selectedVariantOrWeight
+      : (product.variants?.find((variant) => variant.weight === selectedVariantOrWeight) || { weight: selectedVariantOrWeight || product.weight || '500g', price: product.price ?? 0 });
+    const price = selectedVariant.price ?? product.price ?? 0;
+    const selectedWeight = selectedVariant.weight || product.weight || '500g';
 
     setCartItems((prev) => {
       const existing = prev.find(

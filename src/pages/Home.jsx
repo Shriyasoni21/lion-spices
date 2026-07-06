@@ -2,6 +2,7 @@ import React from 'react';
 import HeroSection from '../components/sections/HeroSection';
 import TrustStatsSection from '../components/sections/TrustStatsSection';
 import WhyChooseUsSection from '../components/sections/WhyChooseUsSection';
+import CertificationsSection from '../components/sections/CertificationsSection';
 import ProductCategorySection from '../components/sections/ProductCategorySection';
 import RecipeSection from '../components/sections/RecipeSection';
 import AboutSection from '../components/sections/AboutSection';
@@ -13,6 +14,7 @@ export default function HomePage() {
       <HeroSection />
       <TrustStatsSection />
       <WhyChooseUsSection />
+      <CertificationsSection />
       <ProductCategorySection />
       <RecipeSection />
       <AboutSection />

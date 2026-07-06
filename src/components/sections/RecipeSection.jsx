@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiClock, FiTrendingUp } from 'react-icons/fi';
+import ImageWithFallback from '../common/ImageWithFallback';
 import { recipes } from '../../data/recipeData';
 
 const RecipeSection = () => {
@@ -81,10 +82,12 @@ const RecipeSection = () => {
               whileHover={{ y: -8 }}
             >
               <div className="relative h-56 overflow-hidden bg-white p-4 sm:h-64">
-                <img
+                <ImageWithFallback
                   src={recipe.image}
                   alt={recipe.title}
                   className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  width={360}
+                  height={256}
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300"></div>
                 <motion.div

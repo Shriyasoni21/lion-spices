@@ -53,7 +53,7 @@ function App() {
       <Navbar cartCount={cartCount} onCartClick={toggleCartOpen} />
 
       <Routes>
-        <Route path="/" element={<HomePage onAddToCart={(product) => { addToCart(product, '500g', 1); setIsCartOpen(true); }} />} />
+        <Route path="/" element={<HomePage onAddToCart={(product, selectedVariant) => { addToCart(product, selectedVariant, 1); setIsCartOpen(true); }} />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/recipes" element={<RecipesPage />} />
         <Route path="/about" element={<AboutPage />} />

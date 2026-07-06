@@ -80,15 +80,15 @@ export default function Footer() {
             <div className="space-y-3 text-sm text-gray-400">
               <div className="flex items-center gap-3">
                 <FiMapPin className="h-5 w-5 text-primary-red" />
-                <span>Hyderabad, India</span>
+                <span>Karimnagar, Telangana, India</span>
               </div>
               <div className="flex items-center gap-3">
                 <FiPhone className="h-5 w-5 text-primary-red" />
-                <span>+91 90107 82782</span>
+                <span>+91 XXXXXXXXXX</span>
               </div>
               <div className="flex items-center gap-3">
                 <FiMail className="h-5 w-5 text-primary-red" />
-                <span>hello@lionspices.com</span>
+                <span>info@lionspices.in</span>
               </div>
             </div>
           </motion.div>

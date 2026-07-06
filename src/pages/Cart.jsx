@@ -88,7 +88,16 @@ export default function CartPage() {
 
             <div className="mt-6 space-y-4">
               {cartItems.length === 0 ? (
-                <div className="rounded-[28px] border border-dashed border-gray-200 bg-gray-50 p-10 text-center text-gray-500">Your cart is empty. Start with our premium spice collection.</div>
+                <div className="flex flex-col items-center justify-center gap-4 rounded-[28px] border border-dashed border-gray-200 bg-gray-50 p-10 text-center text-gray-500">
+                  <span className="text-6xl">🛒</span>
+                  <div className="space-y-2">
+                    <p className="text-xl font-semibold text-gray-900">Your Cart is Empty</p>
+                    <p className="text-sm text-gray-500">Explore our premium spices and start shopping.</p>
+                  </div>
+                  <Link to="/products" className="inline-flex rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white hover:bg-red-700 transition">
+                    Continue Shopping
+                  </Link>
+                </div>
               ) : (
                 cartItems.map((item) => (
                   <article key={`${item.id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[28px] border border-gray-100 bg-gray-50 p-4 md:flex-row md:items-center">

@@ -14,5 +14,5 @@
   <circle cx="200" cy="282" r="54" fill="#dc2626" opacity="0.96"/>
   <circle cx="200" cy="282" r="30" fill="#fca5a5" opacity="0.35"/>
   <text x="200" y="352" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">Natural Color • Rich Aroma</text>
-  <text x="200" y="384" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#6b7280">100g | 250g | 500g | 1kg</text>
+  <text x="200" y="384" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#6b7280">100g | 500g | 1kg</text>
 </svg>

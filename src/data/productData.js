@@ -5,7 +5,7 @@ export const products = [
     id: 1,
     title: 'Red Chilli Powder',
     weight: '500g',
-    price: 199,
+    price: 160,
     image: imageAssets.products.redChilliPowder,
     rating: 4.9,
     reviews: 320,
@@ -13,14 +13,17 @@ export const products = [
     longDescription: 'Rich red chilli powder with natural color and authentic spicy flavor, crafted for bold heat and a vibrant finish in every dish.',
     bestSeller: true,
     category: 'Chilli Powders',
-    weightOptions: ['100g', '250g', '500g', '1kg'],
-    variantPrices: { '100g': 59, '250g': 129, '500g': 199, '1kg': 379 }
+    variants: [
+      { weight: '100g', price: 35 },
+      { weight: '500g', price: 160 },
+      { weight: '1kg', price: 280 }
+    ]
   },
   {
     id: 2,
     title: 'Turmeric Powder',
     weight: '500g',
-    price: 179,
+    price: 135,
     image: imageAssets.products.turmericPowder,
     rating: 4.8,
     reviews: 280,
@@ -28,14 +31,17 @@ export const products = [
     longDescription: 'Pure turmeric powder with natural aroma and vibrant color, made for traditional curries, dals, and everyday Indian cooking.',
     bestSeller: true,
     category: 'Pure Veg Masalas',
-    weightOptions: ['100g', '250g', '500g', '1kg'],
-    variantPrices: { '100g': 49, '250g': 109, '500g': 179, '1kg': 349 }
+    variants: [
+      { weight: '100g', price: 30 },
+      { weight: '500g', price: 135 },
+      { weight: '1kg', price: 230 }
+    ]
   },
   {
     id: 3,
     title: 'Coriander Powder',
     weight: '500g',
-    price: 189,
+    price: 140,
     image: imageAssets.products.corianderPowder,
     rating: 4.7,
     reviews: 200,
@@ -43,14 +49,17 @@ export const products = [
     longDescription: 'Freshly ground coriander powder with traditional taste and fragrance, ideal for curries, dals, and everyday masalas.',
     bestSeller: false,
     category: 'Pure Veg Masalas',
-    weightOptions: ['100g', '250g', '500g', '1kg'],
-    variantPrices: { '100g': 55, '250g': 119, '500g': 189, '1kg': 359 }
+    variants: [
+      { weight: '100g', price: 25 },
+      { weight: '500g', price: 140 },
+      { weight: '1kg', price: 220 }
+    ]
   },
   {
     id: 4,
     title: 'Aachar Mirchi',
-    weight: '250g',
-    price: 249,
+    weight: '500g',
+    price: 350,
     image: imageAssets.products.aacharMirchi,
     rating: 4.9,
     reviews: 140,
@@ -58,14 +67,16 @@ export const products = [
     longDescription: 'Special chilli powder blend made especially for traditional Indian pickles, bringing authentic tang, aroma, and deep flavor to every jar.',
     bestSeller: true,
     category: 'Chilli Powders',
-    weightOptions: ['100g', '250g', '500g', '1kg'],
-    variantPrices: { '100g': 69, '250g': 149, '500g': 249, '1kg': 449 }
+    variants: [
+      { weight: '500g', price: 350 },
+      { weight: '1kg', price: 650 }
+    ]
   },
   {
     id: 5,
     title: 'Rai Powder',
-    weight: '400g',
-    price: 199,
+    weight: '500g',
+    price: 110,
     image: imageAssets.products.raiPowder,
     rating: 4.8,
     reviews: 95,
@@ -73,14 +84,16 @@ export const products = [
     longDescription: 'Finely ground mustard powder with strong traditional flavor, perfect for curries, dals, and authentic Indian recipes.',
     bestSeller: false,
     category: 'Pure Veg Masalas',
-    weightOptions: ['100g', '250g', '500g', '1kg'],
-    variantPrices: { '100g': 52, '250g': 115, '500g': 199, '1kg': 389 }
+    variants: [
+      { weight: '500g', price: 110 },
+      { weight: '1kg', price: 180 }
+    ]
   },
   {
     id: 6,
     title: 'Rai Dal',
     weight: '500g',
-    price: 229,
+    price: 100,
     image: imageAssets.products.raiDal,
     rating: 4.8,
     reviews: 120,
@@ -88,8 +101,10 @@ export const products = [
     longDescription: 'Premium quality rai dal for authentic Indian cooking, delivering rich aroma and traditional taste in every bite.',
     bestSeller: false,
     category: 'Pure Veg Masalas',
-    weightOptions: ['100g', '250g', '500g', '1kg'],
-    variantPrices: { '100g': 58, '250g': 129, '500g': 229, '1kg': 399 }
+    variants: [
+      { weight: '500g', price: 100 },
+      { weight: '1kg', price: 170 }
+    ]
   }
 ];
 

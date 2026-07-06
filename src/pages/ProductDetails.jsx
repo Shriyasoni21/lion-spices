@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiStar } from 'react-icons/fi';
@@ -10,13 +10,27 @@ import ImageWithFallback from '../components/common/ImageWithFallback';
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const product = products.find((item) => item.id === Number(id));
-  const [selectedWeight, setSelectedWeight] = useState('500g');
+  const [selectedVariant, setSelectedVariant] = useState(() => location.state?.selectedVariant || product?.variants?.[0] || { weight: product?.weight || '500g', price: product?.price ?? 0 });
   const [quantity, setQuantity] = useState(1);
 
-  const price = useMemo(() => product?.variantPrices?.[selectedWeight] ?? product?.price ?? 0, [product, selectedWeight]);
+  useEffect(() => {
+    if (!product) return;
+    const availableVariants = product.variants || [];
+    if (!availableVariants.length) {
+      setSelectedVariant({ weight: product.weight || '500g', price: product.price ?? 0 });
+      return;
+    }
+
+    if (!selectedVariant || !availableVariants.some((variant) => variant.weight === selectedVariant.weight)) {
+      setSelectedVariant(availableVariants[0]);
+    }
+  }, [product, selectedVariant?.weight]);
+
+  const price = useMemo(() => selectedVariant?.price ?? product?.price ?? 0, [product, selectedVariant?.price]);
 
   if (!product) {
     return <main className="pt-28 pb-16 text-center text-gray-600">Product not found.</main>;
@@ -47,7 +61,7 @@ export default function ProductDetailsPage() {
           <h1 className="mt-3 text-4xl font-bold text-gray-900">{product.title}</h1>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-600">
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-600"><FiStar className="fill-current" /> {product.rating}</span>
-            <span>{product.reviews} reviews</span>
+            <span>Trusted by 10,000+ happy customers</span>
             <span className="rounded-full bg-green-50 px-3 py-1 text-green-700">In Stock</span>
           </div>
 
@@ -64,7 +78,18 @@ export default function ProductDetailsPage() {
 
           <div className="mt-6">
             <h2 className="text-lg font-semibold text-gray-900">Choose Weight</h2>
-            <div className="mt-3"><WeightSelector options={product.weightOptions} selectedWeight={selectedWeight} onSelect={setSelectedWeight} /></div>
+            <div className="mt-3">
+              {product.variants?.length ? (
+                <WeightSelector
+                  options={product.variants.map((variant) => variant.weight)}
+                  selectedWeight={selectedVariant?.weight}
+                  onSelect={(weight) => {
+                    const nextVariant = product.variants.find((variant) => variant.weight === weight);
+                    if (nextVariant) setSelectedVariant(nextVariant);
+                  }}
+                />
+              ) : null}
+            </div>
           </div>
 
           <div className="mt-6 flex items-center justify-between gap-4 rounded-[24px] bg-gray-50 p-4">
@@ -73,7 +98,7 @@ export default function ProductDetailsPage() {
               <p className="text-3xl font-bold text-primary-red">₹{price}</p>
             </div>
             <div className="text-right text-sm text-gray-500">
-              <p>Selected: {selectedWeight}</p>
+              <p>Selected: {selectedVariant?.weight || product.weight}</p>
               <p>Total: ₹{price * quantity}</p>
             </div>
           </div>
@@ -85,7 +110,7 @@ export default function ProductDetailsPage() {
             </div>
             <button
               onClick={() => {
-                addToCart(product, selectedWeight, quantity);
+                addToCart(product, selectedVariant, quantity);
                 navigate('/cart');
               }}
               className="rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-red-700"
@@ -94,7 +119,7 @@ export default function ProductDetailsPage() {
             </button>
             <button
               onClick={() => {
-                addToCart(product, selectedWeight, quantity);
+                addToCart(product, selectedVariant, quantity);
                 navigate('/checkout');
               }}
               className="rounded-full border border-primary-red px-6 py-3 text-sm font-semibold text-primary-red hover:bg-red-50"

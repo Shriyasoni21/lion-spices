@@ -49,7 +49,7 @@ export default function ContactSection() {
           <input name="email" value={form.email} onChange={handleChange} required placeholder="Email" className="px-4 py-3 border rounded-lg" />
           <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" className="px-4 py-3 border rounded-lg" />
           <textarea name="message" value={form.message} onChange={handleChange} placeholder="Message" className="px-4 py-3 border rounded-lg sm:col-span-2 h-32" />
-          <div className="sm:col-span-2 text-sm text-gray-500">Prefer WhatsApp? Message us at <a href="https://wa.me/919010782782" target="_blank" rel="noreferrer" className="text-red-600 hover:underline">+91 90107 82782</a></div>
+          <div className="text-sm text-gray-500">Prefer WhatsApp? Message us at <a href="https://wa.me/919999999999" target="_blank" rel="noreferrer" className="text-red-600 hover:underline">+91 XXXXXXXXXX</a></div>
           <div className="sm:col-span-2">
             {status && (
               <div className={`rounded-lg px-4 py-3 mb-4 ${status.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>

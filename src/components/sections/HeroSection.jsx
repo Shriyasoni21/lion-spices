@@ -28,7 +28,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(252,211,77,0.12),_transparent_22%),radial-gradient(circle_at_top_right,_rgba(239,68,68,0.06),_transparent_20%),linear-gradient(180deg,#fffdf8_0%,#fff3e8_100%)] pt-6 pb-10 sm:pt-10 sm:pb-12 lg:pt-[30px] lg:pb-[30px] lg:min-h-[85vh]">
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(252,211,77,0.12),_transparent_22%),radial-gradient(circle_at_top_right,_rgba(239,68,68,0.06),_transparent_20%),linear-gradient(180deg,#fffdf8_0%,#fff3e8_100%)] pt-[88px] pb-10 sm:pt-[96px] sm:pb-12 lg:pt-[110px] lg:pb-[30px] lg:min-h-[85vh]">
       <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#fde8d9] via-transparent to-transparent opacity-60 pointer-events-none" />
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-8%] top-16 h-64 w-64 rounded-full bg-[#fef3c7]/30 blur-3xl" />

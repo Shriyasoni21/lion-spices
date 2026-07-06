@@ -58,7 +58,7 @@ export default function ProductsPage() {
 
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} onAddToCart={(item) => addToCart(item, '500g', 1)} />
+                <ProductCard key={product.id} product={product} onAddToCart={(item, selectedVariant) => addToCart(item, selectedVariant, 1)} />
               ))}
             </div>
           </div>

@@ -44,7 +44,7 @@ export const recipes = [
     servings: 4,
     description: 'Flavorful curry enhanced with the bold taste and natural color of Lion Red Chilli Powder.',
     ingredients: [
-      '250 g mixed vegetables',
+      'Mixed vegetables',
       '2 tbsp Red Chilli Powder',
       '1 tbsp Coriander Powder',
       '1 tsp Turmeric Powder',
