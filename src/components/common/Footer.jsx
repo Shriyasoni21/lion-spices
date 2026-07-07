@@ -78,17 +78,21 @@ export default function Footer() {
               Premium Indian spices crafted for home chefs who demand authentic aroma and taste.
             </p>
             <div className="space-y-3 text-sm text-gray-400">
-              <div className="flex items-center gap-3">
-                <FiMapPin className="h-5 w-5 text-primary-red" />
-                <span>Karimnagar, Telangana, India</span>
+              <div className="flex items-start gap-3">
+                <FiMapPin className="mt-1 h-5 w-5 text-primary-red" />
+                <div>
+                  <p>14-4-274, Joshiwadi,</p>
+                  <p>Begum Bazaar, Hyderabad, Telangana</p>
+                  <p>India</p>
+                </div>
               </div>
               <div className="flex items-center gap-3">
                 <FiPhone className="h-5 w-5 text-primary-red" />
-                <span>+91 XXXXXXXXXX</span>
+                <span>+91 90107 82782</span>
               </div>
               <div className="flex items-center gap-3">
                 <FiMail className="h-5 w-5 text-primary-red" />
-                <span>info@lionspices.in</span>
+                <a href="mailto:krishloya789@gmail.com" className="text-gray-300 hover:text-white">krishloya789@gmail.com</a>
               </div>
             </div>
           </motion.div>

@@ -49,10 +49,18 @@ export default function ContactSection() {
           <input name="email" value={form.email} onChange={handleChange} required placeholder="Email" className="px-4 py-3 border rounded-lg" />
           <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" className="px-4 py-3 border rounded-lg" />
           <textarea name="message" value={form.message} onChange={handleChange} placeholder="Message" className="px-4 py-3 border rounded-lg sm:col-span-2 h-32" />
-          <div className="text-sm text-gray-500">Prefer WhatsApp? Message us at <a href="https://wa.me/919999999999" target="_blank" rel="noreferrer" className="text-red-600 hover:underline">+91 XXXXXXXXXX</a></div>
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-2 space-y-4">
+            <div className="rounded-3xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
+              <p className="font-semibold text-gray-900">Lion Spices</p>
+              <p className="mt-2">14-4-274, Joshiwadi, Begum Bazaar, Hyderabad, Telangana, India</p>
+              <p className="mt-2">Phone: +91 90107 82782</p>
+              <p className="mt-2">Email: <a href="mailto:krishloya789@gmail.com" className="text-red-600 hover:underline">krishloya789@gmail.com</a></p>
+            </div>
+            <div className="rounded-3xl border border-gray-200 bg-white p-5 text-sm text-gray-700 shadow-sm">
+              Prefer WhatsApp? Message us at <a href="https://wa.me/919010782782" target="_blank" rel="noreferrer" className="text-red-600 hover:underline">+91 90107 82782</a>
+            </div>
             {status && (
-              <div className={`rounded-lg px-4 py-3 mb-4 ${status.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+              <div className={`rounded-lg px-4 py-3 ${status.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
                 {status.message}
               </div>
             )}

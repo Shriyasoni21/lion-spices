@@ -37,9 +37,14 @@ export default function ContactPage() {
         <article className="space-y-6 rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Company Information</h2>
-            <p className="mt-3 text-sm text-gray-600">Lion Spices<br />Karimnagar, Telangana, India</p>
-            <p className="mt-2 text-sm text-gray-600">Phone: +91 XXXXXXXXXX</p>
-            <p className="mt-2 text-sm text-gray-600">Email: info@lionspices.in</p>
+            <p className="mt-3 text-sm text-gray-600">
+              Lion Spices<br />
+              14-4-274, Joshiwadi,<br />
+              Begum Bazaar,<br />
+              Hyderabad, Telangana, India
+            </p>
+            <p className="mt-2 text-sm text-gray-600">Phone: +91 90107 82782</p>
+            <p className="mt-2 text-sm text-gray-600">Email: <a href="mailto:krishloya789@gmail.com" className="text-primary-red hover:underline">krishloya789@gmail.com</a></p>
           </div>
           <div className="rounded-[28px] border border-gray-100 bg-gray-50 p-4 text-sm text-gray-700">Google Maps embed placeholder for Hyderabad office.</div>
           <div className="flex flex-wrap gap-3">
