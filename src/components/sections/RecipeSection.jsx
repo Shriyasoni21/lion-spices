@@ -47,19 +47,19 @@ const RecipeSection = () => {
   };
 
   return (
-    <section id="recipes" className="py-14 md:py-20 lg:py-24 bg-gradient-to-b from-cream to-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-72 h-72 bg-saffron/5 rounded-full blur-3xl pointer-events-none"></div>
+    <section id="recipes" className="relative overflow-hidden bg-gradient-to-b from-cream to-white py-10 sm:py-16 md:py-20 lg:py-24">
+      <div className="pointer-events-none absolute top-0 right-0 h-72 w-72 rounded-full bg-saffron/5 blur-3xl"></div>
 
       <div className="container-custom relative z-10">
         <motion.div
-          className="text-center mb-16"
+          className="mb-8 text-center sm:mb-12 lg:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: '-100px' }}
         >
-          <p className="subheading text-primary-red mb-3">Culinary Inspiration</p>
-          <h2 className="section-heading mb-6">
+          <p className="subheading mb-2 text-primary-red sm:mb-3">Culinary Inspiration</p>
+          <h2 className="section-heading mb-4 sm:mb-6">
             Try These <span className="text-primary-red">Flavorful Recipes</span>
           </h2>
           <p className="section-copy mx-auto max-w-2xl">
@@ -68,20 +68,20 @@ const RecipeSection = () => {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+          className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          {recipes.map((recipe, idx) => (
+          {recipes.map((recipe) => (
             <motion.div
               key={recipe.id}
-              className="group card-equal overflow-hidden cursor-pointer h-full flex flex-col transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)]"
+              className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-gray-100 bg-white p-3 transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)] sm:p-4"
               variants={itemVariants}
               whileHover={{ y: -8 }}
             >
-              <div className="relative h-56 overflow-hidden bg-white p-4 sm:h-64">
+              <div className="relative h-36 overflow-hidden rounded-[20px] bg-white p-2 sm:h-44 sm:p-3">
                 <ImageWithFallback
                   src={recipe.image}
                   alt={recipe.title}
@@ -89,9 +89,9 @@ const RecipeSection = () => {
                   width={360}
                   height={256}
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300"></div>
+                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/10"></div>
                 <motion.div
-                  className={`absolute top-4 right-4 rounded-full px-3 py-1 text-xs font-bold ${
+                  className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-bold sm:px-3 sm:text-xs ${
                     difficultyColors[recipe.difficulty] || 'bg-gray-100 text-gray-700'
                   }`}
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -102,28 +102,28 @@ const RecipeSection = () => {
                 </motion.div>
               </div>
 
-              <div className="flex flex-1 flex-col p-6">
-                <h4 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary-red transition-colors">
+              <div className="flex flex-1 flex-col p-3 sm:p-4">
+                <h4 className="mb-2 text-lg font-bold text-gray-900 transition-colors group-hover:text-primary-red sm:mb-3 sm:text-xl">
                   {recipe.title}
                 </h4>
-                <p className="text-gray-600 text-sm mb-4 flex-grow">
+                <p className="mb-3 flex-grow text-sm text-gray-600 sm:mb-4">
                   {recipe.description}
                 </p>
-                <div className="flex flex-wrap items-center gap-4 border-t border-gray-200 py-4 mb-4 text-sm text-gray-600">
+                <div className="mb-3 flex flex-wrap items-center gap-3 border-t border-gray-200 py-3 text-sm text-gray-600 sm:mb-4 sm:gap-4">
                   <div className="flex items-center gap-2">
-                    <FiClock className="w-5 h-5 text-primary-red" />
+                    <FiClock className="h-4 w-4 text-primary-red sm:h-5 sm:w-5" />
                     <span className="font-medium">{recipe.cookTime}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <FiTrendingUp className="w-5 h-5 text-turmeric" />
+                    <FiTrendingUp className="h-4 w-4 text-turmeric sm:h-5 sm:w-5" />
                     <span className="font-medium">{recipe.difficulty}</span>
                   </div>
                 </div>
                 <Link
                   to={`/recipe/${recipe.id}`}
-                  className="btn-standard btn-standard-primary w-full min-h-[52px] text-center"
+                  className="btn-standard btn-standard-primary w-full min-h-[44px] text-center sm:min-h-[52px]"
                 >
-                  Read Recipe
+                  Read Recipe →
                 </Link>
               </div>
             </motion.div>
@@ -131,7 +131,7 @@ const RecipeSection = () => {
         </motion.div>
 
         <motion.div
-          className="mt-16 text-center"
+          className="mt-8 text-center sm:mt-12 lg:mt-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}

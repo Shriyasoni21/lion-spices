@@ -1,6 +1,53 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiAward, FiSmile, FiStar, FiShield } from 'react-icons/fi';
+
+const AnimatedNumber = ({ value, suffix }) => {
+  const [displayValue, setDisplayValue] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (hasAnimated) return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          let start = 0;
+          const duration = 700;
+          const startTime = performance.now();
+
+          const step = (now) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            setDisplayValue(Math.round(start + (value - start) * progress));
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              setHasAnimated(true);
+            }
+          };
+
+          requestAnimationFrame(step);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.45 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated, value]);
+
+  return (
+    <span ref={ref}>
+      {displayValue}
+      {suffix}
+    </span>
+  );
+};
 
 const TrustStatsSection = () => {
   const stats = [
@@ -11,7 +58,9 @@ const TrustStatsSection = () => {
       description: 'Decades of expertise in premium spice sourcing.',
       icon: FiAward,
       color: 'from-primary-red/10 to-primary-red/5',
-      iconColor: 'text-primary-red'
+      iconColor: 'text-primary-red',
+      numericValue: 30,
+      suffix: '+',
     },
     {
       id: 2,
@@ -20,7 +69,9 @@ const TrustStatsSection = () => {
       description: 'Trusted by spice lovers across India.',
       icon: FiSmile,
       color: 'from-turmeric/10 to-turmeric/5',
-      iconColor: 'text-turmeric'
+      iconColor: 'text-turmeric',
+      numericValue: 10000,
+      suffix: '+',
     },
     {
       id: 3,
@@ -29,7 +80,9 @@ const TrustStatsSection = () => {
       description: 'Carefully selected authentic spice products.',
       icon: FiStar,
       color: 'from-yellow-400/10 to-yellow-300/5',
-      iconColor: 'text-yellow-500'
+      iconColor: 'text-yellow-500',
+      numericValue: 5,
+      suffix: '+',
     },
     {
       id: 4,
@@ -38,7 +91,9 @@ const TrustStatsSection = () => {
       description: 'Pure, natural, and sourced directly from trusted farms.',
       icon: FiShield,
       color: 'from-green-500/10 to-green-400/5',
-      iconColor: 'text-green-600'
+      iconColor: 'text-green-600',
+      numericValue: 100,
+      suffix: '%',
     }
   ];
 
@@ -63,16 +118,16 @@ const TrustStatsSection = () => {
   };
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-white relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary-red/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-turmeric/5 rounded-full blur-3xl" />
+    <section className="relative overflow-hidden bg-white py-12 sm:py-20 lg:py-24">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-primary-red/5 blur-3xl" />
+        <div className="absolute bottom-1/4 left-0 h-96 w-96 rounded-full bg-turmeric/5 blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 text-center sm:mb-12 lg:mb-16">
           <motion.h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight"
+            className="text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl lg:text-5xl"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
@@ -81,7 +136,7 @@ const TrustStatsSection = () => {
             Why Trust <span className="text-primary-red">Lion Spices</span>
           </motion.h2>
           <motion.p
-            className="mt-4 text-gray-600 text-base sm:text-lg max-w-2xl mx-auto"
+            className="mx-auto mt-3 max-w-2xl text-base text-gray-600 sm:mt-4 sm:text-lg"
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
@@ -92,7 +147,7 @@ const TrustStatsSection = () => {
         </div>
 
         <motion.div
-          className="grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 lg:gap-8"
+          className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -103,28 +158,28 @@ const TrustStatsSection = () => {
             return (
               <motion.div
                 key={stat.id}
-                className={`group relative h-full rounded-2xl p-6 sm:p-8 bg-gradient-to-br ${stat.color} border border-gray-200/80 hover:border-gray-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
+                className={`group relative h-full rounded-2xl border border-gray-200/80 bg-gradient-to-br ${stat.color} p-3 transition-all duration-300 hover:-translate-y-1 hover:border-gray-300 hover:shadow-lg sm:p-6 sm:rounded-[24px]`}
                 variants={cardVariants}
               >
-                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/70 group-hover:bg-white transition-all duration-300 mb-4 ${stat.iconColor}`}>
-                  <IconComponent className="w-7 h-7" />
+                <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 transition-all duration-300 group-hover:bg-white sm:mb-4 sm:h-14 sm:w-14 ${stat.iconColor}`}>
+                  <IconComponent className="h-5 w-5 sm:h-7 sm:w-7" />
                 </div>
 
-                <div className="mb-3">
-                  <p className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
-                    {stat.number}
+                <div className="mb-2">
+                  <p className="text-2xl font-extrabold leading-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                    <AnimatedNumber value={stat.numericValue} suffix={stat.suffix} />
                   </p>
                 </div>
 
-                <p className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
+                <p className="mb-1 text-sm font-bold text-gray-900 sm:text-lg">
                   {stat.label}
                 </p>
 
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-[0.72rem] leading-relaxed text-gray-600 sm:text-sm">
                   {stat.description}
                 </p>
 
-                <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary-red/60 via-turmeric/40 to-transparent rounded-bl-2xl w-0 group-hover:w-full transition-all duration-500" />
+                <div className="absolute bottom-0 left-0 h-1 w-0 rounded-bl-2xl bg-gradient-to-r from-primary-red/60 via-turmeric/40 to-transparent transition-all duration-500 group-hover:w-full" />
               </motion.div>
             );
           })}

@@ -56,30 +56,28 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-20 pb-8 relative overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary-red/5 rounded-full blur-3xl pointer-events-none"></div>
+    <footer className="relative overflow-hidden bg-gray-900 pb-6 pt-10 text-gray-300 sm:pt-14 lg:pt-20">
+      <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full bg-primary-red/5 blur-3xl"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Main Footer Content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="grid gap-10 lg:grid-cols-4"
+          className="grid gap-6 lg:grid-cols-4 lg:gap-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          <motion.div className="space-y-5" variants={itemVariants}>
+          <motion.div className="space-y-4" variants={itemVariants}>
             <div className="flex items-center gap-3">
-              <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] md:h-[60px] w-auto object-contain" loading="lazy" />
-              <h3 className="text-2xl font-bold text-white">Lion Spices</h3>
+              <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] w-auto object-contain md:h-[60px]" loading="lazy" />
+              <h3 className="text-xl font-bold text-white sm:text-2xl">Lion Spices</h3>
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-400">
               Premium Indian spices crafted for home chefs who demand authentic aroma and taste.
             </p>
-            <div className="space-y-3 text-sm text-gray-400">
+            <div className="space-y-2 text-sm text-gray-400">
               <div className="flex items-start gap-3">
-                <FiMapPin className="mt-1 h-5 w-5 text-primary-red" />
+                <FiMapPin className="mt-1 h-4 w-4 text-primary-red sm:h-5 sm:w-5" />
                 <div>
                   <p>14-4-274, Joshiwadi,</p>
                   <p>Begum Bazaar, Hyderabad, Telangana</p>
@@ -87,22 +85,22 @@ export default function Footer() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <FiPhone className="h-5 w-5 text-primary-red" />
+                <FiPhone className="h-4 w-4 text-primary-red sm:h-5 sm:w-5" />
                 <span>+91 90107 82782</span>
               </div>
               <div className="flex items-center gap-3">
-                <FiMail className="h-5 w-5 text-primary-red" />
+                <FiMail className="h-4 w-4 text-primary-red sm:h-5 sm:w-5" />
                 <a href="mailto:krishloya789@gmail.com" className="text-gray-300 hover:text-white">krishloya789@gmail.com</a>
               </div>
             </div>
           </motion.div>
 
-          <motion.div className="space-y-5" variants={itemVariants}>
+          <motion.div className="space-y-3" variants={itemVariants}>
             <h4 className="text-lg font-bold text-white">Quick Links</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.href} className="hover:text-primary-red transition-colors block">
+                  <Link to={link.href} className="block transition-colors hover:text-primary-red">
                     {link.label}
                   </Link>
                 </li>
@@ -110,12 +108,12 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div className="space-y-5" variants={itemVariants}>
+          <motion.div className="space-y-3" variants={itemVariants}>
             <h4 className="text-lg font-bold text-white">Products</h4>
             <ul className="space-y-2 text-sm text-gray-400">
               {productLinks.map((product) => (
                 <li key={product.label}>
-                  <Link to={product.href} className="hover:text-primary-red transition-colors block">
+                  <Link to={product.href} className="block transition-colors hover:text-primary-red">
                     {product.label}
                   </Link>
                 </li>
@@ -123,9 +121,9 @@ export default function Footer() {
             </ul>
           </motion.div>
 
-          <motion.div className="space-y-5" variants={itemVariants}>
+          <motion.div className="space-y-3" variants={itemVariants}>
             <h4 className="text-lg font-bold text-white">Connect With Us</h4>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               {socialLinks.map((social, idx) => {
                 const Icon = social.icon;
                 return (
@@ -134,40 +132,37 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className={`flex h-11 w-11 items-center justify-center rounded-full bg-gray-800 text-gray-300 transition-colors ${social.color}`}
+                    className={`flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-300 transition-colors ${social.color}`}
                     whileHover={{ scale: 1.05 }}
                     title={social.label}
                   >
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   </motion.a>
                 );
               })}
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm leading-relaxed text-gray-400">
               Follow us for recipes, exclusive offers, and fresh spice inspiration.
             </p>
           </motion.div>
         </motion.div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-800 my-12"></div>
+        <div className="my-8 border-t border-gray-800"></div>
 
-        {/* Payment & Social Section */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
+          className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          {/* Payment Methods */}
           <div>
-            <h4 className="text-lg font-bold text-white mb-4">Payment Methods</h4>
-            <div className="flex flex-wrap gap-3">
+            <h4 className="mb-3 text-lg font-bold text-white">Payment Methods</h4>
+            <div className="flex flex-wrap gap-2">
               {paymentMethods.map((method, idx) => (
                 <motion.div
                   key={idx}
-                  className="px-4 py-2 bg-gray-800 rounded-lg text-sm font-medium hover:bg-primary-red hover:text-white transition-all cursor-pointer"
+                  className="cursor-pointer rounded-lg bg-gray-800 px-3 py-2 text-sm font-medium text-gray-300 transition-all hover:bg-primary-red hover:text-white"
                   whileHover={{ scale: 1.05 }}
                 >
                   {method}
@@ -175,16 +170,15 @@ export default function Footer() {
               ))}
             </div>
 
-            {/* Certifications */}
-            <div className="mt-6 flex items-center gap-4">
+            <div className="mt-4 flex flex-wrap items-center gap-2">
               <motion.div
-                className="px-4 py-2 bg-gray-800 rounded-lg text-xs font-bold text-turmeric border border-turmeric/30"
+                className="rounded-lg border border-turmeric/30 bg-gray-800 px-3 py-2 text-[11px] font-bold text-turmeric"
                 whileHover={{ borderColor: '#DC2626', color: '#DC2626' }}
               >
                 🏅 FSSAI Certified
               </motion.div>
               <motion.div
-                className="px-4 py-2 bg-gray-800 rounded-lg text-xs font-bold text-saffron border border-saffron/30"
+                className="rounded-lg border border-saffron/30 bg-gray-800 px-3 py-2 text-[11px] font-bold text-saffron"
                 whileHover={{ borderColor: '#DC2626', color: '#DC2626' }}
               >
                 ✓ ISO Certified
@@ -192,10 +186,9 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Social Links */}
           <div>
-            <h4 className="text-lg font-bold text-white mb-4">Follow Us</h4>
-            <div className="flex gap-4 flex-wrap">
+            <h4 className="mb-3 text-lg font-bold text-white">Follow Us</h4>
+            <div className="flex flex-wrap gap-3">
               {socialLinks.map((social, idx) => {
                 const Icon = social.icon;
                 return (
@@ -204,30 +197,29 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className={`w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary-red transition-all ${social.color}`}
+                    className={`flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-300 transition-all hover:bg-primary-red ${social.color}`}
                     whileHover={{ scale: 1.1, y: -5 }}
                     whileTap={{ scale: 0.95 }}
                     title={social.label}
                     aria-label={social.label}
                   >
-                    <Icon className="w-6 h-6" />
+                    <Icon className="h-5 w-5" />
                   </motion.a>
                 );
               })}
             </div>
 
-            {/* Newsletter Signup */}
-            <div className="mt-6">
-              <p className="text-sm text-gray-400 mb-3">Subscribe for exclusive offers</p>
-              <form className="flex gap-2">
+            <div className="mt-4">
+              <p className="mb-2 text-sm text-gray-400">Subscribe for exclusive offers</p>
+              <form className="flex flex-col gap-2 sm:flex-row">
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-primary-red transition-all"
+                  className="flex-1 rounded-lg bg-gray-800 px-3 py-2 text-sm text-white placeholder-gray-500 transition-all focus:outline-none focus:ring-2 focus:ring-primary-red"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-primary-red text-white rounded-lg font-bold text-sm hover:bg-primary-red/80 transition-all"
+                  className="rounded-lg bg-primary-red px-4 py-2 text-sm font-bold text-white transition-all hover:bg-primary-red/80"
                 >
                   Sign Up
                 </button>
@@ -236,29 +228,27 @@ export default function Footer() {
           </div>
         </motion.div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-800 my-8"></div>
+        <div className="my-6 border-t border-gray-800"></div>
 
-        {/* Bottom Footer */}
         <motion.div
-          className="flex flex-col md:flex-row justify-between items-center gap-4"
+          className="flex flex-col items-center justify-between gap-3 text-center text-sm text-gray-400 md:flex-row md:text-left"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <div className="space-y-2 text-sm text-gray-400">
+          <div className="space-y-1">
             <p>© {currentYear} Lion Spices. All rights reserved.</p>
             <p>Authentic Indian spices packed with premium care for your kitchen.</p>
           </div>
 
-          <div className="flex gap-6 text-sm text-gray-400">
-            <Link to="/privacy" className="hover:text-primary-red transition-colors">
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/privacy" className="transition-colors hover:text-primary-red">
               Privacy Policy
             </Link>
-            <Link to="/terms" className="hover:text-primary-red transition-colors">
+            <Link to="/terms" className="transition-colors hover:text-primary-red">
               Terms of Service
             </Link>
-            <Link to="/terms#returns" className="hover:text-primary-red transition-colors">
+            <Link to="/terms#returns" className="transition-colors hover:text-primary-red">
               Return Policy
             </Link>
           </div>

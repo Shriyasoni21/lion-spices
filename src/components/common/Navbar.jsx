@@ -61,20 +61,20 @@ export default function Navbar({ cartCount, onCartClick }) {
 
   return (
     <motion.header
-      className={`fixed inset-x-0 top-0 z-[60] transition-all duration-300 ${isScrolled ? 'bg-white shadow-[0_20px_50px_-25px_rgba(15,23,42,0.18)] border-b border-gray-200' : 'bg-white/95 backdrop-blur-sm border-b border-transparent'}`}
+      className={`fixed inset-x-0 top-0 z-[60] transition-all duration-300 ${isScrolled ? 'border-b border-gray-200 bg-white shadow-[0_20px_50px_-25px_rgba(15,23,42,0.18)]' : 'border-b border-transparent bg-white/95 backdrop-blur-sm'}`}
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[70px] w-full max-w-7xl items-center justify-between gap-3 px-3 sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
-        <Link to="/" className="flex items-center gap-3 shrink-0 transition-all duration-300 hover:-translate-y-px" style={{ textDecoration: 'none' }}>
+      <div className="mx-auto flex h-[64px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:h-[70px] sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
+        <Link to="/" className="flex shrink-0 items-center gap-2 transition-all duration-300 hover:-translate-y-px sm:gap-3" style={{ textDecoration: 'none' }}>
           <ImageWithFallback
             src={imageAssets.logo.main}
             alt="Lion Spices logo"
-            className="h-[50px] sm:h-[55px] md:h-[72px] lg:h-[78px] w-auto object-contain"
+            className="h-[42px] w-auto object-contain sm:h-[55px] md:h-[72px] lg:h-[78px]"
             style={{ imageRendering: 'auto' }}
             loading="eager"
           />
-          <span className="text-[0.85rem] sm:text-sm font-extrabold uppercase tracking-[0.35em] text-gray-900 leading-none">Lion Spices</span>
+          <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.24em] text-gray-900 leading-none sm:text-sm sm:tracking-[0.35em]">Lion Spices</span>
         </Link>
 
         <nav className="hidden flex-1 justify-center gap-8 lg:flex">
@@ -103,7 +103,7 @@ export default function Navbar({ cartCount, onCartClick }) {
             whileTap={{ scale: 0.95 }}
             aria-label="Open search"
           >
-            <FiSearch className="h-5 w-5" />
+            <FiSearch className="h-4 w-4 sm:h-5 sm:w-5" />
           </motion.button>
 
           {isSearchOpen && (
@@ -133,7 +133,7 @@ export default function Navbar({ cartCount, onCartClick }) {
             whileTap={{ scale: 0.95 }}
             aria-label="Open cart"
           >
-            <FiShoppingCart className="h-5 w-5" />
+            <FiShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
             {cartCount > 0 && (
               <motion.span
                 className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-primary-red px-[0.35rem] text-[10px] font-bold text-white shadow-xl"
@@ -150,7 +150,7 @@ export default function Navbar({ cartCount, onCartClick }) {
             onClick={() => setIsMobileMenuOpen((s) => !s)}
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <FiX className="h-6 w-6" /> : <FiMenu className="h-6 w-6" />}
+            {isMobileMenuOpen ? <FiX className="h-5 w-5 sm:h-6 sm:w-6" /> : <FiMenu className="h-5 w-5 sm:h-6 sm:w-6" />}
           </button>
         </div>
       </div>

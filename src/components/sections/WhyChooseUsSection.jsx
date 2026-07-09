@@ -59,36 +59,33 @@ const itemVariants = {
 
 const WhyChooseUsSection = () => {
   return (
-    <section className="section-padding-lg bg-gradient-to-b from-white to-cream relative overflow-hidden">
-      {/* Background decorative elements */}
+    <section className="relative overflow-hidden bg-gradient-to-b from-white to-cream py-10 sm:py-16 lg:py-20">
       <motion.div
-        className="absolute top-1/4 right-0 w-80 h-80 bg-gradient-radial from-primary-red/10 to-transparent rounded-full blur-3xl"
+        className="absolute top-1/4 right-0 h-80 w-80 rounded-full bg-gradient-radial from-primary-red/10 to-transparent blur-3xl"
         animate={{ y: [0, 50, 0] }}
         transition={{ duration: 8, repeat: Infinity }}
       />
-      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-gradient-radial from-turmeric/10 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 left-0 h-80 w-80 rounded-full bg-gradient-radial from-turmeric/10 to-transparent blur-3xl" />
 
-      <div className="container-custom relative z-10">
-        {/* Section Header */}
+      <div className="relative z-10 container-custom">
         <motion.div
-          className="text-center mb-20"
+          className="mb-8 text-center sm:mb-12 lg:mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: '-100px' }}
         >
-          <p className="subheading text-primary-red mb-4">Our Promise</p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
+          <p className="subheading mb-3 text-primary-red">Our Promise</p>
+          <h2 className="mb-4 text-3xl font-extrabold text-gray-900 sm:mb-6 sm:text-4xl md:text-5xl">
             Why Choose <span className="text-primary-red">Lion Spices</span>
           </h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-lg font-light leading-relaxed">
+          <p className="mx-auto max-w-3xl text-base font-light leading-relaxed text-gray-600 sm:text-lg">
             Traditional Indian spices made using carefully selected ingredients and modern hygiene standards. Every spice is a promise of authenticity, purity, and quality.
           </p>
         </motion.div>
 
-        {/* Features Grid */}
         <motion.div
-          className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+          className="relative grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -103,42 +100,36 @@ const WhyChooseUsSection = () => {
                 variants={itemVariants}
                 whileHover={{ y: -10 }}
               >
-                {/* Hover Background */}
                 <motion.div
-                  className="absolute inset-0 bg-white rounded-3xl shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 rounded-3xl bg-white opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100"
                   initial={{ opacity: 0 }}
                 />
 
-                {/* Card Content */}
-                <div className="relative card-premium p-8 rounded-3xl border border-gray-100 h-full flex flex-col group-hover:shadow-xl transition-shadow duration-300">
-                  {/* Icon Container */}
+                <div className="relative flex h-full flex-col rounded-[20px] border border-gray-100 p-4 transition-shadow duration-300 group-hover:shadow-xl sm:rounded-3xl sm:p-6 lg:p-8">
                   <motion.div
-                    className={`w-16 h-16 mb-6 rounded-3xl ${feature.bgColor} ${feature.color} flex items-center justify-center shadow-lg`}
+                    className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl ${feature.bgColor} ${feature.color} shadow-lg sm:mb-6 sm:h-16 sm:w-16 sm:rounded-3xl`}
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <IconComponent className="w-8 h-8" />
+                    <IconComponent className="h-5 w-5 sm:h-8 sm:w-8" />
                   </motion.div>
 
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  <h3 className="mb-2 text-base font-bold text-gray-900 sm:mb-3 sm:text-xl">
                     {feature.title}
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-gray-600 leading-relaxed flex-grow">
+                  <p className="flex-grow text-sm leading-relaxed text-gray-600 sm:text-base">
                     {feature.description}
                   </p>
 
-                  {/* Check Mark */}
                   <motion.div
-                    className="mt-6 flex items-center gap-2 text-primary-red font-semibold"
+                    className="mt-4 flex items-center gap-2 font-semibold text-primary-red sm:mt-6"
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <span className="text-2xl">✓</span>
-                    <span>Premium Quality</span>
+                    <span className="text-lg sm:text-2xl">✓</span>
+                    <span className="text-sm sm:text-base">Premium Quality</span>
                   </motion.div>
                 </div>
               </motion.div>
@@ -146,15 +137,14 @@ const WhyChooseUsSection = () => {
           })}
         </motion.div>
 
-        {/* Bottom Trust Statement */}
         <motion.div
-          className="mt-20 pt-16 border-t border-gray-200 text-center"
+          className="mt-8 border-t border-gray-200 pt-8 text-center sm:mt-12 sm:pt-12 lg:mt-16 lg:pt-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-lg text-gray-600">
+          <p className="text-base text-gray-600 sm:text-lg">
             Trusted by <span className="font-bold text-primary-red">10,000+</span> happy customers for premium quality.
           </p>
         </motion.div>

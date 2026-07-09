@@ -40,13 +40,11 @@ export default function AboutSection() {
   };
 
   return (
-    <section id="about" className="py-16 md:py-20 bg-white relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-primary-red/5 rounded-full blur-3xl pointer-events-none"></div>
+    <section id="about" className="relative overflow-hidden bg-white py-10 sm:py-16 md:py-20">
+      <div className="pointer-events-none absolute left-0 top-0 h-96 w-96 rounded-full bg-primary-red/5 blur-3xl"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left - Content */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-12">
           <motion.div
             className="text-center lg:text-left"
             initial={{ opacity: 0, x: -40 }}
@@ -55,7 +53,7 @@ export default function AboutSection() {
             viewport={{ once: true, margin: '-100px' }}
           >
             <motion.p
-              className="text-primary-red font-semibold text-sm uppercase tracking-wider mb-3"
+              className="mb-3 text-sm font-semibold uppercase tracking-wider text-primary-red"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
@@ -64,7 +62,7 @@ export default function AboutSection() {
             </motion.p>
 
             <motion.h2
-              className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6"
+              className="mb-4 text-3xl font-extrabold text-gray-900 sm:mb-6 sm:text-4xl md:text-5xl"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
@@ -73,7 +71,7 @@ export default function AboutSection() {
             </motion.h2>
 
             <motion.p
-              className="text-gray-600 text-lg leading-relaxed mb-6"
+              className="mb-5 text-base leading-relaxed text-gray-600 sm:mb-6 sm:text-lg"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -82,7 +80,7 @@ export default function AboutSection() {
             </motion.p>
 
             <motion.ul
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8"
+              className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -98,15 +96,15 @@ export default function AboutSection() {
                   className="flex items-start gap-3"
                   whileHover={{ x: 5 }}
                 >
-                  <span className="text-2xl text-primary-red mt-1">✓</span>
-                  <span className="text-gray-700 font-medium">{item}</span>
+                  <span className="mt-1 text-xl text-primary-red">✓</span>
+                  <span className="text-sm font-medium text-gray-700 sm:text-base">{item}</span>
                 </motion.li>
               ))}
             </motion.ul>
 
             <motion.button
               onClick={handleScrollToAbout}
-              className="bg-gradient-spice text-white px-8 py-4 rounded-2xl font-bold shadow-premium hover:shadow-premium-lg transition-all"
+              className="w-full rounded-2xl bg-gradient-spice px-6 py-3.5 font-bold text-white shadow-premium transition-all hover:shadow-premium-lg sm:w-auto sm:px-8 sm:py-4"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -114,7 +112,6 @@ export default function AboutSection() {
             </motion.button>
           </motion.div>
 
-          {/* Right - Image & Decorative */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, x: 40 }}
@@ -122,50 +119,45 @@ export default function AboutSection() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: '-100px' }}
           >
-            {/* Decorative Background Shape */}
             <motion.div
-              className="absolute -inset-8 bg-gradient-spice/10 rounded-3xl"
+              className="absolute -inset-6 rounded-3xl bg-gradient-spice/10"
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
             />
 
-            {/* Image Container */}
-            <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-3xl shadow-2xl border border-gray-100 sm:max-w-md lg:max-w-lg">
-              <div className="relative bg-white p-4 rounded-3xl">
+            <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-[24px] border border-gray-100 shadow-2xl sm:max-w-md lg:max-w-lg">
+              <div className="relative rounded-[24px] bg-white p-3 sm:p-4">
                 <ImageWithFallback
                   src={imageAssets.about.hero}
                   alt="About Lion Spices"
-                  className="w-full h-full rounded-[24px] object-contain"
+                  className="h-[220px] w-full rounded-[20px] object-contain sm:h-[320px] lg:h-full"
                   width={600}
                   height={450}
                 />
               </div>
 
-              {/* Decorative Spice Pattern Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary-red/20 to-transparent pointer-events-none"></div>
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary-red/20 to-transparent"></div>
 
-              {/* Floating Stats Badges */}
               <motion.div
-                className="absolute bottom-6 left-6 bg-white rounded-2xl p-4 shadow-lg"
+                className="absolute bottom-4 left-4 rounded-2xl bg-white p-3 shadow-lg sm:bottom-6 sm:left-6 sm:p-4"
                 animate={{ y: [-10, 10, -10] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                <p className="text-2xl font-bold text-primary-red">4.9★</p>
-                <p className="text-xs text-gray-600">Rating</p>
+                <p className="text-xl font-bold text-primary-red sm:text-2xl">4.9★</p>
+                <p className="text-[11px] text-gray-600 sm:text-xs">Rating</p>
               </motion.div>
 
               <motion.div
-                className="absolute top-6 right-6 bg-white rounded-2xl p-4 shadow-lg"
+                className="absolute right-4 top-4 rounded-2xl bg-white p-3 shadow-lg sm:right-6 sm:top-6 sm:p-4"
                 animate={{ y: [10, -10, 10] }}
                 transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
               >
-                <p className="text-2xl font-bold text-turmeric">5000+</p>
-                <p className="text-xs text-gray-600">Customers</p>
+                <p className="text-xl font-bold text-turmeric sm:text-2xl">5000+</p>
+                <p className="text-[11px] text-gray-600 sm:text-xs">Customers</p>
               </motion.div>
             </div>
           </motion.div>
         </div>
-
       </div>
     </section>
   );
