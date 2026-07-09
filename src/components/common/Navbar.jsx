@@ -65,16 +65,16 @@ export default function Navbar({ cartCount, onCartClick }) {
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[58px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:h-[66px] sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
-        <Link to="/" className="flex shrink-0 items-center gap-2 transition-all duration-300 hover:-translate-y-px sm:gap-3" style={{ textDecoration: 'none' }}>
+      <div className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:h-[80px] sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
+        <Link to="/" className="flex shrink-0 items-center gap-3 transition-all duration-300 hover:-translate-y-px sm:gap-4" style={{ textDecoration: 'none' }}>
           <ImageWithFallback
             src={imageAssets.logo.main}
             alt="Lion Spices logo"
-            className="h-[40px] w-auto object-contain sm:h-[48px] md:h-[54px] lg:h-[58px]"
+            className="h-[42px] w-auto object-contain rounded-none bg-transparent shadow-none sm:h-[58px]"
             style={{ imageRendering: 'auto' }}
             loading="eager"
           />
-          <span className="text-[0.7rem] font-extrabold uppercase tracking-[0.24em] leading-none text-gray-900 sm:text-sm sm:tracking-[0.35em]">Lion Spices</span>
+          <span className="whitespace-nowrap text-[0.95rem] font-bold uppercase leading-none tracking-[0.18em] text-gray-900 sm:text-[1.45rem] sm:tracking-[0.3em] lg:text-[1.75rem] lg:tracking-[0.36em]">Lion Spices</span>
         </Link>
 
         <nav className="hidden flex-1 justify-center gap-8 lg:flex">
@@ -94,11 +94,11 @@ export default function Navbar({ cartCount, onCartClick }) {
           })}
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
           <motion.button
             type="button"
             onClick={() => setIsSearchOpen((prev) => !prev)}
-            className="btn-icon"
+            className="btn-icon flex h-10 w-10 items-center justify-center rounded-full"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Open search"
@@ -128,7 +128,7 @@ export default function Navbar({ cartCount, onCartClick }) {
           <motion.button
             type="button"
             onClick={onCartClick}
-            className="relative btn-icon"
+            className="relative btn-icon flex h-10 w-10 items-center justify-center rounded-full"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Open cart"
@@ -146,7 +146,7 @@ export default function Navbar({ cartCount, onCartClick }) {
           </motion.button>
 
           <button
-            className="rounded-full p-2 text-gray-700 transition-colors hover:text-primary-red lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full p-2 text-gray-700 transition-colors hover:text-primary-red lg:hidden"
             onClick={() => setIsMobileMenuOpen((s) => !s)}
             aria-label="Toggle menu"
           >
