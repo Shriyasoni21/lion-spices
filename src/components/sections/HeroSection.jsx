@@ -28,7 +28,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(252,211,77,0.12),_transparent_22%),radial-gradient(circle_at_top_right,_rgba(239,68,68,0.06),_transparent_20%),linear-gradient(180deg,#fffdf8_0%,#fff3e8_100%)] pt-[84px] pb-8 sm:pt-[96px] sm:pb-12 lg:pt-[110px] lg:pb-[30px] lg:min-h-[85vh]">
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(252,211,77,0.12),_transparent_22%),radial-gradient(circle_at_top_right,_rgba(239,68,68,0.06),_transparent_20%),linear-gradient(180deg,#fffdf8_0%,#fff3e8_100%)] pb-8 pt-[78px] sm:pb-10 sm:pt-[92px] lg:min-h-[82vh] lg:pb-[24px] lg:pt-[108px]">
       <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#fde8d9] via-transparent to-transparent opacity-60 pointer-events-none" />
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-8%] top-16 h-64 w-64 rounded-full bg-[#fef3c7]/30 blur-3xl" />
@@ -53,7 +53,7 @@ const HeroSection = () => {
             </motion.span>
 
             <motion.h1
-              className="text-[1.9rem] font-extrabold leading-tight text-gray-900 sm:text-4xl md:text-5xl lg:text-[3.75rem] lg:leading-[1.05]"
+              className="text-[1.8rem] font-extrabold leading-[1.05] text-gray-900 sm:text-4xl md:text-5xl lg:text-[3.6rem] lg:leading-[1.05]"
               variants={itemVariants}
             >
               Pure Indian spices, delivered with
@@ -61,27 +61,21 @@ const HeroSection = () => {
             </motion.h1>
 
             <motion.p
-              className="max-w-full text-[0.95rem] leading-relaxed text-gray-600 sm:max-w-lg sm:text-lg"
+              className="max-w-full text-[0.94rem] leading-relaxed text-gray-600 sm:max-w-lg sm:text-lg"
               variants={itemVariants}
             >
               Lion Spices brings you authentic masalas and spice blends crafted from the finest Indian farms, packed hygienically for modern kitchens.
             </motion.p>
 
-            <motion.div
-              className="flex flex-col gap-3 sm:flex-row sm:flex-wrap"
-              variants={itemVariants}
-            >
+            <motion.div className="w-full" variants={itemVariants}>
               <Link to="/products" className="btn-primary w-full min-h-[52px] justify-center sm:w-auto sm:min-h-auto">
                 Explore Products
                 <FiArrowRight className="h-5 w-5" />
               </Link>
-              <Link to="/#about" className="btn-outline w-full min-h-[52px] justify-center sm:w-auto sm:min-h-auto">
-                Discover More
-              </Link>
             </motion.div>
 
             <motion.div
-              className="rounded-[24px] border border-gray-200 bg-white px-4 py-4 shadow-[0_24px_80px_-50px_rgba(15,23,42,0.18)] sm:px-6 sm:py-5 sm:rounded-[32px]"
+              className="rounded-[20px] border border-gray-200 bg-white px-3 py-3 shadow-[0_24px_80px_-50px_rgba(15,23,42,0.18)] sm:rounded-[28px] sm:px-5 sm:py-4"
               variants={itemVariants}
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

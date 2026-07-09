@@ -74,18 +74,18 @@ const RecipeSection = () => {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          {recipes.map((recipe) => (
+          {recipes.slice(0, 3).map((recipe) => (
             <motion.div
               key={recipe.id}
-              className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-gray-100 bg-white p-3 transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)] sm:p-4"
+              className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-gray-100 bg-white p-2 transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)] sm:p-3"
               variants={itemVariants}
               whileHover={{ y: -8 }}
             >
-              <div className="relative h-36 overflow-hidden rounded-[20px] bg-white p-2 sm:h-44 sm:p-3">
+              <div className="relative h-32 overflow-hidden rounded-[16px] bg-white p-1 sm:h-36 sm:p-2">
                 <ImageWithFallback
                   src={recipe.image}
                   alt={recipe.title}
-                  className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
                   width={360}
                   height={256}
                 />

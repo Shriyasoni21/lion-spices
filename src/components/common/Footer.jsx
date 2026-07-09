@@ -61,13 +61,13 @@ export default function Footer() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="grid gap-6 lg:grid-cols-4 lg:gap-10"
+          className="grid gap-5 sm:gap-6 lg:grid-cols-4 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          <motion.div className="space-y-4" variants={itemVariants}>
+          <motion.div className="space-y-3 text-center sm:text-left" variants={itemVariants}>
             <div className="flex items-center gap-3">
               <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] w-auto object-contain md:h-[60px]" loading="lazy" />
               <h3 className="text-xl font-bold text-white sm:text-2xl">Lion Spices</h3>

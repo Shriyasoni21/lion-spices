@@ -1,7 +1,7 @@
 const assetVersion = '20260624';
 const withVersion = (path) => `${path}?v=${assetVersion}`;
 
-const lionLogo = withVersion('/images/logo.jpg');
+const lionLogo = withVersion('/images/logo/lion-logo.svg');
 const redChilliPacket = withVersion('/images/products/chilli-powder.jpg');
 const turmericPacket = withVersion('/images/products/turmeric-powder.jpg');
 const corianderPacket = withVersion('/images/products/coriander-powder.jpg');

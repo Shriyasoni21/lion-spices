@@ -71,8 +71,8 @@ export default function CartPage() {
   };
 
   return (
-    <main className="pt-28 bg-cream pb-16 text-gray-900">
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+    <main className="bg-cream pb-12 pt-24 text-gray-900 sm:pb-16 sm:pt-28">
+      <section className="mx-auto grid max-w-7xl gap-4 px-4 sm:gap-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
         <div className="space-y-8">
           <div className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
             <div className="flex items-center justify-between gap-3">
@@ -88,7 +88,7 @@ export default function CartPage() {
 
             <div className="mt-6 space-y-4">
               {cartItems.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-4 rounded-[28px] border border-dashed border-gray-200 bg-gray-50 p-10 text-center text-gray-500">
+                <div className="flex flex-col items-center justify-center gap-4 rounded-[24px] border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-gray-500 sm:p-10">
                   <span className="text-6xl">🛒</span>
                   <div className="space-y-2">
                     <p className="text-xl font-semibold text-gray-900">Your Cart is Empty</p>
@@ -100,8 +100,8 @@ export default function CartPage() {
                 </div>
               ) : (
                 cartItems.map((item) => (
-                  <article key={`${item.id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[28px] border border-gray-100 bg-gray-50 p-4 md:flex-row md:items-center">
-                    <ImageWithFallback src={item.image} alt={item.title} className="h-24 w-24 rounded-[22px] object-cover" loading="lazy" />
+                  <article key={`${item.id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[22px] border border-gray-100 bg-gray-50 p-4 md:flex-row md:items-center">
+                    <ImageWithFallback src={item.image} alt={item.title} className="h-20 w-20 rounded-[18px] object-contain" loading="lazy" />
                     <div className="flex-1">
                       <h2 className="text-xl font-semibold text-gray-900">{item.title}</h2>
                       <p className="mt-1 text-sm text-gray-500">Weight: {item.selectedWeight}</p>

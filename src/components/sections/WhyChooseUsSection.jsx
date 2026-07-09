@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiCheck, FiSlash, FiShield, FiTrendingUp } from 'react-icons/fi';
+import { FiCheckCircle, FiShield, FiSlash, FiPackage, FiStar, FiDroplet, FiAward } from 'react-icons/fi';
 
 const features = [
   {
     id: 1,
     title: '100% Pure',
-    description: 'Handpicked spices without any additives, preserving natural flavor and aroma.',
-    icon: FiCheck,
+    description: 'Handpicked spices without additives, preserving natural aroma and depth.',
+    icon: FiCheckCircle,
     color: 'text-green-600',
     bgColor: 'bg-green-100'
   },
@@ -22,7 +22,7 @@ const features = [
   {
     id: 3,
     title: 'Hygienically Packed',
-    description: 'Processed and packed in certified hygienic facilities with quality checks.',
+    description: 'Processed and packed in certified hygienic facilities with strict quality checks.',
     icon: FiShield,
     color: 'text-blue-600',
     bgColor: 'bg-blue-100'
@@ -30,10 +30,34 @@ const features = [
   {
     id: 4,
     title: 'Farm Fresh Ingredients',
-    description: 'Sourced directly from farmers to ensure freshness and complete traceability.',
-    icon: FiTrendingUp,
+    description: 'Sourced directly from trusted farms to ensure freshness and traceability.',
+    icon: FiDroplet,
     color: 'text-green-700',
     bgColor: 'bg-green-100'
+  },
+  {
+    id: 5,
+    title: 'FSSAI Certified',
+    description: 'Manufactured under strict food safety and hygiene standards.',
+    icon: FiAward,
+    color: 'text-amber-600',
+    bgColor: 'bg-amber-100'
+  },
+  {
+    id: 6,
+    title: 'AGMARK Quality',
+    description: 'Trusted quality assurance for authentic Indian spice standards.',
+    icon: FiPackage,
+    color: 'text-purple-600',
+    bgColor: 'bg-purple-100'
+  },
+  {
+    id: 7,
+    title: 'Premium Quality',
+    description: 'A polished blend of tradition, texture, and consistency in every pack.',
+    icon: FiStar,
+    color: 'text-primary-red',
+    bgColor: 'bg-red-100'
   }
 ];
 
@@ -85,7 +109,7 @@ const WhyChooseUsSection = () => {
         </motion.div>
 
         <motion.div
-          className="relative grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-4"
+          className="relative grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-2 lg:grid-cols-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -105,20 +129,20 @@ const WhyChooseUsSection = () => {
                   initial={{ opacity: 0 }}
                 />
 
-                <div className="relative flex h-full flex-col rounded-[20px] border border-gray-100 p-4 transition-shadow duration-300 group-hover:shadow-xl sm:rounded-3xl sm:p-6 lg:p-8">
+                <div className="relative flex h-full flex-col rounded-[18px] border border-gray-100 p-3 transition-shadow duration-300 group-hover:shadow-xl sm:rounded-2xl sm:p-4 lg:p-5">
                   <motion.div
-                    className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl ${feature.bgColor} ${feature.color} shadow-lg sm:mb-6 sm:h-16 sm:w-16 sm:rounded-3xl`}
+                    className={`mb-3 flex h-10 w-10 items-center justify-center rounded-2xl ${feature.bgColor} ${feature.color} shadow-sm sm:mb-4 sm:h-12 sm:w-12 sm:rounded-2xl`}
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ duration: 0.3 }}
                   >
                     <IconComponent className="h-5 w-5 sm:h-8 sm:w-8" />
                   </motion.div>
 
-                  <h3 className="mb-2 text-base font-bold text-gray-900 sm:mb-3 sm:text-xl">
+                  <h3 className="mb-1 text-sm font-bold text-gray-900 sm:mb-2 sm:text-base">
                     {feature.title}
                   </h3>
 
-                  <p className="flex-grow text-sm leading-relaxed text-gray-600 sm:text-base">
+                  <p className="flex-grow text-xs leading-relaxed text-gray-600 sm:text-sm">
                     {feature.description}
                   </p>
 
@@ -128,8 +152,8 @@ const WhyChooseUsSection = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <span className="text-lg sm:text-2xl">✓</span>
-                    <span className="text-sm sm:text-base">Premium Quality</span>
+                    <span className="text-base sm:text-lg">✓</span>
+                    <span className="text-xs sm:text-sm">Premium Quality</span>
                   </motion.div>
                 </div>
               </motion.div>

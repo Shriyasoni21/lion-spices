@@ -125,7 +125,7 @@ const TrustStatsSection = () => {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 text-center sm:mb-12 lg:mb-16">
+        <div className="mb-6 text-center sm:mb-8 lg:mb-12">
           <motion.h2
             className="text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl lg:text-5xl"
             initial={{ opacity: 0, y: -20 }}
@@ -147,7 +147,7 @@ const TrustStatsSection = () => {
         </div>
 
         <motion.div
-          className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8"
+          className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4 lg:gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -158,7 +158,7 @@ const TrustStatsSection = () => {
             return (
               <motion.div
                 key={stat.id}
-                className={`group relative h-full rounded-2xl border border-gray-200/80 bg-gradient-to-br ${stat.color} p-3 transition-all duration-300 hover:-translate-y-1 hover:border-gray-300 hover:shadow-lg sm:p-6 sm:rounded-[24px]`}
+                className={`group relative h-full rounded-2xl border border-gray-200/80 bg-gradient-to-br ${stat.color} p-3 transition-all duration-300 hover:-translate-y-1 hover:border-gray-300 hover:shadow-lg sm:rounded-[22px] sm:p-4 lg:p-5`}
                 variants={cardVariants}
               >
                 <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 transition-all duration-300 group-hover:bg-white sm:mb-4 sm:h-14 sm:w-14 ${stat.iconColor}`}>

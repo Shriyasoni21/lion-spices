@@ -65,16 +65,16 @@ export default function Navbar({ cartCount, onCartClick }) {
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[64px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:h-[70px] sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
+      <div className="mx-auto flex h-[58px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:h-[66px] sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
         <Link to="/" className="flex shrink-0 items-center gap-2 transition-all duration-300 hover:-translate-y-px sm:gap-3" style={{ textDecoration: 'none' }}>
           <ImageWithFallback
             src={imageAssets.logo.main}
             alt="Lion Spices logo"
-            className="h-[42px] w-auto object-contain sm:h-[55px] md:h-[72px] lg:h-[78px]"
+            className="h-[40px] w-auto object-contain sm:h-[48px] md:h-[54px] lg:h-[58px]"
             style={{ imageRendering: 'auto' }}
             loading="eager"
           />
-          <span className="text-[0.72rem] font-extrabold uppercase tracking-[0.24em] text-gray-900 leading-none sm:text-sm sm:tracking-[0.35em]">Lion Spices</span>
+          <span className="text-[0.7rem] font-extrabold uppercase tracking-[0.24em] leading-none text-gray-900 sm:text-sm sm:tracking-[0.35em]">Lion Spices</span>
         </Link>
 
         <nav className="hidden flex-1 justify-center gap-8 lg:flex">

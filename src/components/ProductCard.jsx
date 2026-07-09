@@ -17,7 +17,7 @@ export default function ProductCard({ product, onAddToCart }) {
 
     const nextVariant = product.variants.find((variant) => variant.weight === selectedVariant?.weight) || product.variants[0];
     setSelectedVariant(nextVariant);
-  }, [product.id]);
+  }, [product.id, product.variants]);
 
   const price = selectedVariant?.price ?? product.price ?? 0;
 
@@ -34,14 +34,14 @@ export default function ProductCard({ product, onAddToCart }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       whileHover={{ y: -8, scale: 1.01 }}
-      className="group flex h-full flex-col rounded-[24px] border border-gray-100 bg-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.20)] transition-all duration-300 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.30)]"
+      className="group flex h-full flex-col rounded-[22px] border border-gray-100 bg-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.20)] transition-all duration-300 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.30)]"
     >
-      <div className="relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-3 shadow-sm sm:p-4">
-        <div className="relative aspect-[4/4.2] w-full overflow-hidden rounded-[16px] bg-white p-3 sm:p-4">
+      <div className="relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-2 shadow-sm sm:p-3">
+        <div className="relative aspect-square w-full overflow-hidden rounded-[16px] bg-white p-2 sm:p-3">
           <ImageWithFallback
             src={product.image}
             alt={product.title}
-            className="h-full w-full object-contain"
+            className="h-full w-full object-contain object-center"
             loading="lazy"
           />
         </div>
@@ -74,22 +74,22 @@ export default function ProductCard({ product, onAddToCart }) {
           </div>
         ) : null}
 
-        <div className="mt-4 flex flex-col gap-2 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-4 flex flex-col gap-2 border-t border-gray-100 pt-4 sm:mt-auto">
           <div>
             <p className="text-[10px] uppercase tracking-[0.18em] text-gray-400 sm:text-xs">Selected variant</p>
             <p className="text-lg font-bold text-primary-red sm:text-xl">₹{price}</p>
             <p className="text-sm text-gray-500">{selectedVariant?.weight || product.weight}</p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <Link
               to={{ pathname: `/product/${product.id}`, state: { selectedVariant } }}
-              className="btn-standard btn-standard-outline"
+              className="btn-standard btn-standard-outline w-full justify-center"
             >
               View Details
             </Link>
             <button
               onClick={() => onAddToCart?.(product, selectedVariant, 1)}
-              className="btn-standard btn-standard-primary"
+              className="btn-standard btn-standard-primary w-full justify-center"
             >
               Add to Cart
             </button>

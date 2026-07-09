@@ -2,18 +2,10 @@ import React from 'react';
 
 export default function AnnouncementBar() {
   return (
-    <div className="bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3 py-2 text-sm text-gray-700">
-          <div className="flex items-center gap-4">
-            <span className="font-semibold text-red-600">Lion Spices Premium</span>
-            <span>Free shipping across India on orders above ₹499</span>
-          </div>
-          <div className="flex items-center gap-6 text-gray-600">
-            <span>100% Pure Spices</span>
-            <span>Authentic Flavors</span>
-          </div>
-        </div>
+    <div className="hidden border-b border-gray-100 bg-white/95 sm:block">
+      <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-2 text-sm text-gray-700 sm:px-6 lg:px-8">
+        <span className="font-semibold text-primary-red">Lion Spices Premium</span>
+        <span className="ml-3">Free shipping across India on orders above ₹499</span>
       </div>
     </div>
   );
