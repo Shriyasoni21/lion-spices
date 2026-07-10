@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiShoppingCart, FiMenu, FiX, FiSearch } from 'react-icons/fi';
-import { imageAssets } from '../../config/imageAssets';
-import ImageWithFallback from './ImageWithFallback';
 
 export default function Navbar({ cartCount, onCartClick }) {
   const navigate = useNavigate();
@@ -67,12 +65,10 @@ export default function Navbar({ cartCount, onCartClick }) {
     >
       <div className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:h-[80px] sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
         <Link to="/" className="flex shrink-0 items-center gap-3 transition-all duration-300 hover:-translate-y-px sm:gap-4" style={{ textDecoration: 'none' }}>
-          <ImageWithFallback
-            src={imageAssets.logo.main}
-            alt="Lion Spices logo"
-            className="h-[42px] w-auto object-contain rounded-none bg-transparent shadow-none sm:h-[58px]"
-            style={{ imageRendering: 'auto' }}
-            loading="eager"
+          <img
+            src="/images/logo.jpg"
+            alt="Lion Spices"
+            className="navbar-logo"
           />
           <span className="whitespace-nowrap text-[0.95rem] font-bold uppercase leading-none tracking-[0.18em] text-gray-900 sm:text-[1.45rem] sm:tracking-[0.3em] lg:text-[1.75rem] lg:tracking-[0.36em]">Lion Spices</span>
         </Link>

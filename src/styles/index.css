@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Navbar Logo Styles */
+.navbar-logo {
+  height: 58px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .navbar-logo {
+    height: 42px;
+    width: auto;
+  }
+}
+
 /* Image Fallback Styles */
 * {
   margin: 0;
