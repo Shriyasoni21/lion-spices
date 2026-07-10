@@ -37,9 +37,9 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-3 sm:gap-6 lg:min-h-[85vh] lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
+        <div className="mx-auto max-w-3xl">
           <motion.div
-            className="space-y-2 sm:space-y-4 lg:max-w-2xl lg:space-y-5"
+            className="space-y-3 sm:space-y-5 lg:space-y-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -53,7 +53,7 @@ const HeroSection = () => {
             </motion.span>
 
             <motion.h1
-              className="text-[30px] font-extrabold leading-[1.2] text-gray-900 sm:text-4xl md:text-5xl lg:text-[3.6rem] lg:leading-[1.05]"
+              className="text-2xl font-extrabold leading-[1.15] text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl"
               variants={itemVariants}
             >
               Pure Indian spices, delivered with
@@ -67,10 +67,14 @@ const HeroSection = () => {
               Lion Spices brings you authentic masalas and spice blends crafted from the finest Indian farms, packed hygienically for modern kitchens.
             </motion.p>
 
-            <motion.div className="w-full pt-1" variants={itemVariants}>
-              <Link to="/products" className="btn-primary w-full h-[48px] justify-center rounded-[14px] sm:w-auto sm:h-auto text-base sm:text-base">
+            <motion.div className="w-full pt-1 flex flex-col gap-3 sm:flex-row sm:items-center" variants={itemVariants}>
+              <Link to="/products" className="btn-primary w-full h-[48px] justify-center rounded-[14px] text-base sm:w-1/2">
                 Explore Products
-                <FiArrowRight className="h-5 w-5" />
+                <FiArrowRight className="h-5 w-5 ml-2" />
+              </Link>
+
+              <Link to="/#shop" className="btn-outline w-full h-[48px] justify-center rounded-[14px] text-base sm:w-1/2">
+                Discover More
               </Link>
             </motion.div>
 
@@ -104,49 +108,6 @@ const HeroSection = () => {
                 ))}
               </div>
             </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.75, delay: 0.2 }}
-          >
-            <div className="flex sm:hidden justify-center mx-auto w-[75%] mb-6">
-              <div className="relative flex h-[150px] w-full items-center justify-center overflow-hidden rounded-[16px] border border-gray-200 bg-gradient-to-br from-red-50 via-white to-yellow-50 shadow-sm">
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  <ImageWithFallback
-                    src={imageAssets.hero.background}
-                    alt="Lion Spices Red Chilli Powder packet"
-                    loading="eager"
-                    fetchPriority="high"
-                    className="h-[85%] w-auto max-w-full object-contain object-center"
-                  />
-                </motion.div>
-              </div>
-            </div>
-
-            <div className="hidden sm:block relative overflow-hidden rounded-[20px] border border-gray-100 bg-white shadow-md sm:rounded-[28px] lg:rounded-[40px] lg:shadow-[0_32px_70px_-30px_rgba(15,23,42,0.18)] lg:self-start">
-              <div className="px-2 py-2 sm:px-3 sm:py-3 lg:px-6 lg:py-4">
-                <div className="relative mx-auto flex h-[200px] w-[90%] items-center justify-center overflow-hidden rounded-[16px] border border-gray-200 bg-gradient-to-br from-red-50 via-white to-yellow-50 shadow-sm sm:h-[240px] sm:rounded-[20px] md:h-[300px] lg:h-[380px] lg:max-w-[460px] lg:rounded-[32px] lg:shadow-lg">
-                  <motion.div
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    <ImageWithFallback
-                      src={imageAssets.hero.background}
-                      alt="Lion Spices Red Chilli Powder packet"
-                      loading="eager"
-                      fetchPriority="high"
-                      className="h-[90%] w-auto max-w-full object-contain object-center lg:h-[95%]"
-                    />
-                  </motion.div>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>

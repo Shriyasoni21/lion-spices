@@ -1,23 +1,17 @@
 import React from 'react';
 import HeroSection from '../components/sections/HeroSection';
-import TrustStatsSection from '../components/sections/TrustStatsSection';
 import WhyChooseUsSection from '../components/sections/WhyChooseUsSection';
-import CertificationsSection from '../components/sections/CertificationsSection';
-import ProductCategorySection from '../components/sections/ProductCategorySection';
+import FeaturedCategoriesSection from '../components/sections/FeaturedCategoriesSection';
 import RecipeSection from '../components/sections/RecipeSection';
-import AboutSection from '../components/sections/AboutSection';
 import ContactSection from '../components/sections/ContactSection';
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <TrustStatsSection />
+      <FeaturedCategoriesSection />
       <WhyChooseUsSection />
-      <CertificationsSection />
-      <ProductCategorySection />
       <RecipeSection />
-      <AboutSection />
       <ContactSection />
     </>
   );
