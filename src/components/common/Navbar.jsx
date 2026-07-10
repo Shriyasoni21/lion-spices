@@ -63,14 +63,14 @@ export default function Navbar({ cartCount, onCartClick }) {
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[68px] w-full max-w-7xl items-center justify-between gap-2 px-3 sm:h-[80px] sm:gap-5 sm:px-4 sm:py-0 lg:px-10">
-        <Link to="/" className="flex shrink-0 items-center gap-3 transition-all duration-300 hover:-translate-y-px sm:gap-4" style={{ textDecoration: 'none' }}>
+      <div className="mx-auto flex h-[60px] w-full max-w-7xl items-center justify-between gap-3 px-6 sm:h-[68px] sm:gap-5 sm:px-6 lg:h-20 lg:px-10">
+        <Link to="/" className="flex shrink-0 items-center gap-2 transition-all duration-300 hover:-translate-y-px sm:gap-3" style={{ textDecoration: 'none' }}>
           <img
             src="/images/logo.jpg"
             alt="Lion Spices"
             className="navbar-logo"
           />
-          <span className="whitespace-nowrap text-[0.95rem] font-bold uppercase leading-none tracking-[0.18em] text-gray-900 sm:text-[1.45rem] sm:tracking-[0.3em] lg:text-[1.75rem] lg:tracking-[0.36em]">Lion Spices</span>
+          <span className="navbar-brand-text whitespace-nowrap text-sm font-bold uppercase leading-none tracking-[0.18em] text-gray-900 sm:text-base md:text-lg lg:text-xl">Lion Spices</span>
         </Link>
 
         <nav className="hidden flex-1 justify-center gap-8 lg:flex">
@@ -90,16 +90,16 @@ export default function Navbar({ cartCount, onCartClick }) {
           })}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1 sm:gap-2">
           <motion.button
             type="button"
             onClick={() => setIsSearchOpen((prev) => !prev)}
-            className="btn-icon flex h-10 w-10 items-center justify-center rounded-full"
+            className="btn-icon navbar-icon flex items-center justify-center rounded-full transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Open search"
           >
-            <FiSearch className="h-4 w-4 sm:h-5 sm:w-5" />
+            <FiSearch className="h-5 w-5" />
           </motion.button>
 
           {isSearchOpen && (
@@ -110,7 +110,7 @@ export default function Navbar({ cartCount, onCartClick }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25 }}
             >
-              <FiSearch className="h-5 w-5 text-gray-400" />
+              <FiSearch className="h-4 w-4 text-gray-400" />
               <input
                 ref={searchInputRef}
                 value={searchQuery}
@@ -124,12 +124,12 @@ export default function Navbar({ cartCount, onCartClick }) {
           <motion.button
             type="button"
             onClick={onCartClick}
-            className="relative btn-icon flex h-10 w-10 items-center justify-center rounded-full"
+            className="relative btn-icon navbar-icon flex items-center justify-center rounded-full transition-all"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-label="Open cart"
           >
-            <FiShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
+            <FiShoppingCart className="h-5 w-5" />
             {cartCount > 0 && (
               <motion.span
                 className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-primary-red px-[0.35rem] text-[10px] font-bold text-white shadow-xl"
@@ -142,11 +142,11 @@ export default function Navbar({ cartCount, onCartClick }) {
           </motion.button>
 
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full p-2 text-gray-700 transition-colors hover:text-primary-red lg:hidden"
+            className="navbar-icon btn-icon flex items-center justify-center rounded-full p-1 text-gray-700 transition-colors lg:hidden"
             onClick={() => setIsMobileMenuOpen((s) => !s)}
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <FiX className="h-5 w-5 sm:h-6 sm:w-6" /> : <FiMenu className="h-5 w-5 sm:h-6 sm:w-6" />}
+            {isMobileMenuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
           </button>
         </div>
       </div>

@@ -32,7 +32,7 @@ export default function ProductsPage() {
 
   return (
     <main className="bg-cream pb-12 pt-24 text-gray-900 sm:pb-16 sm:pt-28">
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8">
         <div className="rounded-[24px] bg-white p-4 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)] sm:rounded-[32px] sm:p-8">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-primary-red">Lion Spices</p>
           <h1 className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl">Premium spice collection</h1>

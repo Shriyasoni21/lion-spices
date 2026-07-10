@@ -56,12 +56,12 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden bg-gray-900 pb-6 pt-10 text-gray-300 sm:pt-14 lg:pt-20">
+    <footer className="relative overflow-hidden bg-gray-900 pb-4 pt-8 text-gray-300 sm:pt-12 lg:pt-16">
       <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full bg-primary-red/5 blur-3xl"></div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-6 lg:px-8">
         <motion.div
-          className="grid gap-5 sm:gap-6 lg:grid-cols-4 lg:gap-8"
+          className="grid gap-4 sm:gap-6 lg:grid-cols-4 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"

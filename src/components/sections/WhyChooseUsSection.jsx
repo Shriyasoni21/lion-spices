@@ -83,7 +83,7 @@ const itemVariants = {
 
 const WhyChooseUsSection = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white to-cream py-10 sm:py-16 lg:py-20">
+    <section className="relative overflow-hidden bg-gradient-to-b from-white to-cream py-6 sm:py-12 lg:py-20">
       <motion.div
         className="absolute top-1/4 right-0 h-80 w-80 rounded-full bg-gradient-radial from-primary-red/10 to-transparent blur-3xl"
         animate={{ y: [0, 50, 0] }}
@@ -93,67 +93,67 @@ const WhyChooseUsSection = () => {
 
       <div className="relative z-10 container-custom">
         <motion.div
-          className="mb-8 text-center sm:mb-12 lg:mb-16"
+          className="mb-4 text-center sm:mb-8 lg:mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: '-100px' }}
         >
-          <p className="subheading mb-3 text-primary-red">Our Promise</p>
-          <h2 className="mb-4 text-3xl font-extrabold text-gray-900 sm:mb-6 sm:text-4xl md:text-5xl">
+          <p className="subheading mb-2 text-xs text-primary-red sm:mb-3 sm:text-sm">Our Promise</p>
+          <h2 className="mb-2 text-2xl font-extrabold text-gray-900 sm:mb-4 sm:text-3xl lg:mb-6 lg:text-5xl">
             Why Choose <span className="text-primary-red">Lion Spices</span>
           </h2>
-          <p className="mx-auto max-w-3xl text-base font-light leading-relaxed text-gray-600 sm:text-lg">
+          <p className="mx-auto max-w-3xl text-xs font-light leading-relaxed text-gray-600 sm:text-sm lg:text-base">
             Traditional Indian spices made using carefully selected ingredients and modern hygiene standards. Every spice is a promise of authenticity, purity, and quality.
           </p>
         </motion.div>
 
         <motion.div
-          className="relative grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-2 lg:grid-cols-4"
+          className="relative grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          {features.map((feature) => {
+          {features.slice(0, 6).map((feature) => {
             const IconComponent = feature.icon;
             return (
               <motion.div
                 key={feature.id}
                 className="group relative h-full"
                 variants={itemVariants}
-                whileHover={{ y: -10 }}
+                whileHover={{ y: -5 }}
               >
                 <motion.div
-                  className="absolute inset-0 rounded-3xl bg-white opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100"
+                  className="absolute inset-0 rounded-xl bg-white opacity-0 shadow-sm transition-opacity duration-300 group-hover:opacity-100 sm:rounded-2xl lg:rounded-3xl"
                   initial={{ opacity: 0 }}
                 />
 
-                <div className="relative flex h-full flex-col rounded-[18px] border border-gray-100 p-3 transition-shadow duration-300 group-hover:shadow-xl sm:rounded-2xl sm:p-4 lg:p-5">
+                <div className="relative flex h-full flex-col rounded-xl border border-gray-100 p-2 transition-shadow duration-300 group-hover:shadow-md sm:rounded-lg sm:p-3 lg:rounded-2xl lg:p-5">
                   <motion.div
-                    className={`mb-3 flex h-10 w-10 items-center justify-center rounded-2xl ${feature.bgColor} ${feature.color} shadow-sm sm:mb-4 sm:h-12 sm:w-12 sm:rounded-2xl`}
+                    className={`mb-1.5 flex h-8 w-8 items-center justify-center rounded-lg ${feature.bgColor} ${feature.color} shadow-sm sm:mb-2 sm:h-10 sm:w-10 sm:rounded-xl lg:h-12 lg:w-12 lg:rounded-2xl`}
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <IconComponent className="h-5 w-5 sm:h-8 sm:w-8" />
+                    <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
                   </motion.div>
 
-                  <h3 className="mb-1 text-sm font-bold text-gray-900 sm:mb-2 sm:text-base">
+                  <h3 className="mb-0.5 text-xs font-bold text-gray-900 sm:mb-1 sm:text-sm lg:text-base">
                     {feature.title}
                   </h3>
 
-                  <p className="flex-grow text-xs leading-relaxed text-gray-600 sm:text-sm">
+                  <p className="flex-grow text-[0.65rem] leading-tight text-gray-600 sm:text-xs lg:text-sm">
                     {feature.description}
                   </p>
 
                   <motion.div
-                    className="mt-4 flex items-center gap-2 font-semibold text-primary-red sm:mt-6"
+                    className="mt-1.5 flex items-center gap-1 font-semibold text-primary-red sm:mt-2 lg:mt-3"
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <span className="text-base sm:text-lg">✓</span>
-                    <span className="text-xs sm:text-sm">Premium Quality</span>
+                    <span className="text-xs sm:text-sm lg:text-base">✓</span>
+                    <span className="text-[0.65rem] sm:text-xs lg:text-sm">Premium</span>
                   </motion.div>
                 </div>
               </motion.div>
@@ -162,13 +162,13 @@ const WhyChooseUsSection = () => {
         </motion.div>
 
         <motion.div
-          className="mt-8 border-t border-gray-200 pt-8 text-center sm:mt-12 sm:pt-12 lg:mt-16 lg:pt-16"
+          className="mt-4 border-t border-gray-200 pt-4 text-center sm:mt-6 sm:pt-6 lg:mt-12 lg:pt-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-base text-gray-600 sm:text-lg">
+          <p className="text-xs text-gray-600 sm:text-sm lg:text-base">
             Trusted by <span className="font-bold text-primary-red">10,000+</span> happy customers for premium quality.
           </p>
         </motion.div>

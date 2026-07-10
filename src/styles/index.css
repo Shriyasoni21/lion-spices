@@ -4,7 +4,7 @@
 
 /* Navbar Logo Styles */
 .navbar-logo {
-  height: 58px;
+  height: 34px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -14,11 +14,35 @@
   box-shadow: none;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .navbar-logo {
-    height: 42px;
+    height: 40px;
     width: auto;
   }
+}
+
+@media (min-width: 1024px) {
+  .navbar-logo {
+    height: 48px;
+    width: auto;
+  }
+}
+
+/* Mobile Navbar - Hide brand text */
+@media (max-width: 767px) {
+  .navbar-brand-text {
+    display: none;
+  }
+  
+  .navbar-icon {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+/* Icon button styles */
+.btn-icon {
+  @apply transition-all duration-200 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-red/50;
 }
 
 /* Image Fallback Styles */
@@ -80,23 +104,23 @@ a {
 }
 
 .section-heading {
-  @apply text-3xl font-extrabold text-gray-900 sm:text-4xl md:text-5xl lg:text-5xl;
+  @apply text-2xl font-extrabold text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl;
 }
 
 .section-copy {
-  @apply text-base text-gray-600 leading-relaxed sm:text-lg;
+  @apply text-sm text-gray-600 leading-relaxed sm:text-base md:text-lg;
 }
 
 .section-padding {
-  @apply py-12 sm:py-14 md:py-20;
+  @apply py-6 sm:py-8 md:py-12 lg:py-16;
 }
 
 .section-padding-lg {
-  @apply py-16 sm:py-20 md:py-24;
+  @apply py-8 sm:py-10 md:py-14 lg:py-20;
 }
 
 .section-padding-xl {
-  @apply py-20 sm:py-24 md:py-28;
+  @apply py-10 sm:py-12 md:py-16 lg:py-24;
 }
 
 /* ===== GLASSMORPHISM ===== */
@@ -184,11 +208,11 @@ a {
 
 /* ===== UTILITY CLASSES ===== */
 .container-custom {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  @apply max-w-7xl mx-auto px-6 sm:px-6 lg:px-8;
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-spice text-white rounded-[28px] font-semibold text-lg shadow-premium hover:shadow-premium-lg transition-all duration-300 transform-gpu;
+  @apply inline-flex items-center justify-center gap-3 px-8 py-3 bg-gradient-spice text-white rounded-[14px] sm:rounded-[28px] font-semibold text-base sm:text-lg shadow-premium hover:shadow-premium-lg transition-all duration-300 transform-gpu;
 }
 
 .btn-secondary {

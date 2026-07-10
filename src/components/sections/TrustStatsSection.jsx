@@ -118,16 +118,16 @@ const TrustStatsSection = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white py-12 sm:py-20 lg:py-24">
+    <section className="relative overflow-hidden bg-white py-6 sm:py-12 lg:py-20">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-primary-red/5 blur-3xl" />
         <div className="absolute bottom-1/4 left-0 h-96 w-96 rounded-full bg-turmeric/5 blur-3xl" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-6 text-center sm:mb-8 lg:mb-12">
+        <div className="mb-4 text-center sm:mb-6 lg:mb-10">
           <motion.h2
-            className="text-3xl font-extrabold leading-tight text-gray-900 sm:text-4xl lg:text-5xl"
+            className="text-2xl font-extrabold leading-tight text-gray-900 sm:text-3xl lg:text-5xl"
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
@@ -136,7 +136,7 @@ const TrustStatsSection = () => {
             Why Trust <span className="text-primary-red">Lion Spices</span>
           </motion.h2>
           <motion.p
-            className="mx-auto mt-3 max-w-2xl text-base text-gray-600 sm:mt-4 sm:text-lg"
+            className="mx-auto mt-2 max-w-2xl text-xs text-gray-600 sm:mt-3 sm:text-sm lg:text-base"
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
@@ -147,7 +147,7 @@ const TrustStatsSection = () => {
         </div>
 
         <motion.div
-          className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4 lg:gap-6"
+          className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -158,28 +158,28 @@ const TrustStatsSection = () => {
             return (
               <motion.div
                 key={stat.id}
-                className={`group relative h-full rounded-2xl border border-gray-200/80 bg-gradient-to-br ${stat.color} p-3 transition-all duration-300 hover:-translate-y-1 hover:border-gray-300 hover:shadow-lg sm:rounded-[22px] sm:p-4 lg:p-5`}
+                className={`group relative h-full rounded-xl border border-gray-200/80 bg-gradient-to-br ${stat.color} p-2.5 transition-all duration-300 hover:-translate-y-1 hover:border-gray-300 hover:shadow-md sm:rounded-2xl sm:p-3.5 lg:rounded-[22px] lg:p-5`}
                 variants={cardVariants}
               >
-                <div className={`mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70 transition-all duration-300 group-hover:bg-white sm:mb-4 sm:h-14 sm:w-14 ${stat.iconColor}`}>
-                  <IconComponent className="h-5 w-5 sm:h-7 sm:w-7" />
+                <div className={`mb-2 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/70 transition-all duration-300 group-hover:bg-white sm:mb-3 sm:h-10 sm:w-10 sm:rounded-xl lg:h-14 lg:w-14 lg:rounded-2xl ${stat.iconColor}`}>
+                  <IconComponent className="h-4 w-4 sm:h-5 sm:w-5 lg:h-7 lg:w-7" />
                 </div>
 
-                <div className="mb-2">
-                  <p className="text-2xl font-extrabold leading-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                <div className="mb-1">
+                  <p className="text-base font-extrabold leading-tight text-gray-900 sm:text-2xl lg:text-4xl">
                     <AnimatedNumber value={stat.numericValue} suffix={stat.suffix} />
                   </p>
                 </div>
 
-                <p className="mb-1 text-sm font-bold text-gray-900 sm:text-lg">
+                <p className="mb-0.5 text-xs font-bold text-gray-900 sm:text-sm lg:text-lg">
                   {stat.label}
                 </p>
 
-                <p className="text-[0.72rem] leading-relaxed text-gray-600 sm:text-sm">
+                <p className="text-[0.65rem] leading-tight text-gray-600 sm:text-xs lg:text-sm">
                   {stat.description}
                 </p>
 
-                <div className="absolute bottom-0 left-0 h-1 w-0 rounded-bl-2xl bg-gradient-to-r from-primary-red/60 via-turmeric/40 to-transparent transition-all duration-500 group-hover:w-full" />
+                <div className="absolute bottom-0 left-0 h-1 w-0 rounded-bl-xl bg-gradient-to-r from-primary-red/60 via-turmeric/40 to-transparent transition-all duration-500 group-hover:w-full sm:rounded-bl-2xl" />
               </motion.div>
             );
           })}

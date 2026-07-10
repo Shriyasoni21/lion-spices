@@ -28,8 +28,8 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(252,211,77,0.12),_transparent_22%),radial-gradient(circle_at_top_right,_rgba(239,68,68,0.06),_transparent_20%),linear-gradient(180deg,#fffdf8_0%,#fff3e8_100%)] pb-8 pt-[78px] sm:pb-10 sm:pt-[92px] lg:min-h-[82vh] lg:pb-[24px] lg:pt-[108px]">
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#fde8d9] via-transparent to-transparent opacity-60 pointer-events-none" />
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(252,211,77,0.12),_transparent_22%),radial-gradient(circle_at_top_right,_rgba(239,68,68,0.06),_transparent_20%),linear-gradient(180deg,#fffdf8_0%,#fff3e8_100%)] pb-5 pt-[20px] sm:pb-8 sm:pt-[24px] lg:min-h-[82vh] lg:pb-6 lg:pt-[108px]">
+      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#fde8d9] via-transparent to-transparent opacity-60 pointer-events-none sm:h-24" />
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-8%] top-16 h-64 w-64 rounded-full bg-[#fef3c7]/30 blur-3xl" />
         <div className="absolute right-[-10%] top-24 h-80 w-80 rounded-full bg-[#fee2e2]/20 blur-3xl" />
@@ -37,15 +37,15 @@ const HeroSection = () => {
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-4 sm:gap-8 lg:min-h-[85vh] lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
+        <div className="grid grid-cols-1 gap-3 sm:gap-6 lg:min-h-[85vh] lg:grid-cols-[1.25fr_0.75fr] lg:items-start">
           <motion.div
-            className="space-y-4 lg:max-w-2xl lg:space-y-5"
+            className="space-y-2 sm:space-y-4 lg:max-w-2xl lg:space-y-5"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             <motion.span
-              className="mb-1 inline-flex items-center gap-2 rounded-full bg-primary-red/10 px-3 py-2 text-sm font-semibold text-primary-red sm:px-4"
+              className="mb-0 inline-flex items-center gap-2 rounded-full bg-primary-red/10 px-3 py-1.5 text-xs font-semibold text-primary-red sm:px-4 sm:py-2 sm:text-sm"
               variants={itemVariants}
             >
               <span className="h-2 w-2 animate-pulse rounded-full bg-primary-red"></span>
@@ -53,7 +53,7 @@ const HeroSection = () => {
             </motion.span>
 
             <motion.h1
-              className="text-[1.8rem] font-extrabold leading-[1.05] text-gray-900 sm:text-4xl md:text-5xl lg:text-[3.6rem] lg:leading-[1.05]"
+              className="text-[30px] font-extrabold leading-[1.2] text-gray-900 sm:text-4xl md:text-5xl lg:text-[3.6rem] lg:leading-[1.05]"
               variants={itemVariants}
             >
               Pure Indian spices, delivered with
@@ -61,44 +61,45 @@ const HeroSection = () => {
             </motion.h1>
 
             <motion.p
-              className="max-w-full text-[0.94rem] leading-relaxed text-gray-600 sm:max-w-lg sm:text-lg"
+              className="text-[15px] leading-[1.6] text-gray-600 sm:text-lg"
               variants={itemVariants}
             >
               Lion Spices brings you authentic masalas and spice blends crafted from the finest Indian farms, packed hygienically for modern kitchens.
             </motion.p>
 
-            <motion.div className="w-full" variants={itemVariants}>
-              <Link to="/products" className="btn-primary w-full min-h-[52px] justify-center sm:w-auto sm:min-h-auto">
+            <motion.div className="w-full pt-1" variants={itemVariants}>
+              <Link to="/products" className="btn-primary w-full h-[48px] justify-center rounded-[14px] sm:w-auto sm:h-auto text-base sm:text-base">
                 Explore Products
                 <FiArrowRight className="h-5 w-5" />
               </Link>
             </motion.div>
 
             <motion.div
-              className="rounded-[20px] border border-gray-200 bg-white px-3 py-3 shadow-[0_24px_80px_-50px_rgba(15,23,42,0.18)] sm:rounded-[28px] sm:px-5 sm:py-4"
+              className="rounded-lg border border-gray-200 bg-white px-3 py-2 shadow-sm sm:rounded-[20px] sm:px-4 sm:py-3 md:rounded-[28px] md:px-5 md:py-4"
               variants={itemVariants}
             >
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-col gap-2 sm:gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl text-turmeric sm:text-2xl">★★★★★</span>
+                  <span className="text-lg text-turmeric sm:text-xl md:text-2xl">★★★★★</span>
                   <div>
-                    <p className="text-[0.65rem] uppercase tracking-[0.24em] text-gray-500">Customer Rating</p>
-                    <p className="mt-1 text-base font-semibold text-gray-900">4.9/5</p>
+                    <p className="text-[0.6rem] uppercase tracking-[0.24em] text-gray-500">Customer Rating</p>
+                    <p className="text-sm font-semibold text-gray-900 sm:text-base">4.9/5</p>
                   </div>
                 </div>
-                <div className="rounded-full bg-red-50 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-primary-red">
+                <div className="rounded-full bg-red-50 px-2.5 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.2em] text-primary-red sm:px-3">
                   Premium Quality
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-col gap-2 text-sm text-gray-700 sm:flex-row sm:flex-wrap sm:items-center">
-                {trustBadges.map((badge) => (
+              <div className="mt-2 grid grid-cols-2 gap-1 text-xs text-gray-700 sm:flex sm:flex-wrap sm:gap-2 sm:text-sm">
+                {trustBadges.slice(0, 4).map((badge) => (
                   <span
                     key={badge.id}
-                    className="inline-flex items-center gap-2 rounded-full bg-gray-50 px-3 py-2 shadow-sm"
+                    className="inline-flex items-center gap-1 rounded-full bg-gray-50 px-2 py-1 shadow-sm sm:px-3 sm:py-2"
                   >
                     <span className="text-primary-red">✓</span>
-                    {badge.text}
+                    <span className="hidden sm:inline">{badge.text}</span>
+                    <span className="sm:hidden">{badge.text.split(' ').slice(0, 2).join(' ')}</span>
                   </span>
                 ))}
               </div>
@@ -106,15 +107,15 @@ const HeroSection = () => {
           </motion.div>
 
           <motion.div
-            className="relative overflow-hidden rounded-[24px] border border-gray-100 bg-white shadow-[0_32px_70px_-30px_rgba(15,23,42,0.18)] self-start sm:rounded-[40px] lg:order-2"
+            className="relative"
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.75, delay: 0.2 }}
           >
-            <div className="px-3 py-3 sm:px-5 lg:px-6 lg:py-4">
-              <div className="relative mx-auto flex h-[240px] w-full max-w-[85%] items-center justify-center overflow-hidden rounded-[24px] border border-gray-200 bg-gradient-to-br from-red-50 via-white to-yellow-50 shadow-lg sm:h-[280px] sm:max-w-[320px] lg:h-[380px] lg:max-w-[460px] lg:rounded-[32px]">
+            <div className="flex sm:hidden justify-center mx-auto w-[75%] mb-6">
+              <div className="relative flex h-[150px] w-full items-center justify-center overflow-hidden rounded-[16px] border border-gray-200 bg-gradient-to-br from-red-50 via-white to-yellow-50 shadow-sm">
                 <motion.div
-                  animate={{ y: [0, -8, 0] }}
+                  animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
                 >
                   <ImageWithFallback
@@ -122,9 +123,28 @@ const HeroSection = () => {
                     alt="Lion Spices Red Chilli Powder packet"
                     loading="eager"
                     fetchPriority="high"
-                    className="h-[92%] w-auto max-w-full object-contain object-center lg:h-[95%]"
+                    className="h-[85%] w-auto max-w-full object-contain object-center"
                   />
                 </motion.div>
+              </div>
+            </div>
+
+            <div className="hidden sm:block relative overflow-hidden rounded-[20px] border border-gray-100 bg-white shadow-md sm:rounded-[28px] lg:rounded-[40px] lg:shadow-[0_32px_70px_-30px_rgba(15,23,42,0.18)] lg:self-start">
+              <div className="px-2 py-2 sm:px-3 sm:py-3 lg:px-6 lg:py-4">
+                <div className="relative mx-auto flex h-[200px] w-[90%] items-center justify-center overflow-hidden rounded-[16px] border border-gray-200 bg-gradient-to-br from-red-50 via-white to-yellow-50 shadow-sm sm:h-[240px] sm:rounded-[20px] md:h-[300px] lg:h-[380px] lg:max-w-[460px] lg:rounded-[32px] lg:shadow-lg">
+                  <motion.div
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    <ImageWithFallback
+                      src={imageAssets.hero.background}
+                      alt="Lion Spices Red Chilli Powder packet"
+                      loading="eager"
+                      fetchPriority="high"
+                      className="h-[90%] w-auto max-w-full object-contain object-center lg:h-[95%]"
+                    />
+                  </motion.div>
+                </div>
               </div>
             </div>
           </motion.div>
