@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiStar } from 'react-icons/fi';
+import { FiShoppingCart, FiStar } from 'react-icons/fi';
 import ImageWithFallback from './common/ImageWithFallback';
 import WeightSelector from './WeightSelector';
 import { useCart } from '../context/CartContext';
@@ -41,37 +41,24 @@ export default function ProductCard({ product, onAddToCart }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       whileHover={{ y: -8, scale: 1.01 }}
-      className="group flex h-full flex-col rounded-[22px] border border-gray-100 bg-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.20)] transition-all duration-300 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.30)]"
+      className="group flex h-full flex-col rounded-[24px] border border-gray-100 bg-white p-3 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-20px_rgba(15,23,42,0.3)]"
     >
-        <div className="relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-2 shadow-sm sm:p-3">
-          <div className="w-full flex items-center justify-center bg-white">
-            <div className="flex items-center justify-center h-[160px] w-[160px] md:h-[180px] md:w-[180px] lg:h-[220px] lg:w-[220px]">
-              <ImageWithFallback
-                src={product.image}
-                alt={product.title}
-                className="h-full w-full object-contain object-center"
-                loading="lazy"
-              />
-            </div>
-          </div>
+      <div className="relative h-[180px] overflow-hidden rounded-[18px] bg-white sm:h-[210px]">
+        <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#fff7e8] px-2.5 py-1 text-[12px] font-semibold text-amber-700 shadow-sm">
+          <FiStar className="h-3.5 w-3.5 fill-current" />
+          {product.rating}
         </div>
+        <ImageWithFallback
+          src={product.image}
+          alt={product.title}
+          className="h-full w-full object-contain object-center"
+          loading="lazy"
+        />
+      </div>
 
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.24em] text-primary-red sm:text-xs">{product.category}</p>
-            <h3 className="mt-1 text-lg font-semibold text-gray-900 sm:text-xl">{product.title}</h3>
-          </div>
-          <div className="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 sm:px-3 sm:text-sm">★ {product.rating}</div>
-        </div>
-
-        <p className="mt-3 flex-grow text-sm text-gray-600">{product.description}</p>
-
-        <div className="mt-3 flex flex-wrap gap-2 text-sm text-amber-500">
-          <FiStar className="fill-current" />
-          <span className="font-semibold text-gray-800">{product.rating}</span>
-          <span className="text-gray-500">Premium Quality</span>
-        </div>
+      <div className="mt-3 flex flex-1 flex-col">
+        <p className="text-[10px] uppercase tracking-[0.24em] text-primary-red sm:text-xs">{product.category}</p>
+        <h3 className="mt-1 text-lg font-semibold text-gray-900 sm:text-xl">{product.title}</h3>
 
         {product.variants?.length ? (
           <div className="mt-3">
@@ -85,32 +72,34 @@ export default function ProductCard({ product, onAddToCart }) {
 
         <div className="mt-4 flex flex-col gap-2 border-t border-gray-100 pt-4 sm:mt-auto">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-gray-400 sm:text-xs">Selected variant</p>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-gray-400 sm:text-xs">Selected size</p>
             <p className="text-lg font-bold text-primary-red sm:text-xl">₹{price}</p>
             <p className="text-sm text-gray-500">{selectedVariant?.weight || product.weight}</p>
           </div>
+
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <Link
-              to={{ pathname: `/product/${product.id}`, state: { selectedVariant } }}
-              className="btn-standard btn-standard-outline w-full justify-center"
+              to={`/product/${product.id}`}
+              state={{ selectedVariant }}
+              className="flex h-11 items-center justify-center rounded-full border border-gray-200 bg-white px-4 text-sm font-semibold text-gray-700 transition hover:border-primary-red hover:text-primary-red"
             >
               View Details
             </Link>
 
             {currentQty > 0 ? (
-              <div className="w-full flex items-center justify-center gap-3 bg-white rounded-[14px] py-2">
+              <div className="flex h-11 items-center justify-center gap-3 rounded-full border border-gray-200 bg-gray-50">
                 <button
                   aria-label="decrease"
                   onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, -1)}
-                  className="h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-shadow shadow-sm"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm"
                 >
                   −
                 </button>
-                <div className="text-lg font-bold">{currentQty}</div>
+                <div className="text-sm font-semibold text-gray-900">{currentQty}</div>
                 <button
                   aria-label="increase"
                   onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, 1)}
-                  className="h-10 w-10 rounded-full bg-primary-red text-white hover:bg-red-700 flex items-center justify-center transition-shadow shadow-sm"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-red text-lg font-semibold text-white shadow-sm"
                 >
                   +
                 </button>
@@ -118,8 +107,9 @@ export default function ProductCard({ product, onAddToCart }) {
             ) : (
               <button
                 onClick={() => addToCart(product, selectedVariant, 1)}
-                className="btn-standard btn-standard-primary w-full justify-center"
+                className="flex h-11 items-center justify-center gap-2 rounded-full bg-primary-red px-4 text-sm font-semibold text-white transition hover:bg-red-700"
               >
+                <FiShoppingCart className="h-4 w-4" />
                 Add to Cart
               </button>
             )}

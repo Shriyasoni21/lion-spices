@@ -5,7 +5,7 @@ import CartDrawer from './components/common/CartDrawer';
 import HeroSection from './components/sections/HeroSection';
 import ProductCategorySection from './components/sections/ProductCategorySection';
 import FeaturedCategoriesSection from './components/sections/FeaturedCategoriesSection';
-import WhyChooseUsSection from './components/sections/WhyChooseUsSection';
+import WhyTrustSection from './components/sections/WhyTrustSection';
 import BestSellerProductsSection from './components/sections/BestSellerProductsSection';
 import SourceJourneySection from './components/sections/SourceJourneySection';
 import RecipeSection from './components/sections/RecipeSection';
@@ -59,7 +59,7 @@ function App() {
       <HeroSection />
       <ProductCategorySection />
       <FeaturedCategoriesSection onAddToCart={addToCart} />
-      <WhyChooseUsSection />
+      <WhyTrustSection />
       <BestSellerProductsSection onAddToCart={addToCart} />
       <SourceJourneySection />
       <RecipeSection />

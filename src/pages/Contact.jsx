@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const shopAddress = '14-4-274, Joshiwadi, Begum Bazaar, Hyderabad, Telangana, India';
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shopAddress)}`;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -11,14 +13,38 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="pt-28 bg-cream pb-16 text-gray-900">
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
-        <article className="rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-primary-red">Contact</p>
-          <h1 className="mt-3 text-4xl font-bold text-gray-900 md:text-5xl">Let’s talk spices</h1>
-          <p className="mt-4 text-gray-600">Whether you are a retailer, food brand, or home chef, we are ready to help with premium spice sourcing and support.</p>
+    <main className="bg-cream pb-16 pt-24 text-gray-900 sm:pt-28">
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8">
+        <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.2)] sm:p-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary-red">Contact</p>
+          <h1 className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl">Let’s talk spices</h1>
+          <p className="mt-3 text-sm text-gray-600 sm:text-base">Whether you are a retailer, food brand or home chef, our team is ready to help.</p>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <div className="mt-6 space-y-4 text-sm text-gray-700">
+            <div className="rounded-[24px] border border-gray-100 bg-[#fffaf5] p-4">
+              <p className="font-semibold text-gray-900">Address</p>
+              <p className="mt-2">14-4-274, Joshiwadi, Begum Bazaar, Hyderabad, Telangana, India</p>
+            </div>
+            <div className="rounded-[24px] border border-gray-100 bg-[#fffaf5] p-4">
+              <p className="font-semibold text-gray-900">Phone</p>
+              <a href="tel:+919010782782" className="mt-2 inline-flex text-primary-red hover:underline">+91 90107 82782</a>
+            </div>
+            <div className="rounded-[24px] border border-gray-100 bg-[#fffaf5] p-4">
+              <p className="font-semibold text-gray-900">Email</p>
+              <a href="mailto:krishloya789@gmail.com" className="mt-2 inline-flex text-primary-red hover:underline">krishloya789@gmail.com</a>
+            </div>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded-[28px] border border-gray-100 bg-gray-50">
+            <iframe title="Lion Spices location" src={`https://www.google.com/maps?q=${encodeURIComponent(shopAddress)}&output=embed`} className="h-56 w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          </div>
+          <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center justify-center rounded-full bg-primary-red px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700">
+            Open Map
+          </a>
+        </div>
+
+        <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.2)] sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {['name', 'email', 'phone'].map((field) => (
               <label key={field} className="block text-sm text-gray-700">
                 <span className="mb-1 block capitalize">{field}</span>
@@ -32,31 +58,7 @@ export default function ContactPage() {
             <button type="submit" className="rounded-full bg-primary-red px-5 py-3 text-sm font-semibold text-white hover:bg-red-700">Send Message</button>
             {submitted && <p className="rounded-2xl bg-green-50 p-3 text-sm text-green-700">Thanks! Your message has been received. We will respond soon.</p>}
           </form>
-        </article>
-
-        <article className="space-y-6 rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Company Information</h2>
-            <p className="mt-3 text-sm text-gray-600">
-              Lion Spices<br />
-              14-4-274, Joshiwadi,<br />
-              Begum Bazaar,<br />
-              Hyderabad, Telangana, India
-            </p>
-            <p className="mt-2 text-sm text-gray-600">Phone: +91 90107 82782</p>
-            <p className="mt-2 text-sm text-gray-600">Email: <a href="mailto:krishloya789@gmail.com" className="text-primary-red hover:underline">krishloya789@gmail.com</a></p>
-          </div>
-          <div className="rounded-[28px] border border-gray-100 bg-gray-50 p-4 text-sm text-gray-700">Google Maps embed placeholder for Hyderabad office.</div>
-          <div className="flex flex-wrap gap-3">
-            <a href="https://wa.me/919876543210" className="rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white">WhatsApp</a>
-            <a href="https://instagram.com" className="rounded-full bg-pink-500 px-4 py-2 text-sm font-semibold text-white">Instagram</a>
-            <a href="https://facebook.com" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white">Facebook</a>
-          </div>
-          <div id="faq" className="rounded-[28px] bg-gray-50 p-4 text-sm text-gray-700">
-            <h3 className="font-semibold text-gray-900">FAQ</h3>
-            <p className="mt-2">Do you ship pan India? Yes, we deliver across India.</p>
-          </div>
-        </article>
+        </div>
       </section>
     </main>
   );

@@ -42,6 +42,22 @@
     height: 40px;
     width: 40px;
   }
+
+  .container-custom {
+    @apply px-4;
+  }
+
+  .section-padding {
+    @apply py-8;
+  }
+
+  .section-padding-lg {
+    @apply py-10;
+  }
+
+  .section-padding-xl {
+    @apply py-12;
+  }
 }
 
 .navbar-brand-text {

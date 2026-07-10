@@ -43,9 +43,9 @@ export default function Navbar({ cartCount, onCartClick }) {
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'Products', href: '/products' },
-    { label: 'Recipes', href: '/#recipes' },
-    { label: 'About', href: '/#about' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Recipes', href: '/recipes' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
     { label: 'Cart', href: '/cart' },
   ];
 

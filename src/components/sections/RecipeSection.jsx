@@ -1,45 +1,11 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiClock, FiTrendingUp } from 'react-icons/fi';
 import ImageWithFallback from '../common/ImageWithFallback';
 import { recipes } from '../../data/recipeData';
 
-const RecipeSection = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleViewAllRecipes = () => {
-    if (location.pathname === '/') {
-      const target = document.getElementById('recipes');
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        return;
-      }
-    }
-    navigate('/#recipes');
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  };
-
+const RecipeSection = ({ compact = false }) => {
   const difficultyColors = {
     Easy: 'bg-green-100 text-green-700',
     Medium: 'bg-yellow-100 text-yellow-700',
@@ -47,41 +13,27 @@ const RecipeSection = () => {
   };
 
   return (
-    <section id="recipes" className="relative overflow-hidden bg-gradient-to-b from-cream to-white py-6 sm:py-12 lg:py-24">
-      <div className="pointer-events-none absolute top-0 right-0 h-72 w-72 rounded-full bg-saffron/5 blur-3xl"></div>
+    <section className="bg-[#fffaf5] py-8 sm:py-10 lg:py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary-red">Featured Recipes</p>
+            <h2 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl">Simple recipes, rich spice flavor</h2>
+          </div>
+          <Link to="/recipes" className="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:border-primary-red hover:text-primary-red">View All Recipes</Link>
+        </div>
 
-      <div className="container-custom relative z-10">
-        <motion.div
-          className="mb-4 text-center sm:mb-8 lg:mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: '-100px' }}
-        >
-          <p className="subheading mb-1.5 text-xs text-primary-red sm:mb-2 sm:text-sm">Culinary Inspiration</p>
-          <h2 className="section-heading mb-2 sm:mb-4">
-            Try These <span className="text-primary-red">Flavorful Recipes</span>
-          </h2>
-          <p className="section-copy mx-auto max-w-2xl text-xs sm:text-sm">
-            Explore delicious recipes that showcase the authentic flavors of Lion Spices.
-          </p>
-        </motion.div>
-
-        <motion.div
-          className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-        >
-          {recipes.slice(0, 3).map((recipe) => (
-            <motion.div
+        <div className={compact ? 'flex gap-4 overflow-x-auto pb-3 sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible' : 'grid gap-4 sm:grid-cols-3'}>
+          {recipes.slice(0, 3).map((recipe, index) => (
+            <motion.article
               key={recipe.id}
-              className="group flex h-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white p-2 transition-all duration-400 hover:-translate-y-1 hover:shadow-md sm:rounded-2xl sm:p-3 lg:rounded-[20px] lg:p-3 lg:hover:-translate-y-2 lg:hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)]"
-              variants={itemVariants}
-              whileHover={{ y: -4 }}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              className="group min-w-[84%] max-w-[84%] snap-start overflow-hidden rounded-[24px] border border-gray-100 bg-white p-3 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.28)] sm:min-w-0 sm:max-w-none sm:p-4"
             >
-              <div className="relative h-28 overflow-hidden rounded-lg bg-white p-1 sm:h-32 sm:rounded-xl sm:p-1.5 lg:h-36 lg:rounded-[16px] lg:p-2">
+              <div className="relative h-32 overflow-hidden rounded-[18px] bg-white p-2 sm:h-36">
                 <ImageWithFallback
                   src={recipe.image}
                   alt={recipe.title}
@@ -89,64 +41,23 @@ const RecipeSection = () => {
                   width={360}
                   height={256}
                 />
-                <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/10"></div>
-                <motion.div
-                  className={`absolute right-2 top-2 rounded-full px-2 py-0.5 text-[9px] font-bold sm:right-2.5 sm:top-2.5 sm:px-2.5 sm:text-xs ${
-                    difficultyColors[recipe.difficulty] || 'bg-gray-100 text-gray-700'
-                  }`}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
+                <div className={`absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10px] font-semibold ${difficultyColors[recipe.difficulty] || 'bg-gray-100 text-gray-700'}`}>
                   {recipe.difficulty}
-                </motion.div>
-              </div>
-
-              <div className="flex flex-1 flex-col p-2 sm:p-3 lg:p-4">
-                <h4 className="mb-1 text-sm font-bold text-gray-900 transition-colors group-hover:text-primary-red sm:mb-1.5 sm:text-base lg:mb-2 lg:text-lg">
-                  {recipe.title}
-                </h4>
-                <p className="mb-2 flex-grow text-xs text-gray-600 sm:mb-2 lg:mb-3 lg:text-sm line-clamp-2">
-                  {recipe.description}
-                </p>
-                <div className="mb-2 flex items-center gap-2 border-t border-gray-200 py-2 text-xs text-gray-600 sm:gap-3 sm:py-2.5 lg:mb-3 lg:py-3 lg:text-sm">
-                  <div className="flex items-center gap-1">
-                    <FiClock className="h-3 w-3 text-primary-red sm:h-4 sm:w-4" />
-                    <span className="font-medium">{recipe.cookTime}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <FiTrendingUp className="h-3 w-3 text-turmeric sm:h-4 sm:w-4" />
-                    <span className="font-medium">{recipe.difficulty}</span>
-                  </div>
                 </div>
-                <Link
-                  to={`/recipe/${recipe.id}`}
-                  className="btn-standard btn-standard-primary w-full min-h-10 text-xs sm:min-h-11 sm:text-sm lg:min-h-[52px]"
-                >
-                  Read Recipe →
-                </Link>
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
 
-        <motion.div
-          className="mt-4 text-center sm:mt-6 lg:mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <motion.button
-            type="button"
-            onClick={handleViewAllRecipes}
-            className="btn-standard btn-standard-secondary text-sm sm:text-base"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            View All Recipes & Tips
-          </motion.button>
-        </motion.div>
+              <div className="mt-3 flex flex-col">
+                <h3 className="text-base font-semibold text-gray-900">{recipe.title}</h3>
+                <p className="mt-2 flex-grow text-sm text-gray-600 line-clamp-2">{recipe.description}</p>
+                <div className="mt-3 flex items-center gap-3 border-t border-gray-100 pt-3 text-sm text-gray-600">
+                  <span className="inline-flex items-center gap-1"><FiClock className="h-4 w-4 text-primary-red" />{recipe.cookTime}</span>
+                  <span className="inline-flex items-center gap-1"><FiTrendingUp className="h-4 w-4 text-amber-600" />{recipe.difficulty}</span>
+                </div>
+                <Link to={`/recipe/${recipe.id}`} className="mt-4 inline-flex items-center justify-center rounded-full bg-primary-red px-4 py-2.5 text-sm font-semibold text-white hover:bg-red-700">Read recipe</Link>
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );
