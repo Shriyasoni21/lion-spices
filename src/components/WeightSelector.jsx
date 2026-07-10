@@ -2,15 +2,15 @@ import React from 'react';
 
 export default function WeightSelector({ options, selectedWeight, onSelect }) {
   return (
-    <div className="flex gap-1 sm:gap-2">
+    <div className="flex gap-3 overflow-x-auto pb-1">
       {options.map((weight) => (
         <button
           key={weight}
           type="button"
           onClick={() => onSelect(weight)}
-          className={`flex-1 sm:flex-none min-h-9 sm:min-h-10 rounded-full border px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
+          className={`min-w-[72px] flex-shrink-0 h-10 rounded-full border px-4 text-sm font-semibold transition-all flex items-center justify-center ${
             selectedWeight === weight
-              ? 'border-primary-red bg-primary-red text-white shadow-sm'
+              ? 'border-primary-red bg-primary-red text-white shadow-md'
               : 'border-gray-200 bg-white text-gray-700 hover:border-primary-red hover:text-primary-red'
           }`}
         >

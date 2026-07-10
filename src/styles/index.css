@@ -4,7 +4,7 @@
 
 /* Navbar Logo Styles */
 .navbar-logo {
-  height: 34px;
+  height: 36px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -28,16 +28,32 @@
   }
 }
 
-/* Mobile Navbar - Hide brand text */
+/* Mobile Navbar Branding */
 @media (max-width: 767px) {
   .navbar-brand-text {
-    display: none;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
   }
   
   .navbar-icon {
     height: 40px;
     width: 40px;
   }
+}
+
+.navbar-brand-text {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.navbar-logo + .navbar-brand-text {
+  margin-left: 8px;
 }
 
 /* Icon button styles */

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FiStar } from 'react-icons/fi';
 import ImageWithFallback from './common/ImageWithFallback';
 import WeightSelector from './WeightSelector';
+import { useCart } from '../context/CartContext';
 
 export default function ProductCard({ product, onAddToCart }) {
   const initialVariant = product.variants?.[0] || { weight: product.weight || '500g', price: product.price ?? 0 };
@@ -20,6 +21,12 @@ export default function ProductCard({ product, onAddToCart }) {
   }, [product.id, product.variants]);
 
   const price = selectedVariant?.price ?? product.price ?? 0;
+  const { cartItems, addToCart, updateQuantity } = useCart();
+
+  const currentCartItem = cartItems.find(
+    (it) => it.id === product.id && it.selectedWeight === (selectedVariant?.weight || product.weight)
+  );
+  const currentQty = currentCartItem?.quantity ?? 0;
 
   const handleSelectVariant = (weight) => {
     const nextVariant = product.variants?.find((variant) => variant.weight === weight);
@@ -36,16 +43,18 @@ export default function ProductCard({ product, onAddToCart }) {
       whileHover={{ y: -8, scale: 1.01 }}
       className="group flex h-full flex-col rounded-[22px] border border-gray-100 bg-white shadow-[0_18px_40px_-24px_rgba(0,0,0,0.20)] transition-all duration-300 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.30)]"
     >
-      <div className="relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-2 shadow-sm sm:p-3">
-        <div className="relative aspect-square w-full overflow-hidden rounded-[16px] bg-white p-2 sm:p-3">
-          <ImageWithFallback
-            src={product.image}
-            alt={product.title}
-            className="h-full w-full object-contain object-center"
-            loading="lazy"
-          />
+        <div className="relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-2 shadow-sm sm:p-3">
+          <div className="w-full flex items-center justify-center bg-white">
+            <div className="flex items-center justify-center h-[160px] w-[160px] md:h-[180px] md:w-[180px] lg:h-[220px] lg:w-[220px]">
+              <ImageWithFallback
+                src={product.image}
+                alt={product.title}
+                className="h-full w-full object-contain object-center"
+                loading="lazy"
+              />
+            </div>
+          </div>
         </div>
-      </div>
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
@@ -87,12 +96,33 @@ export default function ProductCard({ product, onAddToCart }) {
             >
               View Details
             </Link>
-            <button
-              onClick={() => onAddToCart?.(product, selectedVariant, 1)}
-              className="btn-standard btn-standard-primary w-full justify-center"
-            >
-              Add to Cart
-            </button>
+
+            {currentQty > 0 ? (
+              <div className="w-full flex items-center justify-center gap-3 bg-white rounded-[14px] py-2">
+                <button
+                  aria-label="decrease"
+                  onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, -1)}
+                  className="h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-shadow shadow-sm"
+                >
+                  −
+                </button>
+                <div className="text-lg font-bold">{currentQty}</div>
+                <button
+                  aria-label="increase"
+                  onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, 1)}
+                  className="h-10 w-10 rounded-full bg-primary-red text-white hover:bg-red-700 flex items-center justify-center transition-shadow shadow-sm"
+                >
+                  +
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => addToCart(product, selectedVariant, 1)}
+                className="btn-standard btn-standard-primary w-full justify-center"
+              >
+                Add to Cart
+              </button>
+            )}
           </div>
         </div>
       </div>

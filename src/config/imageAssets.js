@@ -1,9 +1,7 @@
-import lionLogoAsset from '../assets/logo/lion-logo.svg';
-
 const assetVersion = '20260624';
 const withVersion = (path) => `${path}?v=${assetVersion}`;
 
-const lionLogo = lionLogoAsset;
+const lionLogo = '/images/logo.jpg';
 const redChilliPacket = withVersion('/images/products/chilli-powder.jpg');
 const turmericPacket = withVersion('/images/products/turmeric-powder.jpg');
 const corianderPacket = withVersion('/images/products/coriander-powder.jpg');

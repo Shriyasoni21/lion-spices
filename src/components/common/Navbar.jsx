@@ -63,14 +63,16 @@ export default function Navbar({ cartCount, onCartClick }) {
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[60px] w-full max-w-7xl items-center justify-between gap-3 px-6 sm:h-[68px] sm:gap-5 sm:px-6 lg:h-20 lg:px-10">
+      <div className="mx-auto flex h-[60px] w-full max-w-7xl items-center justify-between gap-3 px-4 sm:h-[64px] sm:gap-4 sm:px-6 lg:h-[74px] lg:px-10">
         <Link to="/" className="flex shrink-0 items-center gap-2 transition-all duration-300 hover:-translate-y-px sm:gap-3" style={{ textDecoration: 'none' }}>
           <img
             src="/images/logo.jpg"
             alt="Lion Spices"
             className="navbar-logo"
           />
-          <span className="navbar-brand-text whitespace-nowrap text-sm font-bold uppercase leading-none tracking-[0.18em] text-gray-900 sm:text-base md:text-lg lg:text-xl">Lion Spices</span>
+          <span className="navbar-brand-text whitespace-nowrap text-[15px] font-bold uppercase leading-none tracking-[0.12em] text-gray-900 sm:text-[15px] lg:text-[26px] lg:tracking-[0.28em]">
+            LION SPICES
+          </span>
         </Link>
 
         <nav className="hidden flex-1 justify-center gap-8 lg:flex">

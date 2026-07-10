@@ -1,7 +1,9 @@
 import React, { memo, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiShoppingCart, FiStar } from 'react-icons/fi';
+import ImageWithFallback from './ImageWithFallback';
 import WeightSelector from '../WeightSelector';
+import { useCart } from '../../context/CartContext';
 
 function ProductCard({ product, index = 0, onAddToCart }) {
   const renderStars = (rating) => {
@@ -26,6 +28,12 @@ function ProductCard({ product, index = 0, onAddToCart }) {
   }, [product.id]);
 
   const price = selectedVariant?.price ?? product.price ?? 0;
+  const { cartItems, addToCart, updateQuantity } = useCart();
+
+  const currentCartItem = cartItems.find(
+    (it) => it.id === product.id && it.selectedWeight === (selectedVariant?.weight || product.weight)
+  );
+  const currentQty = currentCartItem?.quantity ?? 0;
 
   const handleSelectVariant = (weight) => {
     const nextVariant = product.variants?.find((variant) => variant.weight === weight);
@@ -33,7 +41,6 @@ function ProductCard({ product, index = 0, onAddToCart }) {
       setSelectedVariant(nextVariant);
     }
   };
-
   return (
     <motion.div
       className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden group shadow-sm sm:shadow-lg hover:shadow-md sm:hover:shadow-xl transition-all duration-300 border border-gray-100 card-hover-lift h-full flex flex-col"
@@ -42,18 +49,17 @@ function ProductCard({ product, index = 0, onAddToCart }) {
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <div className="relative h-56 sm:h-64 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
-          <ImageWithFallback
-            src={product.image}
-            alt={product.title}
-            className="h-full w-full object-contain group-hover:scale-105 sm:group-hover:scale-110 transition-transform duration-500"
-            width={360}
-            height={320}
-          />
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/3 transition-all duration-300" />
-        </div>
-      <div className="p-3 sm:p-5 flex flex-col flex-1">
-        <h4 className="text-base sm:text-lg font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2 group-hover:text-primary-red transition-colors">
+      <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 p-4 sm:h-72">
+        <ImageWithFallback
+          src={product.image}
+          alt={product.title}
+          className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
+          width={360}
+          height={320}
+        />
+      </div>
+      <div className="p-4 sm:p-5 flex flex-col flex-1 gap-4">
+        <h4 className="text-base sm:text-lg font-bold text-gray-900 line-clamp-2 group-hover:text-primary-red transition-colors">
           {product.title}
         </h4>
 
@@ -76,7 +82,7 @@ function ProductCard({ product, index = 0, onAddToCart }) {
         </div>
 
         {product.variants?.length ? (
-          <div className="mb-2.5 sm:mb-3">
+          <div className="mb-2.5 sm:mb-3 overflow-x-auto">
             <WeightSelector
               options={product.variants.map((variant) => variant.weight)}
               selectedWeight={selectedVariant?.weight}
@@ -86,7 +92,7 @@ function ProductCard({ product, index = 0, onAddToCart }) {
         ) : null}
 
         <div className="mb-3 sm:mb-4">
-          <div className="flex items-baseline gap-1.5 sm:gap-2">
+          <div className="flex items-baseline gap-1.5 sm:gap-2 flex-wrap">
             <span className="text-2xl sm:text-3xl font-bold text-primary-red">
               ₹{price}
             </span>
@@ -99,15 +105,37 @@ function ProductCard({ product, index = 0, onAddToCart }) {
           <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm text-gray-500">{selectedVariant?.weight || product.weight}</p>
         </div>
 
-        <motion.button
-          onClick={() => onAddToCart && onAddToCart(product, selectedVariant)}
-          className="w-full bg-gradient-spice hover:shadow-premium text-white py-2.5 sm:py-3 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 group/btn mt-auto"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <FiShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
-          Add to Cart
-        </motion.button>
+        <div className="mt-auto">
+          {currentQty > 0 ? (
+            <div className="w-full flex items-center justify-center gap-3 bg-white rounded-[14px] py-2">
+              <button
+                aria-label="decrease"
+                onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, -1)}
+                className="h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-shadow shadow-sm"
+              >
+                −
+              </button>
+              <div className="text-lg font-bold">{currentQty}</div>
+              <button
+                aria-label="increase"
+                onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, 1)}
+                className="h-10 w-10 rounded-full bg-primary-red text-white hover:bg-red-700 flex items-center justify-center transition-shadow shadow-sm"
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <motion.button
+              onClick={() => addToCart(product, selectedVariant)}
+              className="w-full bg-gradient-spice hover:shadow-premium text-white py-3 rounded-[14px] font-bold text-sm sm:text-base transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FiShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+              Add to Cart
+            </motion.button>
+          )}
+        </div>
       </div>
     </motion.div>
   );
