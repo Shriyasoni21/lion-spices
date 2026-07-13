@@ -1,34 +1,113 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import SearchBar from '../components/SearchBar';
 import FilterSidebar from '../components/FilterSidebar';
-import { products } from '../data/productData';
 import { useCart } from '../context/CartContext';
+
+import { API_BASE_URL } from '../utils/apiClient';
 
 export default function ProductsPage() {
   const { addToCart } = useCart();
   const location = useLocation();
   const highlightSpices = location.state?.highlight || [];
   const [search, setSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [categories, setCategories] = useState(['All']);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadProducts = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/products`, { signal: controller.signal });
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError('Unable to load products right now.');
+          setProducts([]);
+          return;
+        }
+
+        const productList = Array.isArray(data.products) ? data.products : Array.isArray(data) ? data : [];
+        if (productList.length > 0) {
+          setProducts(productList);
+          setError('');
+        } else {
+          setProducts([]);
+          setError('Unable to load products right now.');
+        }
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          return;
+        }
+        console.error('Failed to load products:', err);
+        setError('Unable to load products right now.');
+        setProducts([]);
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadProducts();
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const loadCategories = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/categories`, { signal: controller.signal });
+        const data = await response.json();
+
+        if (!Array.isArray(data)) return;
+
+        const names = data
+          .map((category) => category?.name)
+          .filter(Boolean)
+          .sort((a, b) => a.localeCompare(b));
+
+        setCategories(['All', ...names]);
+      } catch (err) {
+        console.warn('Failed to load product categories:', err);
+      }
+    };
+
+    loadCategories();
+    return () => controller.abort();
+  }, []);
 
   const handleSearchChange = (value) => {
     setSearch(value);
   };
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+  };
+
   const filteredProducts = useMemo(() => {
     const query = search.toLowerCase();
-    let list = products.filter((product) => {
-      const matchesSearch =
-        product.title.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query) ||
-        product.category.toLowerCase().includes(query);
-      const matchesHighlight = highlightSpices.length === 0 || highlightSpices.includes(product.title);
-      return matchesSearch && matchesHighlight;
-    });
 
-    return list.sort((a, b) => a.id - b.id);
-  }, [search, highlightSpices]);
+    return products
+      .filter((product) => {
+        const text = `${product.title || ''} ${product.description || ''} ${product.category || ''}`.toLowerCase();
+        const matchesSearch = text.includes(query);
+        const matchesHighlight = highlightSpices.length === 0 || highlightSpices.includes(product.title);
+        const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+        return matchesSearch && matchesHighlight && matchesCategory;
+      })
+      .sort((a, b) =>
+        (a.legacyId || a._id || a.id || 0)
+          .toString()
+          .localeCompare((b.legacyId || b._id || b.id || 0).toString())
+      );
+  }, [search, selectedCategory, highlightSpices, products]);
 
   return (
     <main className="bg-cream pb-12 pt-24 text-gray-900 sm:pb-16 sm:pt-28">
@@ -41,10 +120,15 @@ export default function ProductsPage() {
             <Link to="/" className="rounded-full bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">Back to Home</Link>
             <Link to="/cart" className="rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">View Cart</Link>
           </div>
+          {error ? <p className="mt-4 text-sm text-red-600">{error}</p> : null}
         </div>
 
         <div className="mt-6 grid gap-6 lg:mt-8 lg:grid-cols-[300px_1fr]">
-          <FilterSidebar selectedCategory="All" />
+          <FilterSidebar
+            options={categories}
+            selectedCategory={selectedCategory}
+            onChange={handleCategoryChange}
+          />
 
           <div className="space-y-4 sm:space-y-6">
             <SearchBar value={search} onChange={handleSearchChange} />
@@ -57,9 +141,18 @@ export default function ProductsPage() {
             </div>
 
             <div className="grid gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} onAddToCart={(item, selectedVariant) => addToCart(item, selectedVariant, 1)} />
-              ))}
+              {loading
+                ? Array.from({ length: 6 }).map((_, index) => (
+                    <article key={index} className="animate-pulse rounded-[24px] border border-gray-100 bg-white p-6">
+                      <div className="h-44 rounded-[18px] bg-gray-200" />
+                      <div className="mt-4 h-5 w-3/4 rounded-full bg-gray-200" />
+                      <div className="mt-2 h-4 w-1/2 rounded-full bg-gray-200" />
+                      <div className="mt-4 h-10 rounded-full bg-gray-200" />
+                    </article>
+                  ))
+                : filteredProducts.map((product) => (
+                    <ProductCard key={product._id || product.legacyId || product.id} product={product} onAddToCart={(item, selectedVariant) => addToCart(item, selectedVariant, 1)} />
+                  ))}
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const filterOptions = ['All'];
+export default function FilterSidebar({ options = ['All'], selectedCategory, onChange }) {
+  const filterOptions = Array.isArray(options) && options.length > 0 ? options : ['All'];
 
-export default function FilterSidebar({ selectedCategory }) {
   return (
     <aside className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]">
       <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
@@ -11,6 +11,7 @@ export default function FilterSidebar({ selectedCategory }) {
           <button
             key={option}
             type="button"
+            onClick={() => onChange?.(option)}
             aria-pressed={selectedCategory === option}
             className={`w-full rounded-full px-4 py-3 text-left text-sm font-semibold transition duration-300 ${
               selectedCategory === option

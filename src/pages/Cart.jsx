@@ -2,19 +2,25 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
 import { useCart } from '../context/CartContext';
-import { imageAssets } from '../config/imageAssets';
+import { imageAssets } from '../config/imageAssets.js';
 import ImageWithFallback from '../components/common/ImageWithFallback';
+import { getProductImageSrc } from '../utils/imageHelpers';
 
 export default function CartPage() {
   const { cartItems, updateQuantity, removeFromCart, subtotal, deliveryCharge, finalTotal, clearCart } = useCart();
-  const [form, setForm] = useState({ name: '', phone: '', address: '', note: '' });
-  const [paymentMethod, setPaymentMethod] = useState('COD');
+  const [form, setForm] = useState({ name: '', phone: '', address: '' });
+  const [paymentMethod, setPaymentMethod] = useState('Cash on Delivery');
+  const [couponCode, setCouponCode] = useState('');
+  const [couponApplied, setCouponApplied] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderId, setOrderId] = useState('');
   const [placedOrder, setPlacedOrder] = useState(null);
 
-  const discount = useMemo(() => (subtotal >= 1200 ? 75 : 0), [subtotal]);
-  const payableTotal = useMemo(() => finalTotal - discount, [finalTotal, discount]);
+  const baseDiscount = useMemo(() => (subtotal >= 1200 ? 75 : 0), [subtotal]);
+  const couponDiscount = useMemo(() => (couponApplied && couponCode.trim().toUpperCase() === 'LION10' ? Math.min(Math.round(subtotal * 0.1), 100) : 0), [couponApplied, couponCode, subtotal]);
+  const discount = useMemo(() => baseDiscount + couponDiscount, [baseDiscount, couponDiscount]);
+  const gst = useMemo(() => Math.round((subtotal + deliveryCharge - discount) * 0.05), [subtotal, deliveryCharge, discount]);
+  const payableTotal = useMemo(() => subtotal + deliveryCharge + gst - discount, [subtotal, deliveryCharge, gst, discount]);
 
   const handlePlaceOrder = () => {
     if (cartItems.length === 0) return;
@@ -100,21 +106,21 @@ export default function CartPage() {
                 </div>
               ) : (
                 cartItems.map((item) => (
-                  <article key={`${item.id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[22px] border border-gray-100 bg-gray-50 p-4 md:flex-row md:items-center">
-                    <ImageWithFallback src={item.image} alt={item.title} className="h-20 w-20 rounded-[18px] object-contain" loading="lazy" />
+                  <article key={`${item._id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[22px] border border-gray-100 bg-gray-50 p-4 md:flex-row md:items-center">
+                    <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-20 w-20 rounded-[18px] object-contain" loading="lazy" />
                     <div className="flex-1">
                       <h2 className="text-xl font-semibold text-gray-900">{item.title}</h2>
                       <p className="mt-1 text-sm text-gray-500">Weight: {item.selectedWeight}</p>
                       <p className="mt-1 text-sm text-gray-500">₹{item.price} each</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <button onClick={() => updateQuantity(item.id, item.selectedWeight, -1)} className="h-9 w-9 rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm hover:bg-primary-red hover:text-white">−</button>
+                      <button onClick={() => updateQuantity(item._id, item.selectedWeight, -1)} className="h-9 w-9 rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm hover:bg-primary-red hover:text-white">−</button>
                       <span className="min-w-[1.8rem] text-center text-sm font-semibold">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, item.selectedWeight, 1)} className="h-9 w-9 rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm hover:bg-primary-red hover:text-white">+</button>
+                      <button onClick={() => updateQuantity(item._id, item.selectedWeight, 1)} className="h-9 w-9 rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm hover:bg-primary-red hover:text-white">+</button>
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-semibold text-primary-red">₹{item.price * item.quantity}</p>
-                      <button onClick={() => removeFromCart(item.id, item.selectedWeight)} className="mt-2 text-sm font-semibold text-red-600 hover:text-red-700">Remove</button>
+                      <button onClick={() => removeFromCart(item._id, item.selectedWeight)} className="mt-2 text-sm font-semibold text-red-600 hover:text-red-700">Remove</button>
                     </div>
                   </article>
                 ))
@@ -132,10 +138,7 @@ export default function CartPage() {
                 <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="98765 43210" />
               </label>
               <label className="text-sm font-medium text-gray-700 md:col-span-2">Delivery address
-                <textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} rows="3" className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="House no., street, city, pincode" />
-              </label>
-              <label className="text-sm font-medium text-gray-700 md:col-span-2">Delivery notes
-                <textarea value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} rows="2" className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="Leave at the gate / ring the bell" />
+                <textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} rows="3" className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="House no., street, area, landmark, PIN code" />
               </label>
             </div>
           </div>
@@ -146,18 +149,27 @@ export default function CartPage() {
             <h2 className="text-2xl font-bold text-gray-900">Order summary</h2>
             <div className="mt-6 space-y-3 text-sm text-gray-700">
               <div className="flex items-center justify-between"><span>Subtotal</span><strong>₹{subtotal}</strong></div>
-              <div className="flex items-center justify-between"><span>Delivery charge</span><strong>₹{deliveryCharge}</strong></div>
+              <div className="flex items-center justify-between"><span>GST</span><strong>₹{gst}</strong></div>
+              <div className="flex items-center justify-between"><span>Delivery</span><strong>₹{deliveryCharge}</strong></div>
               <div className="flex items-center justify-between"><span>Discount</span><strong>-₹{discount}</strong></div>
-              <div className="flex items-center justify-between border-t border-gray-100 pt-3 text-base font-semibold text-gray-900"><span>Total</span><strong>₹{payableTotal}</strong></div>
+              <div className="rounded-2xl border border-gray-100 bg-gray-50 p-3">
+                <label className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Coupon</label>
+                <div className="mt-2 flex gap-2">
+                  <input value={couponCode} onChange={(e) => setCouponCode(e.target.value)} placeholder="LION10" className="w-full rounded-full border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-primary-red" />
+                  <button onClick={() => setCouponApplied(true)} className="rounded-full bg-primary-red px-3 py-2 text-sm font-semibold text-white">Apply</button>
+                </div>
+                <p className="mt-2 text-xs text-gray-500">Use code LION10 for 10% off</p>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-100 pt-3 text-base font-semibold text-gray-900"><span>Grand Total</span><strong>₹{payableTotal}</strong></div>
             </div>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold text-gray-900">Payment choice</h3>
             <div className="mt-4 grid gap-3">
-              {['COD', 'UPI', 'Card'].map((option) => (
+              {['Cash on Delivery'].map((option) => (
                 <label key={option} className={`flex cursor-pointer items-center justify-between rounded-2xl border px-4 py-3 ${paymentMethod === option ? 'border-primary-red bg-red-50' : 'border-gray-200 bg-gray-50'}`}>
-                  <span className="text-sm font-semibold text-gray-800">{option === 'COD' ? 'Cash on delivery' : option === 'UPI' ? 'UPI / QR' : 'Card / Wallet'}</span>
+                  <span className="text-sm font-semibold text-gray-800">{option}</span>
                   <input type="radio" name="payment" checked={paymentMethod === option} onChange={() => setPaymentMethod(option)} className="h-4 w-4 text-primary-red focus:ring-primary-red" />
                 </label>
               ))}
@@ -172,7 +184,7 @@ export default function CartPage() {
               <button onClick={handleDownloadInvoice} className="mt-4 w-full rounded-full bg-primary-red px-4 py-3 text-sm font-semibold text-white hover:bg-red-700">Download invoice PDF</button>
             </div>
           ) : (
-            <button onClick={handlePlaceOrder} className="w-full rounded-full bg-primary-red px-5 py-3 text-sm font-semibold text-white hover:bg-red-700">Place order</button>
+            <Link to="/checkout" className="block w-full rounded-full bg-primary-red px-5 py-3 text-center text-sm font-semibold text-white hover:bg-red-700">Proceed to Checkout</Link>
           )}
 
           <Link to="/products" className="inline-flex text-sm font-semibold text-primary-red hover:text-red-700">Continue shopping</Link>

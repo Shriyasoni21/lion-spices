@@ -13,10 +13,10 @@ export default function RecipesPage() {
           <p className="mt-4 max-w-2xl text-gray-600">Explore premium spice-led recipes for everyday cooking and festive celebrations.</p>
         </div>
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-8 grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           {recipes.map((recipe) => (
             <article key={recipe.id} className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_22px_56px_-24px_rgba(0,0,0,0.45)]">
-              <ImageWithFallback src={recipe.image} alt={recipe.title} className="h-44 w-full rounded-[24px] object-cover" loading="lazy" />
+              <ImageWithFallback src={recipe.image} alt={recipe.title} className="h-52 w-full rounded-[24px] object-cover" loading="lazy" />
               <div className="mt-4 flex items-center justify-between text-sm text-gray-500">
                 <span>{recipe.cookTime}</span>
                 <span>{recipe.difficulty}</span>

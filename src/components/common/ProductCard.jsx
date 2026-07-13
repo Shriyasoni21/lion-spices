@@ -5,22 +5,26 @@ import { FiShoppingCart, FiStar } from 'react-icons/fi';
 import ImageWithFallback from './ImageWithFallback';
 import WeightSelector from '../WeightSelector';
 import { useCart } from '../../context/CartContext';
+import { getProductImageSrc } from '../../utils/imageHelpers';
 
 function ProductCard({ product, index = 0, onAddToCart }) {
-
+  const productDetailId = product._id ?? product.legacyId ?? product.id;
+  const productIdString = String(productDetailId || '');
+  const addToCartId = product._id ? String(product._id) : '';
+  const hasValidProductId = /^[0-9a-fA-F]{24}$/.test(addToCartId);
   const initialVariant = product.variants?.[0] || { weight: product.weight || '500g', price: product.price ?? 0 };
   const [selectedVariant, setSelectedVariant] = useState(initialVariant);
 
   useEffect(() => {
     const nextVariant = product.variants?.find((variant) => variant.weight === selectedVariant?.weight) || product.variants?.[0] || initialVariant;
     setSelectedVariant(nextVariant);
-  }, [product.id]);
+  }, [product._id, product.legacyId, product.id]);
 
   const price = selectedVariant?.price ?? product.price ?? 0;
   const { cartItems, addToCart, updateQuantity } = useCart();
 
   const currentCartItem = cartItems.find(
-    (it) => it.id === product.id && it.selectedWeight === (selectedVariant?.weight || product.weight)
+    (it) => it._id === addToCartId && it.selectedWeight === (selectedVariant?.weight || product.weight)
   );
   const currentQty = currentCartItem?.quantity ?? 0;
 
@@ -44,7 +48,7 @@ function ProductCard({ product, index = 0, onAddToCart }) {
           {product.rating}
         </div>
         <ImageWithFallback
-          src={product.image}
+          src={getProductImageSrc(product)}
           alt={product.title}
           className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
           width={360}
@@ -76,7 +80,7 @@ function ProductCard({ product, index = 0, onAddToCart }) {
 
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           <Link
-            to={`/product/${product.id}`}
+            to={`/product/${productIdString}`}
             state={{ selectedVariant }}
             className="flex h-11 items-center justify-center rounded-full border border-gray-200 bg-white px-4 text-sm font-semibold text-gray-700 transition hover:border-primary-red hover:text-primary-red"
           >
@@ -87,7 +91,7 @@ function ProductCard({ product, index = 0, onAddToCart }) {
             <div className="flex h-11 items-center justify-center gap-3 rounded-full border border-gray-200 bg-gray-50">
               <button
                 aria-label="decrease"
-                onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, -1)}
+                onClick={() => updateQuantity(addToCartId, selectedVariant?.weight || product.weight, -1)}
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm"
               >
                 −
@@ -95,7 +99,7 @@ function ProductCard({ product, index = 0, onAddToCart }) {
               <div className="text-sm font-semibold text-gray-900">{currentQty}</div>
               <button
                 aria-label="increase"
-                onClick={() => updateQuantity(product.id, selectedVariant?.weight || product.weight, 1)}
+                onClick={() => updateQuantity(addToCartId, selectedVariant?.weight || product.weight, 1)}
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-red text-lg font-semibold text-white shadow-sm"
               >
                 +

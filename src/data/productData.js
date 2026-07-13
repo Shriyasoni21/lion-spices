@@ -1,4 +1,4 @@
-import { imageAssets } from '../config/imageAssets';
+import { imageAssets } from '../config/imageAssets.js';
 
 export const products = [
   {
@@ -115,7 +115,6 @@ export const categories = [
     slug: 'pure-veg-masalas',
     image: imageAssets.products.turmericPowder,
     description: 'Turmeric, coriander, rai powder, and rai dal for authentic Indian cooking.',
-    count: 4
   },
   {
     id: 2,
@@ -123,7 +122,6 @@ export const categories = [
     slug: 'chilli-powders',
     image: imageAssets.products.redChilliPowder,
     description: 'Vibrant chilli powders and pickle-style masalas for bold flavor.',
-    count: 2
   }
 ];
 

@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../common/ProductCard';
-import { products } from '../../data/productData';
+import { API_BASE_URL } from '../../utils/apiClient';
 
 const FeaturedCategoriesSection = ({ onAddToCart }) => {
-  const featuredProducts = products.slice(0, 6);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`${API_BASE_URL}/api/products?limit=6`, { signal: controller.signal })
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.products) && data.products.length > 0) {
+          setFeaturedProducts(data.products);
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to load featured products from API:', err);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <section id="shop" className="bg-white py-10 sm:py-12 lg:py-16">
@@ -20,7 +36,7 @@ const FeaturedCategoriesSection = ({ onAddToCart }) => {
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {featuredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} onAddToCart={onAddToCart} />
+            <ProductCard key={product._id || product.legacyId || product.id} product={product} index={index} onAddToCart={onAddToCart} />
           ))}
         </div>
       </div>

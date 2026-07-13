@@ -2,9 +2,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
-import { categories } from '../../data/productData';
+import { imageAssets } from '../../config/imageAssets';
 
-const MotionLink = motion(Link);
+const featuredCategories = [
+  {
+    name: 'Chilli Powders',
+    description: 'Premium red chilli powder and achar mirchi.',
+    image: imageAssets.products.redChilliPowder,
+  },
+  {
+    name: 'Pure Veg Masalas',
+    description: 'Turmeric, coriander, rai powder and rai dal.',
+    image: imageAssets.products.turmericPowder,
+  },
+];
 
 const ProductCategorySection = () => {
   const containerVariants = {
@@ -13,9 +24,9 @@ const ProductCategorySection = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+        delayChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -23,25 +34,22 @@ const ProductCategorySection = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
-    }
+      transition: { duration: 0.6 },
+    },
   };
 
   return (
-    <section className="section-padding-lg bg-white relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-72 h-72 bg-turmeric/5 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-red/5 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div className="container-custom relative z-10">
+    <section className="bg-white py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-14"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: '-100px' }}
         >
           <p className="subheading text-primary-red mb-4">Our Collections</p>
-          <h2 className="section-heading mb-6">
+          <h2 className="section-heading mb-4">
             Explore Our <span className="text-primary-red">Premium Categories</span>
           </h2>
           <p className="section-copy mx-auto max-w-2xl">
@@ -50,45 +58,42 @@ const ProductCategorySection = () => {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2"
+          className="grid grid-cols-1 gap-6 md:grid-cols-2"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          {categories.map((category, idx) => (
-            <MotionLink
-              key={category.id}
-              to="/products"
-              className="group card-equal overflow-hidden transition-all duration-400 hover:-translate-y-2 hover:shadow-[0_25px_65px_-35px_rgba(15,23,42,0.18)] h-full"
+          {featuredCategories.map((category, idx) => (
+            <motion.div
+              key={category.name}
               variants={itemVariants}
-              whileHover={{ y: -8 }}
+              className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-gray-100 bg-cream p-5 shadow-[0_12px_35px_-20px_rgba(15,23,42,0.12)] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_24px_80px_-35px_rgba(15,23,42,0.18)]"
             >
-              <div className="relative card-image-hero overflow-hidden bg-white p-4">
+              <div className="flex h-[18rem] items-center justify-center rounded-[24px] bg-white p-6 shadow-sm md:h-[20rem]">
                 <img
                   src={category.image}
                   alt={category.name}
-                  className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-                <div className="absolute top-4 right-4 rounded-full bg-primary-red px-3 py-1 text-xs font-bold text-white shadow-lg">
-                  {category.count} Products
-                </div>
               </div>
 
-              <div className="flex h-full flex-col justify-between p-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{category.name}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{category.description}</p>
-                </div>
-                <div className="mt-6 inline-flex items-center gap-2 text-primary-red font-semibold">
-                  Explore Category
-                  <FiArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
+              <div className="mt-6 flex flex-1 flex-col items-start justify-center gap-4 text-left">
+                <h3 className="text-2xl font-semibold text-gray-900">{category.name}</h3>
+                <p className="text-[15px] leading-7 text-gray-600">{category.description}</p>
               </div>
-            </MotionLink>
+            </motion.div>
           ))}
         </motion.div>
+
+        <div className="mt-8 flex justify-center">
+          <Link
+            to="/products"
+            className="inline-flex items-center justify-center rounded-full bg-primary-red px-8 py-3 text-sm font-semibold text-white shadow-[0_16px_40px_-20px_rgba(220,38,38,0.8)] transition duration-300 hover:bg-red-700"
+          >
+            Explore →
+          </Link>
+        </div>
       </div>
     </section>
   );

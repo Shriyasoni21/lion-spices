@@ -2,20 +2,59 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiArrowLeft, FiShoppingCart, FiStar } from 'react-icons/fi';
-import { products } from '../data/productData';
 import WeightSelector from '../components/WeightSelector';
 import QuantitySelector from '../components/QuantitySelector';
 import { useCart } from '../context/CartContext';
 import ImageWithFallback from '../components/common/ImageWithFallback';
+import { getProductImageSrc } from '../utils/imageHelpers';
+
+import { API_BASE_URL } from '../utils/apiClient';
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const { addToCart } = useCart();
-  const product = products.find((item) => item.id === Number(id));
-  const [selectedVariant, setSelectedVariant] = useState(() => location.state?.selectedVariant || product?.variants?.[0] || { weight: product?.weight || '500g', price: product?.price ?? 0 });
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [shareMessage, setShareMessage] = useState('');
+
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`${API_BASE_URL}/api/products/${id}`, { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error('Product not found');
+        return res.json();
+      })
+      .then((data) => {
+        setProduct(data);
+      })
+      .catch((err) => {
+        console.error('Unable to load product:', err);
+        setError('Unable to load this product.');
+      })
+      .finally(() => setLoading(false));
+
+    return () => controller.abort();
+  }, [id]);
+
+  useEffect(() => {
+    if (!product?._id) return;
+    fetch(`${API_BASE_URL}/api/products/${product._id}/related`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setRelatedProducts(data);
+        }
+      })
+      .catch(() => {
+        setRelatedProducts([]);
+      });
+  }, [product]);
 
   useEffect(() => {
     if (!product) return;
@@ -25,18 +64,41 @@ export default function ProductDetailsPage() {
       return;
     }
 
-    if (!selectedVariant || !availableVariants.some((variant) => variant.weight === selectedVariant.weight)) {
-      setSelectedVariant(availableVariants[0]);
-    }
-  }, [product, selectedVariant?.weight]);
+    setSelectedVariant((current) => {
+      if (location.state?.selectedVariant) return location.state.selectedVariant;
+      if (current && availableVariants.some((variant) => variant.weight === current.weight)) {
+        return current;
+      }
+      return availableVariants[0];
+    });
+  }, [product, location.state]);
 
   const price = useMemo(() => selectedVariant?.price ?? product?.price ?? 0, [product, selectedVariant?.price]);
+
+  const handleShare = async () => {
+    const productUrl = `${window.location.origin}/product/${product?._id || product?.legacyId || product?.id}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: product?.title, text: `Check out ${product?.title} from Lion Spices.`, url: productUrl });
+        setShareMessage('Shared successfully');
+      } catch {
+        setShareMessage('Sharing cancelled');
+      }
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(productUrl);
+      setShareMessage('Product link copied');
+    }
+  };
+
+  if (loading) {
+    return <main className="pt-28 pb-16 text-center text-gray-600">Loading product details...</main>;
+  }
 
   if (!product) {
     return <main className="pt-28 pb-16 text-center text-gray-600">Product not found.</main>;
   }
 
-  const relatedProducts = products.filter((item) => item.id !== product.id && item.category === product.category).slice(0, 3);
+  const relatedProductsList = relatedProducts;
 
   return (
     <main className="bg-cream pb-16 pt-24 text-gray-900 sm:pt-28">
@@ -51,7 +113,12 @@ export default function ProductDetailsPage() {
           </div>
 
           <div className="mt-5 rounded-[28px] bg-[#fffaf5] p-4 sm:p-6">
-            <ImageWithFallback src={product.image} alt={product.title} className="mx-auto h-[300px] w-full max-w-[320px] object-contain object-center sm:h-[380px]" loading="eager" />
+            <ImageWithFallback
+              src={getProductImageSrc(product)}
+              alt={product.title}
+              className="mx-auto h-[300px] w-full max-w-[320px] object-contain object-center sm:h-[380px]"
+              loading="eager"
+            />
           </div>
         </motion.div>
 
@@ -85,7 +152,7 @@ export default function ProductDetailsPage() {
             <div>
               <p className="text-sm uppercase tracking-[0.18em] text-gray-400">Price</p>
               <p className="text-3xl font-bold text-primary-red">₹{price}</p>
-              <p className="mt-1 text-sm text-gray-500">{selectedVariant?.weight || product.weight}</p>
+              <p className="mt-1 text-sm text-gray-500">{selectedVariant?.weight || product.weight || product.variants?.[0]?.weight}</p>
             </div>
             <div className="text-right text-sm text-gray-500">
               <p>Total: ₹{price * quantity}</p>
@@ -118,19 +185,40 @@ export default function ProductDetailsPage() {
             </ul>
           </div>
 
-          <Link to="/products" className="mt-6 inline-flex text-sm font-semibold text-primary-red hover:text-red-700">← Back to all products</Link>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button onClick={handleShare} className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:border-primary-red hover:text-primary-red">Share Product</button>
+            <Link to="/products" className="inline-flex text-sm font-semibold text-primary-red hover:text-red-700">← Back to all products</Link>
+          </div>
+          {shareMessage && <p className="mt-3 text-sm text-gray-600">{shareMessage}</p>}
         </motion.div>
       </section>
 
       <section className="mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold text-gray-900">Related products</h2>
+        <div className="rounded-[28px] border border-gray-100 bg-white p-6 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.2)]">
+          <h2 className="text-2xl font-bold text-gray-900">Customer reviews</h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {[
+              { name: 'Riya M.', review: 'The flavor is rich and authentic. Loved the packaging.', rating: '5.0' },
+              { name: 'Sanjay K.', review: 'Fast delivery and excellent quality every time.', rating: '4.9' },
+              { name: 'Meera P.', review: 'Perfect for daily cooking and special occasions.', rating: '5.0' }
+            ].map((review) => (
+              <div key={review.name} className="rounded-[22px] border border-gray-100 bg-[#fffaf5] p-4">
+                <div className="flex items-center gap-1 text-amber-500"><FiStar className="fill-current" /> <span className="text-sm font-semibold text-gray-900">{review.rating}</span></div>
+                <p className="mt-3 text-sm leading-6 text-gray-700">“{review.review}”</p>
+                <p className="mt-3 text-sm font-semibold text-gray-900">{review.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <h2 className="mt-10 text-2xl font-bold text-gray-900">Related products</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {relatedProducts.map((item) => (
-            <article key={item.id} className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.2)]">
-              <ImageWithFallback src={item.image} alt={item.title} className="h-44 w-full rounded-[22px] object-contain" loading="lazy" />
+          {relatedProductsList.map((item) => (
+            <article key={item._id || item.id} className="rounded-[28px] border border-gray-100 bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.2)]">
+              <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-44 w-full rounded-[22px] object-contain" loading="lazy" />
               <h3 className="mt-4 text-xl font-semibold text-gray-900">{item.title}</h3>
               <p className="mt-2 text-sm text-gray-600">{item.description}</p>
-              <Link to={`/product/${item.id}`} className="mt-4 inline-flex rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white">View Details</Link>
+              <Link to={`/product/${item._id || item.legacyId || item.id}`} className="mt-4 inline-flex rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white">View Details</Link>
             </article>
           ))}
         </div>

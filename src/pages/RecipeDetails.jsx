@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { recipes } from '../data/recipeData';
-import { products } from '../data/productData';
 import ImageWithFallback from '../components/common/ImageWithFallback';
+import { API_BASE_URL } from '../utils/apiClient';
 
 export default function RecipeDetailsPage() {
   const { id } = useParams();
   const recipe = recipes.find((item) => item.id === Number(id));
+  const [relatedProducts, setRelatedProducts] = useState([]);
+
+  useEffect(() => {
+    if (!recipe) return;
+
+    const controller = new AbortController();
+    fetch(`${API_BASE_URL}/api/products`, { signal: controller.signal })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!Array.isArray(data.products)) return;
+        const related = data.products.filter((product) => recipe.spiceTags.some((tag) => tag === product.title));
+        setRelatedProducts(related);
+      })
+      .catch((err) => {
+        console.warn('Failed to load related products for recipe:', err);
+      });
+
+    return () => controller.abort();
+  }, [recipe]);
 
   if (!recipe) return <main className="pt-28 pb-16 text-center text-gray-600">Recipe not found.</main>;
-
-  const relatedProducts = products.filter((product) => recipe.spiceTags.some((tag) => tag === product.title));
 
   return (
     <main className="pt-28 bg-cream pb-16 text-gray-900">
@@ -60,11 +77,11 @@ export default function RecipeDetailsPage() {
         <h2 className="text-2xl font-bold text-gray-900">Related Products</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {relatedProducts.map((item) => (
-            <article key={item.id} className="rounded-[28px] bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]">
+            <article key={item._id || item.id} className="rounded-[28px] bg-white p-5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.35)]">
               <ImageWithFallback src={item.image} alt={item.title} className="h-44 w-full rounded-[22px] object-contain" loading="lazy" />
               <h3 className="mt-4 text-xl font-semibold text-gray-900">{item.title}</h3>
               <p className="mt-2 text-sm text-gray-600">{item.description}</p>
-              <Link to={`/product/${item.id}`} className="mt-4 inline-flex rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white">View Product</Link>
+              <Link to={`/product/${item._id || item.id}`} className="mt-4 inline-flex rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white">View Product</Link>
             </article>
           ))}
         </div>

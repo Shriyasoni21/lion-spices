@@ -8,7 +8,6 @@ import FeaturedCategoriesSection from './components/sections/FeaturedCategoriesS
 import WhyTrustSection from './components/sections/WhyTrustSection';
 import BestSellerProductsSection from './components/sections/BestSellerProductsSection';
 import SourceJourneySection from './components/sections/SourceJourneySection';
-import RecipeSection from './components/sections/RecipeSection';
 import TestimonialsSection from './components/sections/TestimonialsSection';
 import AboutSection from './components/sections/AboutSection';
 import NewsletterSection from './components/sections/NewsletterSection';
@@ -62,7 +61,6 @@ function App() {
       <WhyTrustSection />
       <BestSellerProductsSection onAddToCart={addToCart} />
       <SourceJourneySection />
-      <RecipeSection />
       <TestimonialsSection />
       <AboutSection />
       <NewsletterSection />

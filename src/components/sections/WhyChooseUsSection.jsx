@@ -109,7 +109,7 @@ const WhyChooseUsSection = () => {
         </motion.div>
 
         <motion.div
-          className="relative grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4 lg:gap-6"
+          className="relative grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 sm:gap-4 lg:gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"

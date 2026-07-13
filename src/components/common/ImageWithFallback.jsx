@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { DEFAULT_PRODUCT_IMAGE } from '../../utils/imageHelpers';
 
 export default function ImageWithFallback({
   src,
   alt,
-  fallbackSrc = '/images/products/lion-spices-trio.png',
+  fallbackSrc = DEFAULT_PRODUCT_IMAGE,
   className = '',
   loading = 'lazy',
   decoding = 'async',

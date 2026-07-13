@@ -19,14 +19,8 @@ export default function Navbar({ cartCount, onCartClick }) {
   }, []);
 
   useEffect(() => {
-    if (isSearchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [isSearchOpen]);
-
-  useEffect(() => {
     setIsMobileMenuOpen(false);
-  }, [location.pathname, location.hash]);
+  }, [location.pathname]);
 
   const handleNavbarSearch = (event) => {
     event.preventDefault();
@@ -46,16 +40,11 @@ export default function Navbar({ cartCount, onCartClick }) {
     { label: 'Recipes', href: '/recipes' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
+    { label: 'My Orders', href: '/my-orders' },
     { label: 'Cart', href: '/cart' },
   ];
 
-  const isActiveLink = (href) => {
-    if (href === location.pathname) return true;
-    if (href.startsWith('/#') && location.pathname === '/' && location.hash === href.slice(1)) {
-      return true;
-    }
-    return false;
-  };
+  const isActiveLink = (href) => href === location.pathname;
 
   return (
     <motion.header
@@ -63,14 +52,14 @@ export default function Navbar({ cartCount, onCartClick }) {
       initial={{ y: -40 }}
       animate={{ y: 0 }}
     >
-      <div className="mx-auto flex h-[60px] w-full max-w-7xl items-center justify-between gap-3 px-4 sm:h-[64px] sm:gap-4 sm:px-6 lg:h-[74px] lg:px-10">
+      <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between gap-3 px-4 sm:h-16 sm:gap-4 sm:px-6 lg:px-10">
         <Link to="/" className="flex shrink-0 items-center gap-2 transition-all duration-300 hover:-translate-y-px sm:gap-3" style={{ textDecoration: 'none' }}>
           <img
             src="/images/logo.jpg"
             alt="Lion Spices"
-            className="navbar-logo"
+            className="h-8 w-auto sm:h-9 lg:h-12"
           />
-          <span className="navbar-brand-text whitespace-nowrap text-[15px] font-bold uppercase leading-none tracking-[0.12em] text-gray-900 sm:text-[15px] lg:text-[26px] lg:tracking-[0.28em]">
+          <span className="navbar-brand-text whitespace-nowrap text-sm font-bold uppercase leading-none tracking-[0.12em] text-gray-900 sm:text-base lg:text-xl lg:tracking-[0.28em]">
             LION SPICES
           </span>
         </Link>

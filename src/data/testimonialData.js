@@ -1,4 +1,4 @@
-import { imageAssets } from '../config/imageAssets';
+import { imageAssets } from '../config/imageAssets.js';
 
 export const testimonials = [
   { 
