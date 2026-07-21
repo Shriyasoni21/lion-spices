@@ -1,5 +1,5 @@
-export const DEFAULT_PRODUCT_IMAGE = '/images/products/default-product.png';
-export const FALLBACK_PRODUCT_IMAGE = '/images/products/lion-spices-trio.png';
+export const DEFAULT_PRODUCT_IMAGE = '/images/products/chilli-powder-removebg-preview.png';
+export const FALLBACK_PRODUCT_IMAGE = '/images/products/chilli-powder-removebg-preview.png';
 
 const trimSlashes = (value) => value?.replace(/\s+/g, '').replace(/\/$/, '') || '';
 

@@ -27,10 +27,10 @@ export default function RecipeDetailsPage() {
     return () => controller.abort();
   }, [recipe]);
 
-  if (!recipe) return <main className="pt-28 pb-16 text-center text-gray-600">Recipe not found.</main>;
+  if (!recipe) return <main className="page-shell-compact text-center text-gray-600">Recipe not found.</main>;
 
   return (
-    <main className="pt-28 bg-cream pb-16 text-gray-900">
+    <main className="page-shell-compact bg-cream">
       <section className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
         <article className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
           <ImageWithFallback src={recipe.image} alt={recipe.title} className="h-[420px] w-full rounded-[28px] object-cover" loading="eager" />

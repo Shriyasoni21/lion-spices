@@ -3,7 +3,19 @@ import { toast } from 'react-hot-toast';
 import { API_BASE_URL } from '../utils/apiClient';
 import { normalizeProductImage, DEFAULT_PRODUCT_IMAGE } from '../utils/imageHelpers';
 
-const CartContext = createContext(null);
+const defaultCartContext = {
+  cartItems: [],
+  cartCount: 0,
+  subtotal: 0,
+  deliveryCharge: 0,
+  finalTotal: 0,
+  addToCart: () => {},
+  updateQuantity: () => {},
+  removeFromCart: () => {},
+  clearCart: () => {},
+};
+
+const CartContext = createContext(defaultCartContext);
 
 const isValidObjectId = (value) => /^[0-9a-fA-F]{24}$/.test(String(value));
 
@@ -92,6 +104,10 @@ export function CartProvider({ children }) {
       (item) => item._id === productIdString && item.selectedWeight === selectedWeight
     );
 
+    if (existing && existing.quantity < 0) {
+      console.warn('Detected invalid quantity, resetting to 1');
+    }
+
     const message = existing
       ? `Updated ${newItem.title} quantity in your cart.`
       : `Added ${newItem.title} to your cart.`;
@@ -117,7 +133,7 @@ export function CartProvider({ children }) {
       const next = prev
         .map((item) => {
           if (item._id === productId && item.selectedWeight === selectedWeight) {
-            const nextQuantity = item.quantity + amount;
+            const nextQuantity = Math.max(0, item.quantity + amount);
             if (nextQuantity <= 0) {
               actionMessage = `Removed ${item.title} from your cart.`;
               return null;
@@ -177,9 +193,5 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  const context = useContext(CartContext);
-  if (!context) {
-    throw new Error('useCart must be used inside CartProvider');
-  }
-  return context;
+  return useContext(CartContext);
 }

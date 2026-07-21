@@ -77,39 +77,37 @@ export default function CartPage() {
   };
 
   return (
-    <main className="bg-cream pb-12 pt-24 text-gray-900 sm:pb-16 sm:pt-28">
-      <section className="mx-auto grid max-w-7xl gap-4 px-4 sm:gap-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
-        <div className="space-y-8">
-          <div className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
+    <main className="page-shell-compact">
+      <section className="mx-auto grid max-w-7xl gap-5 px-4 sm:gap-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+        <div className="space-y-5">
+          <div className="rounded-[24px] border border-gray-200 bg-white p-5 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] md:h-[60px] w-auto object-contain shadow-sm" loading="lazy" />
+                <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] w-auto object-contain sm:h-[56px]" loading="lazy" />
                 <div>
-                  <p className="text-sm uppercase tracking-[0.28em] text-primary-red">Cart & Checkout</p>
-                  <h1 className="mt-2 text-3xl font-bold text-gray-900">Complete your spice order</h1>
+                  <p className="chip text-primary-red">Cart & checkout</p>
+                  <h1 className="mt-2 text-2xl font-semibold text-gray-900 sm:text-3xl">Complete your spice order</h1>
                 </div>
               </div>
-              <button onClick={clearCart} className="rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100">Clear Cart</button>
+              <button onClick={clearCart} className="btn-soft h-10 px-4">Clear cart</button>
             </div>
 
             <div className="mt-6 space-y-4">
               {cartItems.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-4 rounded-[24px] border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-gray-500 sm:p-10">
+                <div className="flex flex-col items-center justify-center gap-4 rounded-[22px] border border-dashed border-gray-200 bg-gray-50 p-6 text-center text-gray-500 sm:p-10">
                   <span className="text-6xl">🛒</span>
-                  <div className="space-y-2">
-                    <p className="text-xl font-semibold text-gray-900">Your Cart is Empty</p>
-                    <p className="text-sm text-gray-500">Explore our premium spices and start shopping.</p>
+                  <div>
+                    <p className="text-xl font-semibold text-gray-900">Your cart is empty</p>
+                    <p className="mt-2 text-sm text-gray-500">Explore our premium spices and start shopping.</p>
                   </div>
-                  <Link to="/products" className="inline-flex rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white hover:bg-red-700 transition">
-                    Continue Shopping
-                  </Link>
+                  <Link to="/products" className="btn-solid">Continue shopping</Link>
                 </div>
               ) : (
                 cartItems.map((item) => (
-                  <article key={`${item._id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[22px] border border-gray-100 bg-gray-50 p-4 md:flex-row md:items-center">
-                    <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-20 w-20 rounded-[18px] object-contain" loading="lazy" />
+                  <article key={`${item._id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[20px] border border-gray-200 bg-[#fffaf5] p-4 md:flex-row md:items-center">
+                    <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-20 w-20 rounded-[16px] object-contain" loading="lazy" />
                     <div className="flex-1">
-                      <h2 className="text-xl font-semibold text-gray-900">{item.title}</h2>
+                      <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
                       <p className="mt-1 text-sm text-gray-500">Weight: {item.selectedWeight}</p>
                       <p className="mt-1 text-sm text-gray-500">₹{item.price} each</p>
                     </div>
@@ -128,31 +126,25 @@ export default function CartPage() {
             </div>
           </div>
 
-          <div className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
-            <h2 className="text-2xl font-bold text-gray-900">Delivery details</h2>
+          <div className="rounded-[24px] border border-gray-200 bg-white p-5 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-6">
+            <h2 className="text-xl font-semibold text-gray-900">Delivery details</h2>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <label className="text-sm font-medium text-gray-700">Full name
-                <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="Aarav Sharma" />
-              </label>
-              <label className="text-sm font-medium text-gray-700">Phone number
-                <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="98765 43210" />
-              </label>
-              <label className="text-sm font-medium text-gray-700 md:col-span-2">Delivery address
-                <textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} rows="3" className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="House no., street, area, landmark, PIN code" />
-              </label>
+              <label className="text-sm font-medium text-gray-700">Full name<input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="Aarav Sharma" /></label>
+              <label className="text-sm font-medium text-gray-700">Phone number<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="98765 43210" /></label>
+              <label className="text-sm font-medium text-gray-700 md:col-span-2">Delivery address<textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} rows="3" className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="House no., street, area, landmark, PIN code" /></label>
             </div>
           </div>
         </div>
 
-        <aside className="space-y-8 rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
+        <aside className="space-y-5 rounded-[24px] border border-gray-200 bg-white p-5 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Order summary</h2>
-            <div className="mt-6 space-y-3 text-sm text-gray-700">
+            <h2 className="text-xl font-semibold text-gray-900">Order summary</h2>
+            <div className="mt-5 space-y-3 text-sm text-gray-700">
               <div className="flex items-center justify-between"><span>Subtotal</span><strong>₹{subtotal}</strong></div>
               <div className="flex items-center justify-between"><span>GST</span><strong>₹{gst}</strong></div>
               <div className="flex items-center justify-between"><span>Delivery</span><strong>₹{deliveryCharge}</strong></div>
               <div className="flex items-center justify-between"><span>Discount</span><strong>-₹{discount}</strong></div>
-              <div className="rounded-2xl border border-gray-100 bg-gray-50 p-3">
+              <div className="rounded-[20px] border border-gray-100 bg-gray-50 p-3">
                 <label className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">Coupon</label>
                 <div className="mt-2 flex gap-2">
                   <input value={couponCode} onChange={(e) => setCouponCode(e.target.value)} placeholder="LION10" className="w-full rounded-full border border-gray-200 bg-white px-3 py-2 text-sm outline-none focus:border-primary-red" />
@@ -177,14 +169,14 @@ export default function CartPage() {
           </div>
 
           {orderPlaced ? (
-            <div className="rounded-[28px] border border-green-200 bg-green-50 p-5 text-sm text-green-800">
+            <div className="rounded-[20px] border border-green-200 bg-green-50 p-5 text-sm text-green-800">
               <p className="text-base font-semibold">Order confirmed!</p>
               <p className="mt-1">Reference: {orderId}</p>
               <p className="mt-1">Your order is being prepared for delivery. Download the invoice below for your records.</p>
               <button onClick={handleDownloadInvoice} className="mt-4 w-full rounded-full bg-primary-red px-4 py-3 text-sm font-semibold text-white hover:bg-red-700">Download invoice PDF</button>
             </div>
           ) : (
-            <Link to="/checkout" className="block w-full rounded-full bg-primary-red px-5 py-3 text-center text-sm font-semibold text-white hover:bg-red-700">Proceed to Checkout</Link>
+            <Link to="/checkout" className="btn-solid block w-full">Proceed to checkout</Link>
           )}
 
           <Link to="/products" className="inline-flex text-sm font-semibold text-primary-red hover:text-red-700">Continue shopping</Link>

@@ -1,13 +1,10 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, '');
+export const API_BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, '') || '';
 
-if (!API_BASE_URL) {
-  throw new Error('Missing required environment variable VITE_API_URL. Set VITE_API_URL=http://localhost:4000 in the root .env file.');
-}
-
-console.log('API =', API_BASE_URL);
+console.log('API =', API_BASE_URL || '(relative /api)');
 
 export const apiFetch = async (endpoint, options = {}) => {
-  const url = `${API_BASE_URL}${endpoint}`;
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE_URL}${normalizedEndpoint}`;
   console.log('API request', { url, options });
 
   const headers = {

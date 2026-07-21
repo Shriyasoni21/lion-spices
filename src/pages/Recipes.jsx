@@ -5,9 +5,9 @@ import ImageWithFallback from '../components/common/ImageWithFallback';
 
 export default function RecipesPage() {
   return (
-    <main className="pt-28 bg-cream pb-16 text-gray-900">
+    <main className="page-shell-compact bg-cream">
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
+        <div className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)] sm:p-8">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-primary-red">Recipes</p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900 md:text-5xl">Crafted spice recipes</h1>
           <p className="mt-4 max-w-2xl text-gray-600">Explore premium spice-led recipes for everyday cooking and festive celebrations.</p>

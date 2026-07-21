@@ -84,7 +84,7 @@ export default function OrderSuccessPage() {
   };
 
   return (
-    <main className="pt-28 bg-cream pb-16 text-gray-900">
+    <main className="page-shell-compact bg-cream">
       <section className="mx-auto max-w-3xl rounded-[32px] bg-white p-10 text-center shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
         <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="mx-auto h-[42px] md:h-[60px] w-auto object-contain shadow-md" loading="lazy" />
         <p className="text-sm uppercase tracking-[0.28em] text-primary-red">Order confirmed</p>

@@ -38,7 +38,7 @@ const validateEmail = (value) => {
 };
 
 const validateAddress = (value) => {
-  return value.trim().length > 0;
+  return value.trim().length >= 10;
 };
 
 const validatePin = (value) => {
@@ -309,7 +309,7 @@ export default function CheckoutPage() {
 
   if (cartItems.length === 0) {
     return (
-      <main className="pt-28 bg-cream pb-16 text-gray-900">
+      <main className="page-shell-compact bg-cream">
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-[32px] bg-white p-10 text-center shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
             <p className="text-sm uppercase tracking-[0.28em] text-primary-red">Checkout</p>
@@ -323,115 +323,62 @@ export default function CheckoutPage() {
   }
 
   return (
-    <main className="bg-cream pb-16 pt-24 text-gray-900 sm:pt-28">
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
-        <article className="rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
-          <p className="text-sm uppercase tracking-[0.28em] text-primary-red">Checkout</p>
-          <h1 className="mt-3 text-4xl font-bold text-gray-900">Complete your order</h1>
+    <main className="page-shell-compact">
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+        <article className="rounded-[24px] border border-gray-200 bg-white p-6 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-8">
+          <p className="chip text-primary-red">Checkout</p>
+          <h1 className="mt-3 text-3xl font-semibold text-gray-900">Complete your order</h1>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <label className="text-sm text-gray-700">
               <span className="mb-1 block">Full Name</span>
-              <input
-                value={form.name}
-                onChange={(e) => updateField('name', e.target.value)}
-                onBlur={() => handleBlur('name')}
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100"
-              />
-              {touched.name && !validateName(form.name) ? (
-                <p className="mt-2 text-sm text-red-600">Please enter a valid full name (letters and spaces only, min 3 characters).</p>
-              ) : null}
+              <input value={form.name} onChange={(e) => updateField('name', e.target.value)} onBlur={() => handleBlur('name')} className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
+              {touched.name && !validateName(form.name) ? <p className="mt-2 text-sm text-red-600">Please enter a valid full name (letters and spaces only, min 3 characters).</p> : null}
             </label>
             <label className="text-sm text-gray-700">
               <span className="mb-1 block">Mobile Number</span>
-              <input
-                value={form.phone}
-                onChange={(e) => updatePhone(e.target.value)}
-                onBlur={() => handleBlur('phone')}
-                inputMode="numeric"
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100"
-              />
-              {touched.phone && !validatePhone(form.phone) ? (
-                <p className="mt-2 text-sm text-red-600">Please enter a valid 10-digit mobile number.</p>
-              ) : null}
+              <input value={form.phone} onChange={(e) => updatePhone(e.target.value)} onBlur={() => handleBlur('phone')} inputMode="numeric" className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
+              {touched.phone && !validatePhone(form.phone) ? <p className="mt-2 text-sm text-red-600">Please enter a valid 10-digit mobile number.</p> : null}
             </label>
             <label className="text-sm text-gray-700 md:col-span-2">
               <span className="mb-1 block">Email</span>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => updateField('email', e.target.value)}
-                onBlur={() => handleBlur('email')}
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100"
-              />
-              {touched.email && !validateEmail(form.email) ? (
-                <p className="mt-2 text-sm text-red-600">Please enter a valid email address.</p>
-              ) : null}
+              <input type="email" value={form.email} onChange={(e) => updateField('email', e.target.value)} onBlur={() => handleBlur('email')} className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
+              {touched.email && !validateEmail(form.email) ? <p className="mt-2 text-sm text-red-600">Please enter a valid email address.</p> : null}
             </label>
             <label className="text-sm text-gray-700 md:col-span-2">
               <span className="mb-1 block">Delivery Address</span>
-              <textarea
-                value={form.address}
-                onChange={(e) => updateField('address', e.target.value)}
-                onBlur={() => handleBlur('address')}
-                rows={4}
-                placeholder="House No, Street, Area, Landmark"
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100"
-              />
-              {touched.address && !validateAddress(form.address) ? (
-                <p className="mt-2 text-sm text-red-600">Please enter your delivery address.</p>
-              ) : null}
+              <textarea value={form.address} onChange={(e) => updateField('address', e.target.value)} onBlur={() => handleBlur('address')} rows={4} placeholder="House No, Street, Area, Landmark" className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
+              {touched.address && !validateAddress(form.address) ? <p className="mt-2 text-sm text-red-600">Please enter a delivery address with at least 10 characters.</p> : null}
             </label>
             <label className="text-sm text-gray-700">
               <span className="mb-1 block">PIN Code</span>
-              <input
-                value={form.pin}
-                onChange={(e) => updatePin(e.target.value)}
-                onBlur={() => {
-                  handleBlur('pin');
-                  fetchPinDetails(form.pin);
-                }}
-                inputMode="numeric"
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100"
-              />
-              {touched.pin && pinStatus === 'invalid' ? (
-                <p className="mt-2 text-sm text-red-600">Invalid PIN Code</p>
-              ) : null}
+              <input value={form.pin} onChange={(e) => updatePin(e.target.value)} onBlur={() => { handleBlur('pin'); fetchPinDetails(form.pin); }} inputMode="numeric" className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
+              {touched.pin && pinStatus === 'invalid' ? <p className="mt-2 text-sm text-red-600">Invalid PIN Code</p> : null}
             </label>
             <label className="text-sm text-gray-700">
               <span className="mb-1 block">City</span>
-              <input
-                readOnly
-                value={form.city}
-                className="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none"
-              />
+              <input readOnly value={form.city} className="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none" />
             </label>
             <label className="text-sm text-gray-700">
               <span className="mb-1 block">State</span>
-              <input
-                readOnly
-                value={form.state}
-                className="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none"
-              />
+              <input readOnly value={form.state} className="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none" />
             </label>
           </div>
 
-          <div className="mt-6 rounded-[28px] bg-gray-50 p-4">
+          <div className="mt-6 rounded-[20px] border border-gray-100 bg-gray-50 p-4">
             <h2 className="text-xl font-semibold text-gray-900">Payment Method</h2>
             <div className="mt-3 flex flex-wrap gap-3">
-              <button type="button" onClick={() => setPaymentMethod('Cash on Delivery')} className={`rounded-full px-4 py-2 text-sm font-semibold ${paymentMethod === 'Cash on Delivery' ? 'bg-primary-red text-white' : 'bg-white text-gray-700 border border-gray-200'}`}>
-                Cash on Delivery
-              </button>
+              <button type="button" onClick={() => setPaymentMethod('Cash on Delivery')} className={`rounded-full px-4 py-2 text-sm font-semibold ${paymentMethod === 'Cash on Delivery' ? 'bg-primary-red text-white' : 'bg-white text-gray-700 border border-gray-200'}`}>Cash on Delivery</button>
             </div>
             <p className="mt-3 text-sm text-gray-600">Pay in cash when your order arrives at the delivery address.</p>
           </div>
           {paymentError ? <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{paymentError}</p> : null}
         </article>
 
-        <aside className="rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
-          <h2 className="text-2xl font-bold text-gray-900">Order summary</h2>
+        <aside className="rounded-[24px] border border-gray-200 bg-white p-6 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-8">
+          <h2 className="text-2xl font-semibold text-gray-900">Order summary</h2>
           <div className="mt-5 space-y-3 text-sm text-gray-700">
             {cartItems.map((item) => (
-              <div key={`${item._id}-${item.selectedWeight}`} className="flex items-start justify-between gap-4 rounded-2xl bg-gray-50 p-3">
+              <div key={`${item._id}-${item.selectedWeight}`} className="flex items-start justify-between gap-4 rounded-[18px] bg-gray-50 p-3">
                 <div>
                   <p className="font-semibold text-gray-900">{item.title}</p>
                   <p>{item.selectedWeight} × {item.quantity}</p>
@@ -448,7 +395,7 @@ export default function CheckoutPage() {
             <div className="flex justify-between border-t border-gray-100 pt-3 text-base font-semibold text-gray-900"><span>Grand Total</span><strong>₹{payableTotal + gst}</strong></div>
           </div>
           <button onClick={handlePlaceOrder} disabled={!isFormValid || placingOrder} className="mt-6 w-full rounded-full bg-primary-red px-5 py-3 text-sm font-semibold text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-70">{placingOrder ? 'Processing...' : 'Place Order'}</button>
-          <Link to="/cart" className="mt-3 inline-flex text-sm font-semibold text-primary-red hover:text-red-700">Back to Cart</Link>
+          <Link to="/cart" className="mt-3 inline-flex text-sm font-semibold text-primary-red hover:text-red-700">Back to cart</Link>
         </aside>
       </section>
     </main>

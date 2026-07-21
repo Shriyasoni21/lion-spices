@@ -3,7 +3,7 @@ import { FiSearch } from 'react-icons/fi';
 
 export default function SearchBar({ value, onChange }) {
   return (
-    <label className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
+    <label className="flex items-center gap-3 rounded-full border border-gray-200 bg-white px-4 py-3 shadow-[0_8px_25px_-20px_rgba(15,23,42,0.25)]">
       <FiSearch className="text-gray-400" />
       <input
         type="text"

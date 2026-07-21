@@ -13,9 +13,21 @@ import { contactReplyTemplate } from './templates/contactReplyTemplate.js';
 import { adminNotificationTemplate } from './templates/adminNotificationTemplate.js';
 import { contactAdminNotificationTemplate } from './templates/contactAdminNotificationTemplate.js';
 
-const SUPPORT_EMAIL = process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || process.env.MAIL_FROM || process.env.SMTP_FROM || 'support@lionspices.com';
-const FROM_EMAIL = process.env.MAIL_FROM || process.env.SMTP_FROM || process.env.SMTP_USER || SUPPORT_EMAIL;
-const BUSINESS_EMAIL = process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || 'support@lionspices.com';
+const normalizeEmailPassword = (value = '') => String(value || '').trim().replace(/\s+/g, '');
+
+const getConfiguredEmailDetails = () => {
+  const email = process.env.EMAIL || process.env.SMTP_USER || '';
+  const password = normalizeEmailPassword(process.env.EMAIL_PASSWORD || process.env.SMTP_PASS || '');
+  const host = process.env.SMTP_HOST || 'smtp.gmail.com';
+  const port = Number(process.env.SMTP_PORT || (process.env.SMTP_SECURE === 'true' ? 465 : 587));
+  const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+
+  return { email, password, host, port, secure };
+};
+
+const SUPPORT_EMAIL = process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || process.env.MAIL_FROM || process.env.SMTP_FROM || process.env.EMAIL || 'support@lionspices.com';
+const FROM_EMAIL = process.env.MAIL_FROM || process.env.SMTP_FROM || process.env.EMAIL || process.env.SMTP_USER || SUPPORT_EMAIL;
+const BUSINESS_EMAIL = process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || process.env.EMAIL || 'support@lionspices.com';
 const SITE_URL = process.env.FRONTEND_URL || 'https://www.lionspices.com';
 
 const getLocalLogoPath = () => {
@@ -78,17 +90,20 @@ const getLogoUrl = async () => {
 };
 
 const createTransporter = () => {
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+  const { email, password, host, port, secure } = getConfiguredEmailDetails();
+
+  if (!email || !password) {
+    console.warn('[Email] Missing email configuration. Set EMAIL and EMAIL_PASSWORD (or SMTP_USER/SMTP_PASS) to enable SMTP delivery.');
     return null;
   }
 
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT || 587),
-    secure: process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT || 587) === 465,
+    host,
+    port,
+    secure,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: email,
+      pass: password,
     },
   });
 };
@@ -100,7 +115,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export const getSmtpTransporter = () => {
   transporter = transporter || createTransporter();
   if (!transporter) {
-    throw new Error('SMTP transporter is not configured');
+    throw new Error('Email service is not configured. Provide EMAIL and EMAIL_PASSWORD (or SMTP_USER/SMTP_PASS).');
   }
   return transporter;
 };
@@ -108,25 +123,46 @@ export const getSmtpTransporter = () => {
 export const verifySmtpConnection = async () => {
   transporter = createTransporter();
   if (!transporter) {
-    throw new Error('SMTP credentials are missing or incomplete');
+    throw new Error('Email service is not configured. Provide EMAIL and EMAIL_PASSWORD (or SMTP_USER/SMTP_PASS).');
   }
-  await transporter.verify();
-  return true;
+
+  try {
+    await transporter.verify();
+    console.log('[Email] SMTP connection successful.');
+    return true;
+  } catch (error) {
+    const message = String(error.message || error || 'Unknown SMTP error');
+    if (message.toLowerCase().includes('auth') || message.toLowerCase().includes('password') || message.toLowerCase().includes('username')) {
+      console.warn('[Email] Invalid email credentials. Verify that the Gmail address and Google App Password are correct.');
+    } else if (message.toLowerCase().includes('connect') || message.toLowerCase().includes('timed out')) {
+      console.warn('[Email] Unable to connect to the SMTP server. Check host, port, and network access.');
+    } else {
+      console.warn(`[Email] SMTP verification failed: ${message}`);
+    }
+    throw error;
+  }
 };
 
-export const waitForSmtpConnection = async ({ delay = 5000 } = {}) => {
+export const waitForSmtpConnection = async ({ delay = 5000, maxAttempts = 3 } = {}) => {
   let attempt = 0;
-  while (true) {
+  let lastError;
+
+  while (attempt < maxAttempts) {
     attempt += 1;
     try {
       await verifySmtpConnection();
       console.log(`SMTP connection verified after ${attempt} attempt(s)`);
       return;
     } catch (error) {
-      console.error(`SMTP verification failed on attempt ${attempt}: ${error.message}`);
-      await sleep(delay);
+      lastError = error;
+      console.warn(`[Email] SMTP attempt ${attempt} failed: ${error.message || error}`);
+      if (attempt < maxAttempts) {
+        await sleep(delay);
+      }
     }
   }
+
+  throw lastError || new Error('SMTP verification failed');
 };
 
 export const sendEmail = async (mailOptions) => {

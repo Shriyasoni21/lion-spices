@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Navbar Logo Styles */
 .navbar-logo {
   height: 36px;
   width: auto;
@@ -15,20 +14,13 @@
 }
 
 @media (min-width: 768px) {
-  .navbar-logo {
-    height: 40px;
-    width: auto;
-  }
+  .navbar-logo { height: 40px; }
 }
 
 @media (min-width: 1024px) {
-  .navbar-logo {
-    height: 48px;
-    width: auto;
-  }
+  .navbar-logo { height: 48px; }
 }
 
-/* Mobile Navbar Branding */
 @media (max-width: 767px) {
   .navbar-brand-text {
     display: inline-block;
@@ -37,7 +29,7 @@
     letter-spacing: 0.12em;
     white-space: nowrap;
   }
-  
+
   .navbar-icon {
     height: 40px;
     width: 40px;
@@ -45,18 +37,6 @@
 
   .container-custom {
     @apply px-4;
-  }
-
-  .section-padding {
-    @apply py-8;
-  }
-
-  .section-padding-lg {
-    @apply py-10;
-  }
-
-  .section-padding-xl {
-    @apply py-12;
   }
 }
 
@@ -68,25 +48,19 @@
   white-space: nowrap;
 }
 
-.navbar-logo + .navbar-brand-text {
-  margin-left: 8px;
-}
+.navbar-logo + .navbar-brand-text { margin-left: 8px; }
 
-/* Icon button styles */
 .btn-icon {
   @apply transition-all duration-200 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-red/50;
 }
 
-/* Image Fallback Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Poppins', sans-serif;
@@ -98,11 +72,7 @@ body {
   line-height: 1.6;
 }
 
-img,
-picture,
-video,
-canvas,
-svg {
+img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
   height: auto;
@@ -113,152 +83,92 @@ svg {
   scrollbar-width: none;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
 
-button,
-a {
-  transition: all 0.25s ease-in-out;
-}
+button, a { transition: all 0.2s ease-in-out; }
 
 ::selection {
-  background: rgba(220, 38, 38, 0.15);
+  background: rgba(220, 38, 38, 0.16);
   color: #3E2723;
 }
 
-/* ===== TYPOGRAPHY ===== */
-.heading-luxury {
-  @apply font-serif font-bold text-4xl leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-[4.5rem];
+.container-custom {
+  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
 
-.heading-premium {
-  @apply font-serif font-bold text-3xl leading-tight sm:text-4xl md:text-5xl;
+.page-shell {
+  @apply bg-[#fff7ed] pb-8 pt-8 text-gray-900 sm:pb-10 sm:pt-10;
 }
 
-.subheading {
-  @apply font-semibold text-sm uppercase tracking-wider sm:text-base;
+.page-shell-compact {
+  @apply bg-[#fff7ed] pb-8 pt-8 text-gray-900 sm:pb-10 sm:pt-10;
 }
 
-.heading-tertiary {
-  @apply font-serif font-semibold text-xl md:text-2xl;
+.page-section {
+  @apply py-8 sm:py-10;
 }
+
+.page-section-sm {
+  @apply py-6 sm:py-8;
+}
+
+.page-stack {
+  @apply mt-6 space-y-4 sm:mt-8 sm:space-y-6;
+}
+
+.panel-card {
+  @apply rounded-[24px] border border-gray-200 bg-white shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)];
+}
+
+.product-image-shell {
+  width: 260px;
+  height: 260px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-radius: 20px;
+  background: #fff7ef;
+}
+
+.product-image-shell img {
+  display: block;
+  max-width: 85%;
+  max-height: 85%;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.chip {
+  @apply inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-gray-700;
+}
+
+.btn-solid {
+  @apply inline-flex items-center justify-center rounded-full bg-primary-red px-5 py-3 text-sm font-semibold text-white hover:bg-red-700;
+}
+
+.btn-soft {
+  @apply inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 hover:border-primary-red hover:text-primary-red;
+}
+
+.text-muted { @apply text-sm leading-7 text-gray-600; }
 
 .section-heading {
-  @apply text-2xl font-extrabold text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl;
+  @apply text-2xl font-semibold text-gray-900 sm:text-3xl;
 }
 
 .section-copy {
-  @apply text-sm text-gray-600 leading-relaxed sm:text-base md:text-lg;
+  @apply text-sm text-gray-600 sm:text-base;
 }
 
-.section-padding {
-  @apply py-6 sm:py-8 md:py-12 lg:py-16;
-}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #FFF7ED; }
+::-webkit-scrollbar-thumb { background: #EAB308; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #DC2626; }
 
-.section-padding-lg {
-  @apply py-8 sm:py-10 md:py-14 lg:py-20;
-}
-
-.section-padding-xl {
-  @apply py-10 sm:py-12 md:py-16 lg:py-24;
-}
-
-/* ===== GLASSMORPHISM ===== */
-.glass {
-  @apply bg-white/10 backdrop-blur-md border border-white/20;
-}
-
-.glass-dark {
-  @apply bg-black/20 backdrop-blur-md border border-white/10;
-}
-
-/* ===== CARD STYLES ===== */
-.card-luxury {
-  @apply bg-white rounded-2xl shadow-luxury hover:shadow-luxury-lg transition-all duration-500;
-}
-
-.card-premium {
-  @apply bg-white rounded-3xl shadow-premium transition-all duration-500 border border-gray-100 transform-gpu;
-}
-
-.card-premium:hover {
-  @apply hover:-translate-y-1 hover:shadow-premium-lg;
-}
-
-.card-equal {
-  @apply h-full min-h-[24rem] rounded-[32px] border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 transform-gpu;
-}
-
-.card-equal:hover {
-  @apply hover:-translate-y-1 hover:shadow-premium-lg;
-}
-
-.card-hover-lift {
-  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-2;
-}
-
-/* ===== GRADIENTS ===== */
-.bg-gradient-radial {
-  background: radial-gradient(circle, var(--tw-gradient-stops));
-}
-
-.bg-gradient-gold {
-  background: linear-gradient(135deg, #EAB308, #CA8A04);
-}
-
-.bg-gradient-saffron {
-  background: linear-gradient(135deg, #F59E0B, #D97706);
-}
-
-.bg-gradient-premium {
-  background: linear-gradient(135deg, #DC2626, #991B1B);
-}
-
-/* ===== SECTION SPACING ===== */
-.section-padding {
-  @apply py-14 md:py-16 lg:py-20;
-}
-
-.section-padding-lg {
-  @apply py-16 md:py-20 lg:py-24;
-}
-
-.section-padding-xl {
-  @apply py-20 md:py-24 lg:py-28;
-}
-
-/* ===== SCROLLBAR STYLING ===== */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: #FFF7ED;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #EAB308;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #DC2626;
-}
-
-/* ===== UTILITY CLASSES ===== */
-.container-custom {
-  @apply max-w-7xl mx-auto px-6 sm:px-6 lg:px-8;
-}
-
-.btn-primary {
-  @apply inline-flex items-center justify-center gap-3 px-8 py-3 bg-gradient-spice text-white rounded-[14px] sm:rounded-[28px] font-semibold text-base sm:text-lg shadow-premium hover:shadow-premium-lg transition-all duration-300 transform-gpu;
-}
-
-.btn-secondary {
-  @apply inline-flex items-center justify-center gap-3 px-8 py-4 bg-turmeric text-dark-brown font-semibold rounded-[28px] text-lg shadow-md hover:shadow-lg transition-all duration-300 transform-gpu;
-}
 
 .btn-outline {
   @apply inline-flex items-center justify-center gap-3 px-8 py-4 border-2 border-primary-red text-primary-red rounded-[28px] font-semibold text-lg hover:bg-primary-red hover:text-white transition-all duration-300 transform-gpu;

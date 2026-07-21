@@ -2,12 +2,12 @@ const assetVersion = '20260624';
 const withVersion = (path) => `${path}?v=${assetVersion}`;
 
 const lionLogo = '/images/logo.jpg';
-const redChilliPacket = withVersion('/images/products/chilli-powder.jpg');
-const turmericPacket = withVersion('/images/products/turmeric-powder.jpg');
-const corianderPacket = withVersion('/images/products/coriander-powder.jpg');
-const aacharPacket = withVersion('/images/products/aachari-mirchi.jpg');
-const raiPowderPacket = withVersion('/images/products/rai-powder.jpeg');
-const raiDalPacket = withVersion('/images/products/rai-dal.jpg');
+const redChilliPacket = withVersion('/images/products/chilli-powder-removebg-preview.png');
+const turmericPacket = withVersion('/images/products/turmeric-powder-removebg-preview.png');
+const corianderPacket = withVersion('/images/products/coriander-powder-removebg-preview.png');
+const aacharPacket = withVersion('/images/products/aachari-mirchi-removebg-preview.png');
+const raiPowderPacket = withVersion('/images/products/rai-powder-removebg-preview.png');
+const raiDalPacket = withVersion('/images/products/rai-dal-removebg-preview.png');
 const recipePickle = withVersion('/images/recipes/aachar-special-pickle.jpg');
 const recipeCurry = withVersion('/images/recipes/spicy-red-chilli-curry.jpg');
 const recipeDal = withVersion('/images/recipes/traditional-turmeric-dal.jpg');

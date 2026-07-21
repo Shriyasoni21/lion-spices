@@ -4,9 +4,7 @@ import Navbar from './components/common/Navbar';
 import CartDrawer from './components/common/CartDrawer';
 import HeroSection from './components/sections/HeroSection';
 import ProductCategorySection from './components/sections/ProductCategorySection';
-import FeaturedCategoriesSection from './components/sections/FeaturedCategoriesSection';
 import WhyTrustSection from './components/sections/WhyTrustSection';
-import BestSellerProductsSection from './components/sections/BestSellerProductsSection';
 import SourceJourneySection from './components/sections/SourceJourneySection';
 import TestimonialsSection from './components/sections/TestimonialsSection';
 import AboutSection from './components/sections/AboutSection';
@@ -57,9 +55,7 @@ function App() {
       <Navbar cartCount={cartCount} onCartClick={toggleCartOpen} />
       <HeroSection />
       <ProductCategorySection />
-      <FeaturedCategoriesSection onAddToCart={addToCart} />
       <WhyTrustSection />
-      <BestSellerProductsSection onAddToCart={addToCart} />
       <SourceJourneySection />
       <TestimonialsSection />
       <AboutSection />

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function NotFoundPage() {
   return (
-    <main className="bg-cream min-h-screen pt-28 pb-16 text-gray-900 sm:pt-32">
+    <main className="min-h-screen bg-cream pt-16 pb-12 text-gray-900 sm:pt-20 sm:pb-16">
       <section className="mx-auto max-w-3xl rounded-[32px] bg-white p-10 text-center shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
         <p className="text-sm uppercase tracking-[0.28em] text-primary-red">Page not found</p>
         <h1 className="mt-4 text-5xl font-bold text-gray-900">404</h1>

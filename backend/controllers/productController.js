@@ -112,7 +112,16 @@ export const listProducts = async (req, res, next) => {
       .skip((Number(page) - 1) * Number(limit))
       .limit(Number(limit));
 
-    res.json({ products, total, page: Number(page), limit: Number(limit) });
+    const uniqueProducts = [];
+    const seenKeys = new Set();
+    for (const product of products) {
+      const key = String(product.legacyId || product.title || product._id || '');
+      if (seenKeys.has(key)) continue;
+      seenKeys.add(key);
+      uniqueProducts.push(product);
+    }
+
+    res.json({ products: uniqueProducts, total: Math.min(uniqueProducts.length, total), page: Number(page), limit: Number(limit) });
   } catch (err) {
     next(err);
   }

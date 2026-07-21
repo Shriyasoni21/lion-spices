@@ -32,7 +32,7 @@ import Product from './models/Product.js';
 import Category from './models/Category.js';
 import { products as seedProducts, categories as seedCategories } from '../src/data/productData.js';
 import { testimonials } from '../src/data/testimonialData.js';
-import { waitForSmtpConnection, sendSmtpTestEmailWithRetry } from './services/emailService.js';
+import { waitForSmtpConnection } from './services/emailService.js';
 
 const PORT = process.env.PORT || 4000;
 const app = express();
@@ -203,20 +203,8 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(errorHandler);
 
-const businessEmail = process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || process.env.MAIL_FROM || process.env.SMTP_USER || 'business@lionspices.com';
-const requiredEnvVars = [
-  'MONGODB_URI',
-  'JWT_SECRET',
-  'SMTP_HOST',
-  'SMTP_PORT',
-  'SMTP_USER',
-  'SMTP_PASS',
-  'CLOUDINARY_CLOUD_NAME',
-  'CLOUDINARY_API_KEY',
-  'CLOUDINARY_API_SECRET',
-  'ADMIN_EMAIL',
-  'ENABLE_ONLINE_PAYMENT',
-];
+const businessEmail = process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || process.env.MAIL_FROM || process.env.EMAIL || process.env.SMTP_USER || 'business@lionspices.com';
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
 
 const validateEnvironment = () => {
   const missing = requiredEnvVars.filter((name) => !process.env[name]);
@@ -224,7 +212,18 @@ const validateEnvironment = () => {
     console.error('Missing required environment variables:', missing.join(', '));
     return false;
   }
-  console.log('Environment Loaded: All required variables are present.');
+
+  if (!process.env.EMAIL && !process.env.SMTP_USER && !process.env.EMAIL_PASSWORD && !process.env.SMTP_PASS) {
+    console.warn('[Email] EMAIL and EMAIL_PASSWORD are not set. Email delivery will remain disabled until they are configured.');
+  } else {
+    console.log('[Email] Email service configuration detected.');
+  }
+
+  if (!process.env.PORT) {
+    console.log('[Server] PORT not set; using default 4000.');
+  }
+
+  console.log('Environment loaded. Core runtime variables are present.');
   return true;
 };
 
@@ -235,9 +234,13 @@ const startServer = async () => {
 
   await connectDB(process.env.MONGODB_URI);
   await seedInitialData();
-  await waitForSmtpConnection({ delay: 2000 });
-  await sendSmtpTestEmailWithRetry({ delay: 2000 });
-  console.log(`SMTP Status Report: Connected. Sample email sent to ${businessEmail}`);
+
+  try {
+    await waitForSmtpConnection({ delay: 2000 });
+    console.log(`[Email] SMTP startup check passed. Delivery will be enabled for ${businessEmail}.`);
+  } catch (error) {
+    console.warn('[Email] SMTP startup check failed; the API server will continue running without email delivery.', error.message || error);
+  }
 
   const configuredPort = Number(process.env.PORT || PORT);
   const actualPort = await new Promise((resolve, reject) => {

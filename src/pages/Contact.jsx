@@ -1,18 +1,95 @@
-import React, { useState } from 'react';
-import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
+import React, { useMemo, useState } from 'react';
+import { FiAlertCircle, FiCheckCircle, FiMail, FiMapPin, FiPhone, FiSend } from 'react-icons/fi';
 import { API_BASE_URL } from '../utils/apiClient';
 
+const initialForm = { name: '', email: '', phone: '', message: '' };
+const initialTouched = { name: false, email: false, phone: false, message: false };
+
+const validateName = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed) return 'Name is required.';
+  if (trimmed.length < 3) return 'Name must be at least 3 characters.';
+  if (trimmed.length > 50) return 'Name must be at most 50 characters.';
+  if (!/^[A-Za-z\s]+$/.test(trimmed)) return 'Name can only contain letters and spaces.';
+  return '';
+};
+
+const validateEmail = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed) return 'Email is required.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(trimmed)) return 'Please enter a valid email address.';
+  return '';
+};
+
+const validatePhone = (value) => {
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return 'Phone number is required.';
+  if (digits.length !== 10) return 'Phone number must contain exactly 10 digits.';
+  if (!/^[6-9]/.test(digits)) return 'Please enter a valid Indian mobile number.';
+  return '';
+};
+
+const validateMessage = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed) return 'Message is required.';
+  if (trimmed.length < 10) return 'Message must be at least 10 characters.';
+  if (trimmed.length > 500) return 'Message must be at most 500 characters.';
+  return '';
+};
+
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [touched, setTouched] = useState(initialTouched);
   const shopAddress = '14-4-274, Joshiwadi, Begum Bazaar, Hyderabad, Telangana, India';
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shopAddress)}`;
 
+  const errors = useMemo(
+    () => ({
+      name: validateName(form.name),
+      email: validateEmail(form.email),
+      phone: validatePhone(form.phone),
+      message: validateMessage(form.message),
+    }),
+    [form.name, form.email, form.phone, form.message]
+  );
+
+  const isFormValid = useMemo(() => Object.values(errors).every((error) => !error), [errors]);
+
+  const handleChange = (field, value) => {
+    setStatus(null);
+
+    if (field === 'phone') {
+      const digits = value.replace(/\D/g, '').slice(0, 10);
+      setForm((prev) => ({ ...prev, phone: digits }));
+      return;
+    }
+
+    if (field === 'name') {
+      setForm((prev) => ({ ...prev, name: value.replace(/[^A-Za-z\s]/g, '').slice(0, 50) }));
+      return;
+    }
+
+    if (field === 'message') {
+      setForm((prev) => ({ ...prev, message: value.slice(0, 500) }));
+      return;
+    }
+
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleBlur = (field) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
-      setStatus({ type: 'error', message: 'Please complete all required fields.' });
+    const nextTouched = { name: true, email: true, phone: true, message: true };
+    setTouched(nextTouched);
+
+    if (!isFormValid) {
+      setStatus({ type: 'error', message: 'Please fix the highlighted fields before submitting.' });
       return;
     }
 
@@ -29,7 +106,8 @@ export default function ContactPage() {
 
       if (response.ok) {
         setStatus({ type: 'success', message: data.message || 'Your message has been received. We will contact you soon.' });
-        setForm({ name: '', email: '', phone: '', message: '' });
+        setForm(initialForm);
+        setTouched(initialTouched);
       } else {
         setStatus({ type: 'error', message: data.message || 'Unable to send your message at the moment.' });
       }
@@ -41,9 +119,46 @@ export default function ContactPage() {
     }
   };
 
+  const renderField = (field, label, type = 'text', placeholder, rows) => {
+    const error = errors[field];
+    const isValid = !error && form[field].trim().length > 0;
+    const showError = touched[field] && error;
+    const showSuccess = touched[field] && isValid;
+
+    return (
+      <label className="block text-sm text-gray-700">
+        <span className="mb-2 flex items-center justify-between text-sm font-semibold text-gray-800">
+          <span>{label}</span>
+          {showSuccess ? <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-600"><FiCheckCircle className="h-4 w-4" /> Looks good</span> : null}
+        </span>
+        {rows ? (
+          <textarea
+            value={form[field]}
+            onChange={(e) => handleChange(field, e.target.value)}
+            onBlur={() => handleBlur(field)}
+            rows={rows}
+            placeholder={placeholder}
+            className={`min-h-[140px] w-full rounded-[20px] border bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-primary-red focus:ring-2 focus:ring-red-100 ${showError ? 'border-red-300 bg-red-50' : showSuccess ? 'border-green-300 bg-green-50' : 'border-gray-200'}`}
+          />
+        ) : (
+          <input
+            type={type}
+            value={form[field]}
+            onChange={(e) => handleChange(field, e.target.value)}
+            onBlur={() => handleBlur(field)}
+            placeholder={placeholder}
+            maxLength={field === 'phone' ? 10 : field === 'name' ? 50 : undefined}
+            className={`w-full rounded-[20px] border bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-primary-red focus:ring-2 focus:ring-red-100 ${showError ? 'border-red-300 bg-red-50' : showSuccess ? 'border-green-300 bg-green-50' : 'border-gray-200'}`}
+          />
+        )}
+        {showError ? <p className="mt-2 flex items-center gap-2 text-sm text-red-600"><FiAlertCircle className="h-4 w-4" />{error}</p> : null}
+      </label>
+    );
+  };
+
   return (
-    <main className="bg-gradient-to-b from-cream via-[#fff7ed] to-white pb-16 pt-28 text-gray-900 sm:pt-32">
-      <section className="container-custom grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+    <main className="page-shell-compact bg-gradient-to-b from-cream via-[#fff7ed] to-white">
+      <section className="container-custom grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[36px] border border-gray-200 bg-white p-8 shadow-[0_24px_80px_-40px_rgba(15,23,42,0.18)]">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-red">Contact Us</p>
           <h1 className="mt-4 text-4xl font-extrabold text-gray-900 sm:text-5xl">Let’s talk spices</h1>
@@ -101,31 +216,17 @@ export default function ContactPage() {
           <p className="mt-4 text-base leading-8 text-gray-600">Share your questions, orders or wholesale inquiries and our team will respond quickly.</p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-            {['name', 'email', 'phone'].map((field) => (
-              <label key={field} className="block text-sm text-gray-700">
-                <span className="mb-2 block capitalize text-sm font-semibold">{field}</span>
-                <input
-                  type={field === 'email' ? 'email' : 'text'}
-                  value={form[field]}
-                  onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                  className="w-full rounded-[20px] border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-primary-red focus:ring-2 focus:ring-red-100"
-                />
-              </label>
-            ))}
-            <label className="block text-sm text-gray-700">
-              <span className="mb-2 block text-sm font-semibold">Message</span>
-              <textarea
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                rows="6"
-                className="w-full rounded-[20px] border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-primary-red focus:ring-2 focus:ring-red-100"
-              />
-            </label>
+            {renderField('name', 'Full name', 'text', 'Enter your full name')}
+            {renderField('email', 'Email address', 'email', 'you@example.com')}
+            {renderField('phone', 'Phone number', 'tel', 'Enter 10-digit mobile number')}
+            {renderField('message', 'Message', 'text', 'Tell us how we can help', 6)}
+
             <button
               type="submit"
-              disabled={submitting}
-              className="inline-flex h-12 items-center justify-center rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={submitting || !isFormValid}
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
+              <FiSend className="h-4 w-4" />
               {submitting ? 'Sending...' : 'Send Message'}
             </button>
             {status && (

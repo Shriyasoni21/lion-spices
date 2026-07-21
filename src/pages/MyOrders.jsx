@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
 import ImageWithFallback from '../components/common/ImageWithFallback';
 import { getProductImageSrc } from '../utils/imageHelpers';
-
-import { API_BASE_URL } from '../utils/apiClient';
+import { apiFetch } from '../utils/apiClient';
+import { getOrderLookupErrorMessage, validateEmailInput } from '../utils/orderLookup';
 
 export default function MyOrdersPage() {
   const [email, setEmail] = useState('');
@@ -11,30 +10,51 @@ export default function MyOrdersPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [searched, setSearched] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const isEmailValid = useMemo(() => validateEmailInput(email) === '', [email]);
 
   const handleLookup = async (event) => {
     event.preventDefault();
-    if (!email.trim()) {
-      setError('Please enter your email to lookup orders.');
+    const trimmedEmail = email.trim();
+    const emailError = validateEmailInput(trimmedEmail);
+
+    if (emailError) {
+      setError(emailError);
+      setOrders([]);
+      setSearched(true);
+      setSuccessMessage('');
       return;
     }
 
     setLoading(true);
     setError('');
     setSearched(true);
+    setSuccessMessage('');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/orders/guest?email=${encodeURIComponent(email.trim())}`);
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        throw new Error(errorResponse.message || 'Unable to load orders.');
+      const payload = await apiFetch(`/api/orders/guest?email=${encodeURIComponent(trimmedEmail)}`, {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      });
+
+      const normalizedOrders = Array.isArray(payload?.orders)
+        ? payload.orders
+        : Array.isArray(payload)
+          ? payload
+          : [];
+
+      setOrders(normalizedOrders);
+      setSuccessMessage(normalizedOrders.length > 0 ? 'Your order has been found successfully.' : 'No orders found for this email.');
+      if (normalizedOrders.length === 0) {
+        setError('');
       }
-      const data = await response.json();
-      setOrders(data || []);
     } catch (err) {
       console.error('Order lookup failed:', err);
-      setError(err.message || 'Unable to retrieve orders.');
+      const friendlyMessage = getOrderLookupErrorMessage(err);
+      setError(friendlyMessage);
       setOrders([]);
+      setSuccessMessage('');
     } finally {
       setLoading(false);
     }
@@ -56,9 +76,9 @@ export default function MyOrdersPage() {
   };
 
   return (
-    <main className="bg-cream pb-16 pt-24 text-gray-900 sm:pt-28">
+    <main className="page-shell-compact bg-cream">
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.25)] sm:p-8">
+        <div className="rounded-[32px] border border-gray-100 bg-white p-5 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.25)] sm:p-8">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary-red">My Orders</p>
           <h1 className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl">Track your Lion Spices orders</h1>
           <p className="mt-3 text-sm text-gray-600 sm:text-base">Lookup your orders using the email address used during checkout.</p>
@@ -71,15 +91,29 @@ export default function MyOrdersPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100"
+                className={`w-full rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-primary-red focus:ring-2 focus:ring-red-100 ${!isEmailValid && email ? 'border-red-300' : 'border-gray-200'}`}
               />
             </label>
-            <button type="submit" className="rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white hover:bg-red-700 transition">
+            <button type="submit" disabled={loading || !isEmailValid} className="rounded-full bg-primary-red px-6 py-3 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60">
               {loading ? 'Searching...' : 'Lookup Orders'}
             </button>
           </form>
-          {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
-          {searched && !loading && orders.length === 0 && !error && (
+
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            {error ? <p className="text-sm text-red-600">{error}</p> : null}
+            {successMessage ? <p className="text-sm text-emerald-600">{successMessage}</p> : null}
+          </div>
+
+          {loading ? (
+            <div className="mt-5 rounded-[24px] border border-gray-100 bg-gray-50 p-6 text-sm text-gray-600">
+              <div className="flex items-center gap-3">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-red border-t-transparent" />
+                <span>Searching for your orders...</span>
+              </div>
+            </div>
+          ) : null}
+
+          {searched && !loading && orders.length === 0 && !error && !successMessage && (
             <p className="mt-3 text-sm text-gray-600">No orders found for this email address.</p>
           )}
         </div>

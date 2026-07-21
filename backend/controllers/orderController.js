@@ -162,9 +162,18 @@ export const getOrdersForUser = async (req, res, next) => {
 export const getGuestOrders = async (req, res, next) => {
   try {
     const { email } = req.query;
-    if (!email) return res.status(400).json({ message: 'Email is required to lookup orders' });
-    const orders = await Order.find({ 'customer.email': email }).sort({ createdAt: -1 });
-    res.json(orders);
+    const trimmedEmail = typeof email === 'string' ? email.trim() : '';
+
+    if (!trimmedEmail) {
+      return res.status(400).json({ success: false, message: 'Email is required to lookup orders' });
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(trimmedEmail)) {
+      return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
+    }
+
+    const orders = await Order.find({ 'customer.email': trimmedEmail }).sort({ createdAt: -1 });
+    return res.json({ success: true, orders, count: orders.length });
   } catch (err) {
     next(err);
   }
