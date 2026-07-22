@@ -54,7 +54,7 @@ function App() {
       {isLoading && <LoadingScreen />}
 
       {/* Main content with top padding to account for fixed navbar */}
-      <div className="pt-12 sm:pt-20">
+      <div className="pt-12 sm:pt-20 md:pt-16 lg:pt-14">
         <Routes>
           <Route path="/" element={<HomePage onAddToCart={(product, selectedVariant) => { addToCart(product, selectedVariant, 1); setIsCartOpen(true); }} />} />
           <Route path="/products" element={<ProductsPage />} />
