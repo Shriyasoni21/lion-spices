@@ -20,7 +20,6 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import orderRoutes from './routes/orders.js';
-import adminRoutes from './routes/admin.js';
 import contactRoutes from './routes/contact.js';
 import categoryRoutes from './routes/categories.js';
 import reviewRoutes from './routes/reviews.js';
@@ -37,14 +36,26 @@ import { waitForSmtpConnection } from './services/emailService.js';
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-const allowedFrontendUrls = [
-  process.env.FRONTEND_URL || 'http://localhost:5173',
-  'http://localhost:4173',
-  'http://127.0.0.1:4173',
-  'http://127.0.0.1:5173',
+const defaultAllowedOrigins = [
+  process.env.FRONTEND_URL,
   'http://localhost:3000',
   'http://127.0.0.1:3000',
-];
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:4173',
+  'http://127.0.0.1:4173',
+  'https://lion-spices.netlify.app',
+  'https://lionspices.netlify.app',
+  'https://lion-spices.onrender.com',
+  'https://lionspices.onrender.com',
+].filter(Boolean);
+
+const extraAllowedOrigins = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedFrontendUrls = [...new Set([...defaultAllowedOrigins, ...extraAllowedOrigins])];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -92,6 +103,20 @@ app.use((req, res, next) => {
   next();
 });
 
+const escapeRegExp = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const buildProductMatchQuery = (product) => {
+  if (Number.isFinite(Number(product.id))) {
+    return { legacyId: Number(product.id) };
+  }
+
+  if (product.title) {
+    return { title: { $regex: new RegExp(`^${escapeRegExp(product.title)}$`, 'i') } };
+  }
+
+  return {};
+};
+
 const seedInitialData = async () => {
   try {
     const categoryCount = await Category.countDocuments();
@@ -104,26 +129,48 @@ const seedInitialData = async () => {
       console.log(`Seeded ${seedCategories.length} categories`);
     }
 
-    const productCount = await Product.countDocuments();
-    if (productCount === 0) {
-      const productsToSeed = seedProducts.map((product) => ({
-        legacyId: product.id,
-        title: product.title,
-        description: product.description,
-        longDescription: product.longDescription || product.description,
-        images: product.image ? [{ secure_url: product.image, public_id: '' }] : [],
-        price: product.price,
-        variants: product.variants || [],
-        sku: product.sku || '',
-        category: product.category,
-        bestSeller: Boolean(product.bestSeller),
-        rating: Number(product.rating) || 0,
-        reviewCount: Number(product.reviews) || 0,
-        tags: product.category ? [product.category] : [],
-      }));
-      await Product.insertMany(productsToSeed);
-      console.log(`Seeded ${productsToSeed.length} products`);
+    const productsToSeed = seedProducts.map((product) => ({
+      legacyId: product.id,
+      title: product.title,
+      description: product.description,
+      longDescription: product.longDescription || product.description,
+      images: product.image ? [{ secure_url: product.image, public_id: '' }] : [],
+      price: product.price,
+      variants: product.variants || [],
+      sku: product.sku || '',
+      category: product.category,
+      bestSeller: Boolean(product.bestSeller),
+      rating: Number(product.rating) || 0,
+      reviewCount: Number(product.reviews) || 0,
+      tags: product.category ? [product.category] : [],
+      isActive: true,
+    }));
+
+    const retainedProductIds = [];
+    for (const productPayload of productsToSeed) {
+      const matchQuery = buildProductMatchQuery({ id: productPayload.legacyId, title: productPayload.title });
+      const product = await Product.findOneAndUpdate(
+        matchQuery,
+        productPayload,
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+
+      const duplicateQuery = {
+        _id: { $ne: product._id },
+        $or: [
+          ...(Number.isFinite(Number(productPayload.legacyId)) ? [{ legacyId: Number(productPayload.legacyId) }] : []),
+          { title: { $regex: new RegExp(`^${escapeRegExp(productPayload.title)}$`, 'i') } },
+        ],
+      };
+
+      const duplicateResult = await Product.deleteMany(duplicateQuery);
+      if (duplicateResult.deletedCount) {
+        console.log(`[Seed] Removed ${duplicateResult.deletedCount} duplicate product record(s) for ${productPayload.title}`);
+      }
+      retainedProductIds.push(product._id);
     }
+
+    console.log(`Seeded/updated ${productsToSeed.length} products`);
   } catch (error) {
     console.error('Error seeding initial data:', error);
   }
@@ -172,7 +219,6 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api/admin', adminRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/webhooks', webhookRoutes);
 
@@ -213,8 +259,8 @@ const validateEnvironment = () => {
     return false;
   }
 
-  if (!process.env.EMAIL && !process.env.SMTP_USER && !process.env.EMAIL_PASSWORD && !process.env.SMTP_PASS) {
-    console.warn('[Email] EMAIL and EMAIL_PASSWORD are not set. Email delivery will remain disabled until they are configured.');
+  if (!process.env.EMAIL_USER && !process.env.EMAIL && !process.env.SMTP_USER && !process.env.EMAIL_PASSWORD && !process.env.SMTP_PASS) {
+    console.warn('[Email] EMAIL_USER/EMAIL_PASSWORD or SMTP_USER/SMTP_PASS are not set. Email delivery will remain disabled until they are configured.');
   } else {
     console.log('[Email] Email service configuration detected.');
   }

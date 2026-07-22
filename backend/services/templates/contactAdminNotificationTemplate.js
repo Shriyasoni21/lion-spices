@@ -11,7 +11,6 @@ export const contactAdminNotificationTemplate = ({ contact, siteUrl, supportEmai
         <p style="margin:0;line-height:1.7;color:#374151;">${contact.message?.replace(/\n/g, '<br/>') || 'No message provided.'}</p>
       </div>
       <p>Respond within 24 hours to ensure a great customer experience.</p>
-      <p><a href="${siteUrl}/admin/contact" class="button primary">View inquiry</a></p>
     </div>
     ${footerHtml(siteUrl, supportEmail)}
   `;

@@ -36,18 +36,22 @@ export const buildOrderPayload = ({
   id: orderId,
   orderId,
   paymentId,
-  customer,
+  customer: {
+    ...(customer || {}),
+    pin: customer?.pin || customer?.pincode || '',
+    pincode: customer?.pincode || customer?.pin || '',
+  },
   items: (items || [])
     .map((item) => {
-      const productId = item._id ? String(item._id) : undefined;
+      const productId = item._id ? String(item._id) : item.productId ? String(item.productId) : '';
       return {
         productId,
         name: item.name || item.title || '',
         title: item.title || item.name || '',
-        selectedWeight: item.selectedWeight || item.weight,
-        weight: item.selectedWeight || item.weight,
-        price: item.price,
-        quantity: item.quantity,
+        selectedWeight: item.selectedWeight || item.weight || '',
+        weight: item.selectedWeight || item.weight || '',
+        price: Number(item.price) || 0,
+        quantity: Number(item.quantity) || 1,
         image: item.image,
       };
     })

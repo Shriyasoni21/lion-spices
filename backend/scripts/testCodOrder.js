@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 async function run() {
-  const backendUrl = 'http://localhost:61857';
+  const backendUrl = process.env.VITE_API_URL?.replace(/\/$/, '') || 'http://localhost:4000';
   const productsRes = await fetch(`${backendUrl}/api/products`);
   if (!productsRes.ok) {
     throw new Error(`Products fetch failed ${productsRes.status}`);

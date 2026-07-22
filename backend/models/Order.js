@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const OrderItemSchema = new mongoose.Schema({
-  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+  productId: { type: String },
   title: String,
   selectedWeight: String,
   price: Number,
@@ -22,6 +22,7 @@ const OrderSchema = new mongoose.Schema({
     city: String,
     state: String,
     pin: String,
+    pincode: String,
     country: { type: String, default: 'India' },
   },
   subtotal: Number,

@@ -44,6 +44,23 @@ export const orderTable = (rows) => `
   </table>
 `;
 
+export const ownerOrderTable = (rows) => `
+  <table class="order-table" cellpadding="0" cellspacing="0" role="presentation">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Size</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows}
+    </tbody>
+  </table>
+`;
+
 export const logoHeader = (logoUrl, heading, preheader) => `
   <div class="hero">
     <img src="${logoUrl}" alt="Lion Spices" width="180" style="display:block;margin:0 auto 20px auto;border:0;outline:none;text-decoration:none;height:auto;" />

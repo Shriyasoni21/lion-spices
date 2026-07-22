@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../common/ProductCard';
+import MobileFeaturedCard from '../common/MobileFeaturedCard';
 import { API_BASE_URL } from '../../utils/apiClient';
 
 const FeaturedCategoriesSection = ({ onAddToCart }) => {
@@ -36,7 +37,12 @@ const FeaturedCategoriesSection = ({ onAddToCart }) => {
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {featuredProducts.map((product, index) => (
-            <ProductCard key={product._id || product.legacyId || product.id} product={product} index={index} onAddToCart={onAddToCart} />
+            <React.Fragment key={product._id || product.legacyId || product.id}>
+              <MobileFeaturedCard product={product} />
+              <div className="hidden sm:block">
+                <ProductCard product={product} index={index} onAddToCart={onAddToCart} />
+              </div>
+            </React.Fragment>
           ))}
         </div>
       </div>

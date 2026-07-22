@@ -78,10 +78,10 @@ export default function CartPage() {
 
   return (
     <main className="page-shell-compact">
-      <section className="mx-auto grid max-w-7xl gap-5 px-4 sm:gap-6 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
-        <div className="space-y-5">
+      <section className="mx-auto grid max-w-7xl gap-4 px-4 sm:gap-5 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+        <div className="space-y-4">
           <div className="rounded-[24px] border border-gray-200 bg-white p-5 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-6">
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <ImageWithFallback src={imageAssets.logo.main} alt="Lion Spices logo" className="h-[42px] w-auto object-contain sm:h-[56px]" loading="lazy" />
                 <div>
@@ -104,19 +104,19 @@ export default function CartPage() {
                 </div>
               ) : (
                 cartItems.map((item) => (
-                  <article key={`${item._id}-${item.selectedWeight}`} className="flex flex-col gap-4 rounded-[20px] border border-gray-200 bg-[#fffaf5] p-4 md:flex-row md:items-center">
+                  <article key={`${item._id}-${item.selectedWeight}`} className="flex flex-col gap-3 rounded-[20px] border border-gray-200 bg-[#fffaf5] p-4 md:flex-row md:items-center md:justify-between">
                     <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-20 w-20 rounded-[16px] object-contain" loading="lazy" />
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
                       <p className="mt-1 text-sm text-gray-500">Weight: {item.selectedWeight}</p>
                       <p className="mt-1 text-sm text-gray-500">₹{item.price} each</p>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <button onClick={() => updateQuantity(item._id, item.selectedWeight, -1)} className="h-9 w-9 rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm hover:bg-primary-red hover:text-white">−</button>
                       <span className="min-w-[1.8rem] text-center text-sm font-semibold">{item.quantity}</span>
                       <button onClick={() => updateQuantity(item._id, item.selectedWeight, 1)} className="h-9 w-9 rounded-full bg-white text-lg font-semibold text-gray-700 shadow-sm hover:bg-primary-red hover:text-white">+</button>
                     </div>
-                    <div className="text-right">
+                    <div className="text-right min-w-[6rem]">
                       <p className="text-lg font-semibold text-primary-red">₹{item.price * item.quantity}</p>
                       <button onClick={() => removeFromCart(item._id, item.selectedWeight)} className="mt-2 text-sm font-semibold text-red-600 hover:text-red-700">Remove</button>
                     </div>
@@ -129,9 +129,9 @@ export default function CartPage() {
           <div className="rounded-[24px] border border-gray-200 bg-white p-5 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-6">
             <h2 className="text-xl font-semibold text-gray-900">Delivery details</h2>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
-              <label className="text-sm font-medium text-gray-700">Full name<input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="Aarav Sharma" /></label>
-              <label className="text-sm font-medium text-gray-700">Phone number<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="98765 43210" /></label>
-              <label className="text-sm font-medium text-gray-700 md:col-span-2">Delivery address<textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} rows="3" className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="House no., street, area, landmark, PIN code" /></label>
+              <label className="min-w-0 text-sm font-medium text-gray-700">Full name<input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="Aarav Sharma" /></label>
+              <label className="min-w-0 text-sm font-medium text-gray-700">Phone number<input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="98765 43210" /></label>
+              <label className="min-w-0 text-sm font-medium text-gray-700 md:col-span-2">Delivery address<textarea value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} rows="3" className="mt-1 w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3" placeholder="House no., street, area, landmark, PIN code" /></label>
             </div>
           </div>
         </div>

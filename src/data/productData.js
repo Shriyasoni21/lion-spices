@@ -57,7 +57,7 @@ export const products = [
   },
   {
     id: 4,
-    title: 'Aachari Mirchi',
+    title: 'Aachar Mirchi',
     weight: '500g',
     price: 350,
     image: imageAssets.products.aacharMirchi,

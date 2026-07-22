@@ -53,22 +53,26 @@ function App() {
 
       {isLoading && <LoadingScreen />}
 
-      <Routes>
-        <Route path="/" element={<HomePage onAddToCart={(product, selectedVariant) => { addToCart(product, selectedVariant, 1); setIsCartOpen(true); }} />} />
-        <Route path="/products" element={<ProductsPage />} />
-        <Route path="/recipes" element={<RecipesPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/order-success" element={<OrderSuccessPage />} />
-        <Route path="/my-orders" element={<MyOrdersPage />} />
-        <Route path="/product/:id" element={<ProductDetailsPage />} />
-        <Route path="/recipe/:id" element={<RecipeDetailsPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      {/* Main content with top padding to account for fixed navbar */}
+      <div className="pt-12 sm:pt-20">
+        <Routes>
+          <Route path="/" element={<HomePage onAddToCart={(product, selectedVariant) => { addToCart(product, selectedVariant, 1); setIsCartOpen(true); }} />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/recipes" element={<RecipesPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/order-success" element={<OrderSuccessPage />} />
+          <Route path="/my-orders" element={<MyOrdersPage />} />
+          <Route path="/product/:id" element={<ProductDetailsPage />} />
+          <Route path="/products/:slug" element={<ProductDetailsPage />} />
+          <Route path="/recipe/:id" element={<RecipeDetailsPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
 
       <Footer />
       <ScrollToTopButton />

@@ -1,64 +1,48 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiAward, FiShield, FiStar, FiTruck } from 'react-icons/fi';
 import { imageAssets } from '../../config/imageAssets';
-import ImageWithFallback from '../common/ImageWithFallback';
 
-const trustItems = [
-  { icon: FiStar, label: '4.9 Customer Rating' },
-  { icon: FiShield, label: '100% Pure Veg' },
-  { icon: FiTruck, label: 'Fast Delivery' },
-  { icon: FiAward, label: '30+ Years Trust' },
-];
-
-const heroImages = [imageAssets.products.redChilliPowder, imageAssets.products.turmericPowder, imageAssets.products.corianderPowder];
-
-const HeroSection = () => {
+export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[linear-gradient(135deg,#fff7ed_0%,#fffdf9_100%)] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(220,38,38,0.08),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.1),transparent_35%)]" />
-
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
-        <div className="max-w-2xl">
-          <p className="chip text-primary-red">Lion Spices • Premium Quality</p>
-          <h1 className="mt-5 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-            Rediscover authentic Indian spices with calm, modern flavor.
-          </h1>
-          <p className="mt-5 max-w-xl text-base leading-7 text-gray-600">
-            Handpicked spice blends from trusted farms, packed with care and delivered to modern kitchens that value purity, aroma, and elegance.
-          </p>
-
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link to="/products" className="btn-solid">Shop premium spices</Link>
-            <Link to="/about" className="btn-soft">Our story</Link>
-          </div>
-
-          <div className="mt-8 grid gap-3 rounded-[24px] border border-gray-200 bg-white p-4 sm:grid-cols-2 sm:p-5">
-            {trustItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div key={item.label} className="flex items-center gap-3 rounded-2xl bg-[#fff7ef] px-4 py-3 text-sm text-gray-700">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary-red/10 text-primary-red">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <span className="font-semibold">{item.label}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="rounded-[28px] border border-gray-200 bg-white p-3 shadow-[0_12px_35px_-20px_rgba(15,23,42,0.24)] sm:p-4">
-          <div className="grid gap-3 md:grid-cols-[1.1fr_0.9fr]">
-            <div className="overflow-hidden rounded-[24px] bg-[#fff7ef] p-4">
-              <ImageWithFallback src={heroImages[0]} alt="Red Chilli Powder" className="h-full min-h-[260px] w-full object-contain" loading="eager" />
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(245,158,11,0.12),transparent_42%),#fff7ed] px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(245,158,11,0.08),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.08),transparent_35%)] opacity-30" />
+      <div className="relative z-10 container-custom">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center">
+          <div className="max-w-2xl">
+            <p className="chip text-primary-red">Lion Spices • Premium Quality</p>
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+              Refined Indian spices for elevated cooking and elegant flavour.
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-7 text-gray-600 sm:text-lg">
+              Crafted from heritage ingredients and curated for modern kitchens that value purity and premium taste.
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Link to="/products" className="btn-solid">Shop Products</Link>
+              <Link to="/about" className="btn-soft">Our Story</Link>
             </div>
-            <div className="grid gap-3">
-              <div className="overflow-hidden rounded-[24px] bg-[#fff7ef] p-3">
-                <ImageWithFallback src={heroImages[1]} alt="Turmeric Powder" className="h-[140px] w-full object-contain" loading="eager" />
-              </div>
-              <div className="overflow-hidden rounded-[24px] bg-[#fff7ef] p-3">
-                <ImageWithFallback src={heroImages[2]} alt="Coriander Powder" className="h-[140px] w-full object-contain" loading="eager" />
+          </div>
+
+          <div className="mx-auto w-full max-w-[440px]">
+            <div className="rounded-[34px] border border-stone-200/80 bg-white/70 p-3 shadow-[0_20px_45px_rgba(80,45,15,0.08)] sm:p-4">
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  { name: 'Red Chilli Powder', image: imageAssets.products.redChilliPowder },
+                  { name: 'Turmeric Powder', image: imageAssets.products.turmericPowder },
+                  { name: 'Coriander Powder', image: imageAssets.products.corianderPowder },
+                  { name: 'Rai Powder', image: imageAssets.products.raiPowder },
+                ].map((product) => (
+                  <div
+                    key={product.name}
+                    className="group flex min-h-[188px] flex-col items-center justify-center rounded-[26px] border border-stone-200/80 bg-[#f8efe3] p-3 text-center shadow-[0_8px_20px_rgba(80,45,15,0.05)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_30px_rgba(80,45,15,0.12)]"
+                  >
+                    <div className="flex h-28 w-full max-w-[120px] items-center justify-center rounded-[20px] bg-white/70 p-3">
+                      <img src={product.image} alt={product.name} className="h-24 w-24 object-contain sm:h-28 sm:w-28" />
+                    </div>
+                    <p className="mt-3 text-[13px] font-medium leading-5 tracking-[0.02em] text-stone-800 sm:text-[14px]">
+                      {product.name}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -66,6 +50,4 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
-
-export default HeroSection;
+}

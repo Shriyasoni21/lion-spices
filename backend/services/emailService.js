@@ -16,13 +16,14 @@ import { contactAdminNotificationTemplate } from './templates/contactAdminNotifi
 const normalizeEmailPassword = (value = '') => String(value || '').trim().replace(/\s+/g, '');
 
 const getConfiguredEmailDetails = () => {
-  const email = process.env.EMAIL || process.env.SMTP_USER || '';
+  const email = process.env.EMAIL_USER || process.env.EMAIL || process.env.SMTP_USER || '';
   const password = normalizeEmailPassword(process.env.EMAIL_PASSWORD || process.env.SMTP_PASS || '');
   const host = process.env.SMTP_HOST || 'smtp.gmail.com';
   const port = Number(process.env.SMTP_PORT || (process.env.SMTP_SECURE === 'true' ? 465 : 587));
   const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+  const service = process.env.SMTP_SERVICE || (email.toLowerCase().endsWith('@gmail.com') || host.toLowerCase().includes('gmail') ? 'gmail' : '');
 
-  return { email, password, host, port, secure };
+  return { email, password, host, port, secure, service };
 };
 
 const SUPPORT_EMAIL = process.env.ADMIN_EMAIL || process.env.CONTACT_EMAIL || process.env.MAIL_FROM || process.env.SMTP_FROM || process.env.EMAIL || 'support@lionspices.com';
@@ -90,11 +91,21 @@ const getLogoUrl = async () => {
 };
 
 const createTransporter = () => {
-  const { email, password, host, port, secure } = getConfiguredEmailDetails();
+  const { email, password, host, port, secure, service } = getConfiguredEmailDetails();
 
   if (!email || !password) {
-    console.warn('[Email] Missing email configuration. Set EMAIL and EMAIL_PASSWORD (or SMTP_USER/SMTP_PASS) to enable SMTP delivery.');
+    console.warn('[Email] Missing email configuration. Set EMAIL_USER/EMAIL_PASSWORD (or SMTP_USER/SMTP_PASS) to enable SMTP delivery.');
     return null;
+  }
+
+  if (service) {
+    return nodemailer.createTransport({
+      service,
+      auth: {
+        user: email,
+        pass: password,
+      },
+    });
   }
 
   return nodemailer.createTransport({
@@ -167,18 +178,23 @@ export const waitForSmtpConnection = async ({ delay = 5000, maxAttempts = 3 } = 
 
 export const sendEmail = async (mailOptions) => {
   const transport = getSmtpTransporter();
-  let timedOut = false;
-  const sendPromise = transport.sendMail(mailOptions).catch((err) => {
-    if (timedOut) return;
-    throw err;
-  });
-  const timeoutPromise = new Promise((_, reject) => {
-    const timer = setTimeout(() => {
-      timedOut = true;
-      reject(new Error('SMTP send timed out'));
-    }, 10000);
+  if (!transport) {
+    console.warn('[Email] SMTP transport is not configured. Skipping message send.');
+    return null;
+  }
+
+  const sendPromise = Promise.resolve()
+    .then(() => transport.sendMail(mailOptions))
+    .catch((error) => {
+      console.warn('[Email] Message send failed; continuing without email delivery:', error.message || error);
+      return null;
+    });
+
+  const timeoutPromise = new Promise((resolve) => {
+    const timer = setTimeout(() => resolve(null), 10000);
     sendPromise.finally(() => clearTimeout(timer));
   });
+
   return Promise.race([sendPromise, timeoutPromise]);
 };
 
@@ -260,8 +276,8 @@ export const sendOrderConfirmationEmail = async (order) => {
   const mailOptions = {
     from: FROM_EMAIL,
     to: order.customer.email,
-    subject: `Order confirmation from Lion Spices — ${order.orderId}`,
-    text: `Hi ${order.customer?.name || 'Customer'},\n\nYour order ${order.orderId} is confirmed. Total: ₹${Number(order.grandTotal || 0).toFixed(2)}. Payment method: ${order.paymentMethod || 'N/A'}.\n\nThank you for shopping with Lion Spices.`,
+    subject: `Lion Spices - Order Confirmation`,
+    text: `Hi ${order.customer?.name || 'Customer'},\n\nThank you for ordering from Lion Spices.\n\nYour order ${order.orderId} has been successfully placed.\n\nOrder ID: ${order.orderId}\nOrder Date: ${new Date(order.createdAt || Date.now()).toLocaleDateString('en-IN')}\n\nThank you for choosing Lion Spices.\n\nFreshly Packed.\n100% Authentic.\n\nwww.lionspices.in`,
     html,
   };
 

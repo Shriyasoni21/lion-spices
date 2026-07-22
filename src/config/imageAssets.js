@@ -1,4 +1,4 @@
-const assetVersion = '20260624';
+const assetVersion = '20260721';
 const withVersion = (path) => `${path}?v=${assetVersion}`;
 
 const lionLogo = '/images/logo.jpg';

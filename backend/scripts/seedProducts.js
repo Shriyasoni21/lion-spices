@@ -16,6 +16,20 @@ const normalizeImages = (product) => {
   return [{ secure_url: product.image, public_id: '' }];
 };
 
+const escapeRegExp = (value) => String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const buildProductMatchQuery = (product) => {
+  if (Number.isFinite(Number(product.id))) {
+    return { legacyId: Number(product.id) };
+  }
+
+  if (product.title) {
+    return { title: { $regex: new RegExp(`^${escapeRegExp(product.title)}$`, 'i') } };
+  }
+
+  return {};
+};
+
 const seedCategories = async () => {
   const results = [];
 
@@ -39,6 +53,7 @@ const seedCategories = async () => {
 
 const seedProducts = async () => {
   const results = [];
+  let removedDuplicates = 0;
 
   for (const product of products) {
     const payload = {
@@ -58,16 +73,27 @@ const seedProducts = async () => {
       isActive: true,
     };
 
+    const matchQuery = buildProductMatchQuery(product);
     const result = await Product.findOneAndUpdate(
-      { legacyId: product.id },
+      matchQuery,
       payload,
       { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
     );
 
+    const duplicateQuery = {
+      _id: { $ne: result._id },
+      $or: [
+        ...(Number.isFinite(Number(product.id)) ? [{ legacyId: Number(product.id) }] : []),
+        { title: { $regex: new RegExp(`^${escapeRegExp(product.title)}$`, 'i') } },
+      ],
+    };
+
+    const duplicateResult = await Product.deleteMany(duplicateQuery);
+    removedDuplicates += duplicateResult.deletedCount || 0;
     results.push(result);
   }
 
-  console.log(`Seeded/updated ${results.length} products.`);
+  console.log(`Seeded/updated ${results.length} products. Removed ${removedDuplicates} duplicate records.`);
 };
 
 const main = async () => {

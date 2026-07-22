@@ -142,6 +142,134 @@ button, a { transition: all 0.2s ease-in-out; }
   margin: 0 auto;
 }
 
+/* Standard product image container used for all product listings and detail views
+   - fixed container controls layout: height 220px, width 100%
+   - inner image is centered and constrained by max-height / max-width
+   - uses object-fit: contain (no object-cover, no h-auto on images) */
+.product-image-container {
+  width: 100%;
+  height: 220px;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff7ef;
+}
+
+.product-image-container img,
+.product-image {
+  display: block;
+  object-fit: contain !important;
+  max-height: 220px !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}
+
+@media (max-width: 1023px) {
+  .product-image-container {
+    height: 200px;
+  }
+}
+
+@media (max-width: 767px) {
+  .product-image-container {
+    height: 180px;
+  }
+}
+
+/* Hero showcase specific styles */
+.hero-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.hero-product-card {
+  border-radius: 28px;
+  background: #fff;
+  padding: 20px;
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+.hero-product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 26px 50px -30px rgba(15,23,42,0.18);
+}
+
+.hero-image-container {
+  width: 100%;
+  height: 220px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #fff7ef;
+  padding: 16px;
+}
+
+.hero-image-container .product-image,
+.hero-image-container img {
+  max-height: 100% !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  margin: 0 auto !important;
+  width: auto !important;
+}
+
+.hero-showcase-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 220px;
+  border-radius: 28px;
+  background: #ffffff;
+  padding: 1.5rem;
+  transition: transform 280ms ease, box-shadow 280ms ease;
+}
+
+.hero-showcase-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 45px -24px rgba(15,23,42,0.16);
+}
+
+.hero-showcase-image {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 24px;
+  background: #fff7ef;
+}
+
+.hero-showcase-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .hero-showcase { grid-template-columns: repeat(1, 1fr); }
+}
+
+.hero-nav-button:hover { background:#f7f3f0; transform: translateY(-2px); }
+
+@media (max-width: 767px) {
+  .hero-showcase { grid-template-columns: repeat(1, 1fr); }
+}
+
 .chip {
   @apply inline-flex items-center rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-gray-700;
 }
@@ -337,6 +465,138 @@ button, a { transition: all 0.2s ease-in-out; }
 
 .card-tilt:hover {
   transform: perspective(1000px) rotateX(-5deg) rotateY(5deg);
+}
+
+/* ===== MOBILE COMPACT LAYOUT ADJUSTMENTS ===== */
+@media (max-width: 480px) {
+  /* Make product cards more compact on small screens */
+  .product-card {
+    min-height: 0;
+    margin-bottom: 8px;
+  }
+
+  /* Limit product image height and ensure containment (uniform across products) */
+  .product-card > div:first-child {
+    height: 180px !important;
+    padding: 6px !important;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  .product-card img {
+    max-height: 180px !important;
+    width: auto !important;
+    object-fit: contain !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Mobile featured card image enforcement */
+  .mobile-featured-img {
+    height: 150px !important;
+    max-height: 150px !important;
+    width: auto !important;
+    object-fit: contain !important;
+    display: block;
+  }
+
+  /* Ensure any article images in the Featured section are capped on mobile */
+  #shop .grid article img {
+    max-height: 150px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Tighter paddings and smaller typography inside cards */
+  .product-card .p-2, .product-card .p-3,
+  .product-card .p-2\.5, .product-card .p-1\.5 {
+    padding: 6px !important;
+  }
+
+  .product-card h3 {
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+    padding: 0 4px;
+  }
+
+  /* Smaller buttons for compact look */
+  .product-card .btn-solid,
+  .product-card .btn-soft {
+    padding: 6px 8px !important;
+    height: 36px !important;
+    font-size: 13px !important;
+  }
+
+  /* Variant pills sizing */
+  .product-card .rounded-full {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+
+  /* Ensure weight option buttons share equal width on mobile */
+  .product-card .weight-options button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Fixed equal button width on very small screens for a pixel-perfect look */
+  @media (max-width: 420px) {
+    .product-card .weight-options button {
+      width: 80px !important;
+      flex: none !important;
+    }
+    .product-card .weight-options { gap: 6px !important; }
+  }
+
+  /* Visible focus styles for keyboard users */
+  button:focus-visible, a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.18); /* subtle red ring */
+    border-radius: 9999px;
+  }
+
+  /* Quantity controls smaller */
+  .product-card .flex.h-9 {
+    height: 36px !important;
+  }
+
+  /* Make add/details buttons balanced */
+  .product-card .btn-solid { border-radius: 10px; }
+  .product-card .btn-soft { border-radius: 10px; }
+
+  /* Reduce general spacings */
+  .product-card { padding: 6px !important; }
+
+  /* Reduce margins in product detail page sections */
+  .page-shell-compact section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  /* Tablets and larger phones: slightly larger but still compact */
+  .product-card > div:first-child { height: 200px !important; }
+  .product-card img { max-height: 240px !important; }
+}
+
+/* Footer responsive tweaks to always show all products compactly on small screens */
+@media (max-width: 480px) {
+  .footer-products {
+    font-size: 13px !important;
+    margin-top: 6px !important;
+  }
+
+  .footer-products li {
+    margin-bottom: 6px !important;
+  }
+
+  .footer-products a {
+    display: inline-block;
+    padding: 2px 0;
+  }
 }
 
 /* Premium Rating Stars */

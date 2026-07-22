@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { API_BASE_URL } from '../../utils/apiClient';
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -25,7 +25,7 @@ export default function ContactSection() {
 
       if (response.ok) {
         setStatus({ type: 'success', message: result.message });
-        setForm({ name: '', email: '', phone: '', message: '' });
+        setForm({ name: '', email: '', message: '' });
       } else {
         setStatus({ type: 'error', message: result.message || 'Failed to send message.' });
       }
@@ -38,38 +38,63 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="bg-gray-50 py-10 sm:py-16">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="bg-white py-12 sm:py-16">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6 text-center sm:mb-8">
-          <p className="text-sm font-semibold text-red-600">Get in Touch</p>
-          <h2 className="text-3xl font-extrabold text-gray-900">Contact Lion Spices</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary-red">Get in Touch</p>
+          <h2 className="mt-3 text-3xl font-extrabold text-gray-900 sm:text-4xl">Contact Lion Spices</h2>
+          <p className="mt-3 text-sm text-gray-600">We usually respond within 24 hours.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <input name="name" value={form.name} onChange={handleChange} required placeholder="Name" className="rounded-2xl border border-gray-200 px-4 py-3" />
-          <input name="email" value={form.email} onChange={handleChange} required placeholder="Email" className="rounded-2xl border border-gray-200 px-4 py-3" />
-          <input name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" className="rounded-2xl border border-gray-200 px-4 py-3 sm:col-span-2" />
-          <textarea name="message" value={form.message} onChange={handleChange} placeholder="Message" className="h-28 rounded-2xl border border-gray-200 px-4 py-3 sm:col-span-2" />
-          <div className="space-y-4 sm:col-span-2">
-            <div className="rounded-[24px] border border-gray-200 bg-white p-4 text-sm text-gray-700 shadow-sm sm:p-5">
-              <p className="font-semibold text-gray-900">Lion Spices</p>
-              <p className="mt-2">Email: <a href="mailto:krishloya789@gmail.com" className="text-red-600 hover:underline">krishloya789@gmail.com</a></p>
-              <p className="mt-2">Address: 14-4-274, Joshiwadi, Begum Bazaar, Hyderabad.</p>
+        <form onSubmit={handleSubmit} className="grid gap-4">
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            placeholder="Name"
+            className="rounded-[24px] border border-gray-200 bg-[#fff7ee] px-5 py-4 text-gray-900 shadow-sm focus:border-primary-red focus:outline-none"
+          />
+          <input
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            placeholder="Email"
+            className="rounded-[24px] border border-gray-200 bg-[#fff7ee] px-5 py-4 text-gray-900 shadow-sm focus:border-primary-red focus:outline-none"
+          />
+          <textarea
+            name="message"
+            value={form.message}
+            onChange={handleChange}
+            required
+            placeholder="Message"
+            className="min-h-[160px] rounded-[24px] border border-gray-200 bg-[#fff7ee] px-5 py-4 text-gray-900 shadow-sm focus:border-primary-red focus:outline-none"
+          />
+
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-1 text-sm text-gray-600">
+              <p>
+                Email: <a href="mailto:krishloya789@gmail.com" className="text-primary-red hover:underline">krishloya789@gmail.com</a>
+              </p>
+              <p>
+                WhatsApp: <a href="https://wa.me/919010782782" target="_blank" rel="noreferrer" className="text-primary-red hover:underline">+91 90107 82782</a>
+              </p>
             </div>
-            <div className="rounded-[24px] border border-gray-200 bg-white p-4 text-sm text-gray-700 shadow-sm sm:p-5">
-              Prefer WhatsApp? Message us at <a href="https://wa.me/919010782782" target="_blank" rel="noreferrer" className="text-red-600 hover:underline">+91 90107 82782</a>
-            </div>
-            {status && (
-              <div className={`rounded-2xl px-4 py-3 ${status.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
-                {status.message}
-              </div>
-            )}
-            <div className="text-right">
-              <button type="submit" disabled={submitting} className="w-full rounded-2xl bg-red-600 px-6 py-3 text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto">
-                {submitting ? 'Sending...' : 'Send Message'}
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex justify-center rounded-full bg-primary-red px-8 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {submitting ? 'Sending...' : 'Send Message'}
+            </button>
           </div>
+
+          {status && (
+            <div className={`rounded-2xl px-4 py-3 text-sm ${status.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}>
+              {status.message}
+            </div>
+          )}
         </form>
       </div>
     </section>

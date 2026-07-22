@@ -30,7 +30,7 @@ export default function ScrollToTopButton() {
       {isVisible && (
         <motion.button
           onClick={scrollToTop}
-          className="fixed bottom-20 right-4 z-50 rounded-full bg-gold p-3 text-brown shadow-lg transition-colors hover:bg-spice-red hover:text-white md:bottom-24 md:right-8"
+          className="fixed left-4 bottom-4 z-50 rounded-full bg-gold p-3 text-brown shadow-lg transition-colors hover:bg-spice-red hover:text-white md:bottom-24 md:right-4 md:left-auto lg:bottom-24"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}

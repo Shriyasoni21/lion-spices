@@ -55,6 +55,41 @@ const parseImages = async (req) => {
   return images.filter(Boolean);
 };
 
+const dedupeProducts = (products = []) => {
+  const uniqueProducts = [];
+  const seenKeys = new Set();
+
+  for (const product of products) {
+    const key = String(product?.legacyId ?? product?.title ?? product?._id ?? '').trim().toLowerCase();
+    if (!key || seenKeys.has(key)) continue;
+    seenKeys.add(key);
+    uniqueProducts.push(product);
+  }
+
+  return uniqueProducts;
+};
+
+const buildProductMatchQuery = (payload = {}) => {
+  if (payload?.legacyId !== undefined && payload?.legacyId !== null && payload?.legacyId !== '') {
+    const legacyId = Number(payload.legacyId);
+    return Number.isFinite(legacyId) ? { legacyId } : {};
+  }
+
+  if (payload?.title) {
+    const title = String(payload.title).trim();
+    if (title) {
+      const escapedTitle = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return { title: { $regex: new RegExp(`^${escapedTitle}$`, 'i') } };
+    }
+  }
+
+  if (payload?.sku) {
+    return { sku: payload.sku };
+  }
+
+  return {};
+};
+
 export const listProducts = async (req, res, next) => {
   try {
     const {
@@ -63,7 +98,7 @@ export const listProducts = async (req, res, next) => {
       minPrice,
       maxPrice,
       page = 1,
-      limit = 12,
+      limit = 6,
       sort,
       inStock,
       rating,
@@ -106,22 +141,19 @@ export const listProducts = async (req, res, next) => {
     else if (sort === 'rating') sortOptions.rating = -1;
     else sortOptions.createdAt = -1;
 
+    const requestedLimit = Number(limit) || 6;
+    const safeLimit = Math.min(Math.max(requestedLimit, 1), 6);
+    const pageNumber = Math.max(Number(page) || 1, 1);
+
     const total = await Product.countDocuments(query);
     const products = await Product.find(query)
       .sort(sortOptions)
-      .skip((Number(page) - 1) * Number(limit))
-      .limit(Number(limit));
+      .skip((pageNumber - 1) * safeLimit)
+      .limit(safeLimit);
 
-    const uniqueProducts = [];
-    const seenKeys = new Set();
-    for (const product of products) {
-      const key = String(product.legacyId || product.title || product._id || '');
-      if (seenKeys.has(key)) continue;
-      seenKeys.add(key);
-      uniqueProducts.push(product);
-    }
+    const uniqueProducts = dedupeProducts(products);
 
-    res.json({ products: uniqueProducts, total: Math.min(uniqueProducts.length, total), page: Number(page), limit: Number(limit) });
+    res.json({ products: uniqueProducts, total: Math.min(uniqueProducts.length, total), page: pageNumber, limit: safeLimit });
   } catch (err) {
     next(err);
   }
@@ -164,7 +196,17 @@ export const createProduct = async (req, res, next) => {
     payload.tags = payload.tags ? String(payload.tags).split(',').map((tag) => tag.trim()).filter(Boolean) : [];
     payload.images = await parseImages(req);
 
-    const product = await Product.create(payload);
+    const matchQuery = buildProductMatchQuery(payload);
+    if (!Object.keys(matchQuery).length) {
+      return res.status(400).json({ message: 'Product title or legacyId is required' });
+    }
+
+    const product = await Product.findOneAndUpdate(
+      matchQuery,
+      { $set: payload },
+      { upsert: true, new: true, setDefaultsOnInsert: true, runValidators: true }
+    );
+
     res.status(201).json(product);
   } catch (err) {
     next(err);

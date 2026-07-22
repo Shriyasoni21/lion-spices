@@ -3,8 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { imageAssets } from '../config/imageAssets.js';
 import ImageWithFallback from '../components/common/ImageWithFallback';
 import { generateInvoicePdf } from '../utils/invoice';
-
-import { API_BASE_URL } from '../utils/apiClient';
+import { apiFetch, getApiUrl } from '../utils/apiClient';
 
 export default function OrderSuccessPage() {
   const [params] = useSearchParams();
@@ -20,8 +19,7 @@ export default function OrderSuccessPage() {
   useEffect(() => {
     if (!email || !orderId) return;
     setLoading(true);
-    fetch(`${API_BASE_URL}/api/orders/guest/${encodeURIComponent(orderId)}?email=${encodeURIComponent(email)}`)
-      .then((res) => res.ok ? res.json() : res.json().then((json) => Promise.reject(new Error(json.message || 'Failed to load order details'))))
+    apiFetch(`/api/orders/guest/${encodeURIComponent(orderId)}?email=${encodeURIComponent(email)}`)
       .then((data) => setOrder(data))
       .catch((err) => {
         console.warn('Unable to load order details', err);
@@ -53,7 +51,7 @@ export default function OrderSuccessPage() {
     }
 
     try {
-      const invoiceUrl = `${API_BASE_URL}/api/orders/${encodeURIComponent(order.orderId)}/invoice${email ? `?email=${encodeURIComponent(email)}` : ''}`;
+      const invoiceUrl = getApiUrl(`/api/orders/${encodeURIComponent(order.orderId)}/invoice${email ? `?email=${encodeURIComponent(email)}` : ''}`);
       const response = await fetch(invoiceUrl, { method: 'GET' });
       if (!response.ok) {
         throw new Error('Unable to download invoice from server');

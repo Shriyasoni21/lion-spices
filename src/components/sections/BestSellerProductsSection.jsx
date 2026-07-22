@@ -29,13 +29,15 @@ const BestSellerCard = ({ product, index, onAddToCart }) => {
     <motion.div className="flex-1 bg-white rounded-2xl p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl h-full" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.12 }}>
       <div className="flex flex-col lg:flex-row gap-4 items-center h-full">
         <div className="flex-shrink-0 rounded-3xl border border-gray-100 bg-white p-4 shadow-sm">
-            <ImageWithFallback
-              src={getProductImageSrc(product)}
-              alt={product.title}
-              className="w-full lg:w-48 h-48 object-contain rounded-2xl"
-              width={192}
-              height={192}
-            />
+            <div className="product-image-container">
+              <ImageWithFallback
+                src={getProductImageSrc(product)}
+                alt={product.title}
+                className="product-image rounded-2xl"
+                width={192}
+                height={192}
+              />
+            </div>
           </div>
         <div className="flex-1 flex flex-col h-full">
           <h3 className="text-xl font-semibold text-gray-900">{product.title}</h3>

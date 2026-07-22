@@ -9,7 +9,8 @@ import { getProductImageSrc } from '../utils/imageHelpers';
 import { products as localProducts } from '../data/productData';
 
 export default function ProductDetailsPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params.id || params.slug;
   const location = useLocation();
   const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -22,9 +23,14 @@ export default function ProductDetailsPage() {
   const [shareMessage, setShareMessage] = useState('');
 
   useEffect(() => {
+    const slugify = (text) => String(text || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
     const matchedProduct = localProducts.find((item) => {
       const candidates = [item._id, item.legacyId, item.id];
-      return candidates.some((candidate) => String(candidate) === String(id));
+      if (candidates.some((candidate) => String(candidate) === String(id))) return true;
+      // also match by slug (e.g., /products/red-chilli-powder)
+      if (String(slugify(item.title)) === String(id)) return true;
+      return false;
     });
 
     if (matchedProduct) {
@@ -108,40 +114,42 @@ export default function ProductDetailsPage() {
 
   return (
     <main className="page-shell-compact">
-      <section className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
-        <div className="rounded-[24px] border border-gray-200 bg-white p-4 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-6">
-          <div className="flex items-center justify-between">
-            <button onClick={() => navigate(-1)} className="btn-soft h-11 px-4">
-              <FiArrowLeft className="mr-2 h-4 w-4" />Back
+      <section className="mx-auto grid max-w-7xl gap-4 px-3 sm:gap-6 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
+        <div className="rounded-[20px] border border-gray-200 bg-white p-2.5 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:rounded-[24px] sm:p-4 sm:shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)]">
+          <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
+            <button onClick={() => navigate(-1)} className="btn-soft h-9 px-3 text-sm sm:h-11 sm:px-4 sm:text-base">
+              <FiArrowLeft className="mr-1 h-3.5 w-3.5 sm:mr-2 sm:h-4 sm:w-4" />Back
             </button>
-            <span className="rounded-full bg-primary-red/10 px-3 py-1 text-sm font-semibold text-primary-red">In stock</span>
+            <span className="rounded-full bg-primary-red/10 px-2.5 py-0.5 text-xs font-semibold text-primary-red sm:px-3 sm:py-1 sm:text-sm">In stock</span>
           </div>
 
-          <div className="mt-5 rounded-[24px] bg-[#fffaf5] p-4 sm:p-6">
-            <ImageWithFallback src={getProductImageSrc(product)} alt={product.title} className="mx-auto h-[300px] w-full max-w-[320px] object-contain object-center sm:h-[380px]" loading="eager" />
+          <div className="rounded-[16px] bg-[#fffaf5] p-2 sm:rounded-[24px] sm:p-4 sm:p-6">
+            <div className="product-image-container mx-auto max-w-[400px]">
+              <ImageWithFallback src={getProductImageSrc(product)} alt={product.title} className="product-image mx-auto" loading="eager" />
+            </div>
           </div>
         </div>
 
-        <div className="rounded-[24px] border border-gray-200 bg-white p-6 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:p-8">
-          <p className="text-sm uppercase tracking-[0.24em] text-primary-red">{product.category}</p>
-          <h1 className="mt-3 text-3xl font-semibold text-gray-900 sm:text-4xl">{product.title}</h1>
-          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-600">
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#fff7e8] px-3 py-1 font-semibold text-amber-700"><FiStar className="fill-current" /> {product.rating}</span>
-            <span>Trusted by 10,000+ happy customers</span>
+        <div className="rounded-[20px] border border-gray-200 bg-white p-3 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)] sm:rounded-[24px] sm:p-6 sm:shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)]">
+          <p className="text-xs uppercase tracking-[0.24em] text-primary-red sm:text-sm">{product.category}</p>
+          <h1 className="mt-2 text-xl font-semibold text-gray-900 sm:mt-3 sm:text-3xl sm:text-4xl">{product.title}</h1>
+          <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs text-gray-600 sm:mt-4 sm:gap-3 sm:text-sm">
+            <span className="inline-flex items-center gap-0.5 rounded-full bg-[#fff7e8] px-2 py-0.5 font-semibold text-amber-700 sm:gap-1 sm:px-3 sm:py-1"><FiStar className="fill-current text-xs sm:text-base" /> {product.rating}</span>
+            <span>Trusted by 10,000+ customers</span>
           </div>
 
-          <div className="mt-6 flex items-end justify-between gap-4 rounded-[20px] border border-gray-100 bg-gray-50 p-4">
+          <div className="mt-4 flex items-end justify-between gap-3 rounded-[16px] border border-gray-100 bg-gray-50 p-3 sm:mt-6 sm:gap-4 sm:rounded-[20px] sm:p-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.18em] text-gray-400">Price</p>
-              <p className="text-3xl font-semibold text-primary-red">₹{price}</p>
-              <p className="mt-1 text-sm text-gray-500">{selectedVariant?.weight || product.weight || product.variants?.[0]?.weight}</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-gray-400 sm:text-sm">Price</p>
+              <p className="text-2xl font-semibold text-primary-red sm:text-3xl">₹{price}</p>
+              <p className="text-xs text-gray-500 sm:mt-1 sm:text-sm">{selectedVariant?.weight || product.weight || product.variants?.[0]?.weight}</p>
             </div>
-            <div className="text-right text-sm text-gray-500"><p>Total: ₹{price * quantity}</p></div>
+            <div className="text-right text-xs text-gray-500 sm:text-sm"><p>Total: ₹{price * quantity}</p></div>
           </div>
 
-          <div className="mt-6 rounded-[20px] border border-gray-100 bg-[#fffaf5] p-4">
-            <h2 className="text-lg font-semibold text-gray-900">Available sizes</h2>
-            <div className="mt-3">
+          <div className="mt-4 rounded-[16px] border border-gray-100 bg-[#fffaf5] p-3 sm:mt-6 sm:rounded-[20px] sm:p-4">
+            <h2 className="text-base font-semibold text-gray-900 sm:text-lg">Available sizes</h2>
+            <div className="mt-2.5 sm:mt-3">
               {product.variants?.length ? (
                 <WeightSelector options={product.variants.map((variant) => variant.weight)} selectedWeight={selectedVariant?.weight} onSelect={(weight) => { const nextVariant = product.variants.find((variant) => variant.weight === weight); if (nextVariant) setSelectedVariant(nextVariant); }} />
               ) : null}
@@ -153,7 +161,7 @@ export default function ProductDetailsPage() {
               <p className="text-sm font-semibold text-gray-700">Quantity</p>
               <div className="mt-2"><QuantitySelector quantity={quantity} onDecrease={() => setQuantity((q) => Math.max(1, q - 1))} onIncrease={() => setQuantity((q) => q + 1)} /></div>
             </div>
-            <button onClick={() => { addToCart(product, selectedVariant, quantity); navigate('/cart'); }} className="flex h-12 items-center justify-center gap-2 rounded-full bg-primary-red px-6 text-sm font-semibold text-white hover:bg-red-700">
+            <button onClick={() => { addToCart(product, selectedVariant || { weight: product?.weight || '500g', price: product?.price ?? 0 }, quantity); navigate('/cart'); }} className="flex h-12 items-center justify-center gap-2 rounded-full bg-primary-red px-6 text-sm font-semibold text-white hover:bg-red-700">
               <FiShoppingCart className="h-4 w-4" />Add to cart
             </button>
           </div>
@@ -197,7 +205,9 @@ export default function ProductDetailsPage() {
         <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {relatedProducts.map((item) => (
             <article key={item._id || item.id} className="rounded-[24px] border border-gray-200 bg-white p-5 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.28)]">
-              <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-44 w-full rounded-[20px] object-contain" loading="lazy" />
+              <div className="product-image-container">
+                <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="product-image rounded-[20px]" loading="lazy" />
+              </div>
               <h3 className="mt-4 text-xl font-semibold text-gray-900">{item.title}</h3>
               <p className="mt-2 text-sm text-gray-600">{item.category}</p>
               <Link to={`/product/${item._id || item.legacyId || item.id}`} className="mt-4 inline-flex rounded-full bg-primary-red px-4 py-2 text-sm font-semibold text-white">View details</Link>

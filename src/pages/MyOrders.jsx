@@ -83,6 +83,16 @@ export default function MyOrdersPage() {
           <h1 className="mt-3 text-3xl font-bold text-gray-900 sm:text-4xl">Track your Lion Spices orders</h1>
           <p className="mt-3 text-sm text-gray-600 sm:text-base">Lookup your orders using the email address used during checkout.</p>
 
+          <div className="mt-6 rounded-[24px] border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 sm:p-5">
+            <p className="font-semibold text-gray-900">How it works</p>
+            <ol className="mt-3 space-y-2 pl-5 text-gray-600">
+              <li>1. Place your order on Lion Spices.</li>
+              <li>2. Use the same email address during checkout.</li>
+              <li>3. Lookup your orders quickly on this page.</li>
+              <li>4. View order details and status instantly.</li>
+            </ol>
+          </div>
+
           <form onSubmit={handleLookup} className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <label className="flex-1 min-w-0">
               <span className="sr-only">Email</span>

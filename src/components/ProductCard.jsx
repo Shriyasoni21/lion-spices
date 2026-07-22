@@ -5,7 +5,7 @@ import ImageWithFallback from './common/ImageWithFallback';
 import { useCart } from '../context/CartContext';
 import { getProductImageSrc } from '../utils/imageHelpers';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onAddToCart }) {
   const productDetailId = product._id ?? product.legacyId ?? product.id;
   const productIdString = String(productDetailId || '');
   const addToCartId = product._id ? String(product._id) : String(product.id || product.legacyId || '');
@@ -36,53 +36,63 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <article className="group flex h-full min-h-[300px] flex-col overflow-hidden rounded-[18px] border border-gray-200 bg-white transition hover:-translate-y-1 hover:shadow-[0_16px_35px_-24px_rgba(15,23,42,0.25)]">
-      <div className="flex h-[180px] w-full items-center justify-center bg-[#fff7ef] p-2.5 sm:h-[190px] sm:p-3">
+    <article className="product-card group flex flex-col h-auto overflow-hidden rounded-[18px] border border-gray-200 bg-white transition hover:-translate-y-1 hover:shadow-[0_16px_35px_-24px_rgba(15,23,42,0.25)]">
+      <div className="product-image-container bg-[#fff7ef] p-1.5 sm:p-3">
         <ImageWithFallback
           src={getProductImageSrc(product)}
           alt={product.title}
-          className="h-full w-full max-w-[120px] object-contain transition duration-300 group-hover:scale-[1.01] sm:max-w-[110px]"
+          className="product-image transition duration-300 group-hover:scale-[1.01] max-w-[120px]"
           loading="lazy"
           decoding="async"
         />
       </div>
 
-      <div className="flex flex-1 flex-col justify-between gap-2 p-3 sm:p-3.5">
-        <div className="min-h-[2.75rem]">
-          <h3 className="line-clamp-2 text-center text-[15px] font-semibold leading-5 text-gray-900">{product.title}</h3>
+      <div className="flex flex-1 flex-col justify-between gap-1.5 p-2 sm:gap-2 sm:p-3.5">
+        <div className="min-h-[2.25rem] order-1 sm:order-none">
+          <h3 className="line-clamp-2 text-center text-[13px] font-semibold leading-4 text-gray-900 break-words sm:text-[15px] sm:leading-5">{product.title}</h3>
         </div>
 
-        <div className="rounded-[14px] border border-gray-100 bg-[#fffaf5] p-2.5">
-          <p className="text-[10px] uppercase tracking-[0.32em] text-gray-500">Available sizes</p>
-          <div className="mt-1.5 flex flex-wrap justify-center gap-1.5">
-            {product.variants?.map((variant) => (
-              <button
-                key={variant.weight}
-                type="button"
-                onClick={() => handleSelectVariant(variant.weight)}
-                className={`rounded-full border px-2 py-1 text-xs font-semibold ${selectedVariant?.weight === variant.weight ? 'border-primary-red bg-primary-red/10 text-primary-red' : 'border-gray-200 bg-white text-gray-700 hover:border-primary-red hover:text-primary-red'}`}
-              >
-                {variant.weight}
-              </button>
-            ))}
+        <div className="rounded-[12px] border border-gray-100 bg-[#fffaf5] p-1.5 sm:p-2.5 order-2 sm:order-none">
+          <div className="mt-1 flex justify-center gap-2 sm:gap-3 weight-options">
+            {['100g','500g','1kg'].map((w) => {
+              const available = product.variants?.some((v) => v.weight === w);
+              return (
+                <button
+                  key={w}
+                  type="button"
+                  onClick={() => available && handleSelectVariant(w)}
+                  className={`flex-1 min-w-0 text-center rounded-full border px-2 py-1 text-[11px] font-semibold sm:px-3 sm:py-1 sm:text-xs ${selectedVariant?.weight === w ? 'border-primary-red bg-primary-red/10 text-primary-red' : available ? 'border-gray-200 bg-white text-gray-700 hover:border-primary-red hover:text-primary-red' : 'border-transparent bg-white/30 text-gray-400 cursor-not-allowed'}`}
+                  disabled={!available}
+                >
+                  {w}
+                </button>
+              );
+            })}
           </div>
-          <p className="mt-2 text-center text-lg font-semibold text-primary-red sm:text-xl">₹{price}</p>
         </div>
 
-        <div className="mt-1 flex items-stretch gap-2">
+        <div className="order-3 sm:order-none">
+          <p className="text-center text-base font-semibold text-primary-red sm:text-lg">₹{price}</p>
+        </div>
+
+        <div className="mt-0.5 flex items-stretch gap-1.5 sm:mt-1 sm:gap-2 order-4 sm:order-none">
           {currentQty > 0 ? (
-            <div className="flex h-10 flex-1 items-center justify-between rounded-full border border-gray-200 bg-white px-1.5">
-              <button type="button" aria-label="Decrease" onClick={() => updateQuantity(addToCartId, selectedVariant?.weight || product.weight, -1)} className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-lg font-semibold text-gray-700">−</button>
-              <div className="text-sm font-semibold text-gray-900">{currentQty}</div>
-              <button type="button" aria-label="Increase" onClick={() => updateQuantity(addToCartId, selectedVariant?.weight || product.weight, 1)} className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-red text-lg font-semibold text-white">+</button>
+            <div className="flex h-9 flex-1 items-center justify-between rounded-full border border-gray-200 bg-white px-1 sm:h-10 sm:px-1.5">
+              <button type="button" aria-label="Decrease" onClick={() => updateQuantity(addToCartId, selectedVariant?.weight || product.weight, -1)} className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-base font-semibold text-gray-700 sm:h-8 sm:w-8 sm:text-lg">−</button>
+              <div className="text-xs font-semibold text-gray-900 sm:text-sm">{currentQty}</div>
+              <button type="button" aria-label="Increase" onClick={() => updateQuantity(addToCartId, selectedVariant?.weight || product.weight, 1)} className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-red text-base font-semibold text-white sm:h-8 sm:w-8 sm:text-lg">+</button>
             </div>
           ) : (
-            <button type="button" onClick={() => addToCart(product, selectedVariant, 1)} className="btn-solid h-10 flex-1 gap-1.5 px-2 text-sm">
-              <FiShoppingCart className="h-4 w-4" />
-              Add to cart
+            <button
+              type="button"
+              aria-label={`Add ${product.title} (${selectedVariant?.weight || ''}) to cart`}
+              onClick={() => (onAddToCart ? onAddToCart(product, selectedVariant, 1) : addToCart(product, selectedVariant, 1))}
+              className="btn-solid h-9 flex-1 text-xs sm:h-10 sm:text-sm"
+            >
+              <FiShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 inline-block mr-2" />Add to cart
             </button>
           )}
-          <Link to={`/product/${productIdString}`} state={{ selectedVariant }} className="btn-soft flex h-10 flex-1 items-center justify-center px-2 text-sm">
+          <Link to={`/product/${productIdString}`} state={{ selectedVariant }} aria-label={`View details for ${product.title}`} className="btn-soft ml-2 flex h-9 flex-1 items-center justify-center px-1.5 text-xs sm:h-10 sm:px-2 sm:text-sm">
             Details
           </Link>
         </div>

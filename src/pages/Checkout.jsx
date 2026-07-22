@@ -48,10 +48,10 @@ const validatePin = (value) => {
 export default function CheckoutPage() {
   const { cartItems, subtotal, deliveryCharge, finalTotal, clearCart } = useCart();
   const [paymentMethod, setPaymentMethod] = useState('Cash on Delivery');
-  const [form, setForm] = useState({ name: '', phone: '', email: '', address: '', pin: '', city: '', state: '' });
+  const [form, setForm] = useState({ name: '', phone: '', email: '', address: '', pincode: '', city: '', state: '' });
   const [placingOrder, setPlacingOrder] = useState(false);
   const [paymentError, setPaymentError] = useState('');
-  const [touched, setTouched] = useState({ name: false, phone: false, email: false, address: false, pin: false });
+  const [touched, setTouched] = useState({ name: false, phone: false, email: false, address: false, pincode: false });
   const [pinStatus, setPinStatus] = useState('idle');
   const [pinError, setPinError] = useState('');
   const [pinLoading, setPinLoading] = useState(false);
@@ -71,12 +71,11 @@ export default function CheckoutPage() {
       validatePhone(form.phone) &&
       validateEmail(form.email) &&
       validateAddress(form.address) &&
-      validatePin(form.pin) &&
-      !!form.city &&
-      !!form.state &&
-      pinStatus === 'valid'
+      validatePin(form.pincode) &&
+      !!form.city?.trim() &&
+      !!form.state?.trim()
     );
-  }, [form, pinStatus]);
+  }, [form]);
 
   const updateField = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -89,7 +88,7 @@ export default function CheckoutPage() {
 
   const updatePin = (value) => {
     const digits = value.replace(/\D/g, '').slice(0, 6);
-    updateField('pin', digits);
+    updateField('pincode', digits);
     if (pinStatus !== 'idle') {
       setPinStatus('idle');
       setPinError('');
@@ -118,9 +117,8 @@ export default function CheckoutPage() {
       const data = await response.json();
       const result = Array.isArray(data) && data[0];
       if (!result || result.Status !== 'Success' || !Array.isArray(result.PostOffice) || result.PostOffice.length === 0) {
-        setPinError('Invalid PIN Code');
-        setPinStatus('invalid');
-        setForm((prev) => ({ ...prev, city: '', state: '' }));
+        setPinStatus('valid');
+        setPinError('');
       } else {
         const postOffice = result.PostOffice[0];
         setForm((prev) => ({ ...prev, city: postOffice.District || '', state: postOffice.State || '' }));
@@ -204,7 +202,7 @@ export default function CheckoutPage() {
   });
 
   const handlePlaceOrder = async () => {
-    setTouched({ name: true, phone: true, email: true, address: true, pin: true });
+    setTouched({ name: true, phone: true, email: true, address: true, pincode: true });
     if (!isFormValid) {
       setPaymentError('Please fill in valid delivery details before placing the order.');
       return;
@@ -350,17 +348,17 @@ export default function CheckoutPage() {
               {touched.address && !validateAddress(form.address) ? <p className="mt-2 text-sm text-red-600">Please enter a delivery address with at least 10 characters.</p> : null}
             </label>
             <label className="text-sm text-gray-700">
-              <span className="mb-1 block">PIN Code</span>
-              <input value={form.pin} onChange={(e) => updatePin(e.target.value)} onBlur={() => { handleBlur('pin'); fetchPinDetails(form.pin); }} inputMode="numeric" className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
-              {touched.pin && pinStatus === 'invalid' ? <p className="mt-2 text-sm text-red-600">Invalid PIN Code</p> : null}
+              <span className="mb-1 block">Pincode</span>
+              <input value={form.pincode} onChange={(e) => updatePin(e.target.value)} onBlur={() => { handleBlur('pincode'); fetchPinDetails(form.pincode); }} inputMode="numeric" maxLength={6} className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
+              {touched.pincode && pinStatus === 'invalid' ? <p className="mt-2 text-sm text-red-600">Invalid Pincode</p> : null}
             </label>
             <label className="text-sm text-gray-700">
               <span className="mb-1 block">City</span>
-              <input readOnly value={form.city} className="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none" />
+              <input value={form.city} onChange={(e) => updateField('city', e.target.value)} className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
             </label>
             <label className="text-sm text-gray-700">
               <span className="mb-1 block">State</span>
-              <input readOnly value={form.state} className="w-full rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 outline-none" />
+              <input value={form.state} onChange={(e) => updateField('state', e.target.value)} className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 outline-none focus:border-primary-red focus:ring-2 focus:ring-red-100" />
             </label>
           </div>
 

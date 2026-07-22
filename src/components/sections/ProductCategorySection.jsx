@@ -70,11 +70,11 @@ const ProductCategorySection = () => {
               variants={itemVariants}
               className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-gray-100 bg-cream p-5 shadow-[0_12px_35px_-20px_rgba(15,23,42,0.12)] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[0_24px_80px_-35px_rgba(15,23,42,0.18)]"
             >
-              <div className="flex h-[18rem] items-center justify-center rounded-[24px] bg-white p-6 shadow-sm md:h-[20rem]">
+              <div className="product-image-container flex items-center justify-center rounded-[24px] bg-white p-6 shadow-sm">
                 <img
                   src={category.image}
                   alt={category.name}
-                  className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  className="product-image transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 

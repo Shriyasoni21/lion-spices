@@ -36,13 +36,13 @@ function ProductCard({ product, index = 0, onAddToCart }) {
   };
   return (
     <motion.article
-      className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-gray-100 bg-white p-3 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-20px_rgba(15,23,42,0.3)]"
+      className="group flex flex-col h-auto overflow-hidden rounded-[24px] border border-gray-100 bg-white p-3 shadow-[0_12px_30px_-20px_rgba(15,23,42,0.22)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-20px_rgba(15,23,42,0.3)]"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <div className="relative h-[180px] overflow-hidden rounded-[18px] bg-white sm:h-[210px]">
+      <div className="relative product-image-container overflow-hidden rounded-[18px] bg-white">
         <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-[#fff7e8] px-2.5 py-1 text-[12px] font-semibold text-amber-700 shadow-sm">
           <FiStar className="h-3.5 w-3.5 fill-current" />
           {product.rating}
@@ -50,15 +50,20 @@ function ProductCard({ product, index = 0, onAddToCart }) {
         <ImageWithFallback
           src={getProductImageSrc(product)}
           alt={product.title}
-          className="h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
-          width={360}
-          height={320}
+          className="product-image transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
         />
       </div>
 
       <div className="mt-3 flex flex-1 flex-col">
         <p className="text-[10px] uppercase tracking-[0.24em] text-primary-red">{product.category}</p>
-        <h4 className="mt-1 text-base font-semibold text-gray-900 sm:text-lg">{product.title}</h4>
+        <h4 className="mt-1 text-base font-semibold text-gray-900 sm:text-lg line-clamp-2 break-words">{product.title}</h4>
+
+        <div className="mt-2">
+          <p className="text-xl font-bold text-primary-red">₹{price}</p>
+          <p className="text-sm text-gray-500">{selectedVariant?.weight || product.weight}</p>
+        </div>
 
         {product.variants?.length ? (
           <div className="mt-3 overflow-x-auto">
@@ -69,14 +74,6 @@ function ProductCard({ product, index = 0, onAddToCart }) {
             />
           </div>
         ) : null}
-
-        <div className="mt-3 flex items-end justify-between gap-3 border-t border-gray-100 pt-3">
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-gray-400">Selected size</p>
-            <p className="text-xl font-bold text-primary-red">₹{price}</p>
-            <p className="text-sm text-gray-500">{selectedVariant?.weight || product.weight}</p>
-          </div>
-        </div>
 
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           <Link

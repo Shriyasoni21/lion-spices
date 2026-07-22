@@ -67,25 +67,33 @@ export const completeOrder = async (req, res, next) => {
     if (existingOrder) return res.status(400).json({ message: 'Order already completed' });
 
     const items = (orderPayload.items || []).map((item) => {
-      const productId = item._id ? String(item._id) : item.productId ? String(item.productId) : undefined;
-      if (!productId || !mongoose.Types.ObjectId.isValid(productId)) {
-        throw new Error(`Invalid productId in order item: ${String(item.productId || item._id || item.id)}`);
-      }
+      const rawProductId = item._id ?? item.productId ?? item.id ?? '';
+      const productId = rawProductId ? String(rawProductId) : undefined;
       return {
         productId,
-        title: item.title,
-        selectedWeight: item.selectedWeight,
-        price: item.price,
-        quantity: item.quantity,
+        title: item.title || item.name || '',
+        selectedWeight: item.selectedWeight || item.weight || '',
+        price: Number(item.price) || 0,
+        quantity: Number(item.quantity) || 1,
       };
     });
 
+    const customer = orderPayload.customer || {};
     const order = await Order.create({
       orderId: orderPayload.orderId,
       providerOrderId: providerOrderId || orderPayload.providerOrderId,
       paymentId: paymentReference || orderPayload.paymentId,
       items,
-      customer: orderPayload.customer,
+      customer: {
+        name: customer.name || '',
+        email: customer.email || '',
+        phone: customer.phone || '',
+        address: customer.address || '',
+        city: customer.city || '',
+        state: customer.state || '',
+        pin: customer.pin || customer.pincode || '',
+        pincode: customer.pincode || customer.pin || '',
+      },
       subtotal: orderPayload.subtotal,
       gst: orderPayload.gst || 0,
       deliveryCharge: orderPayload.deliveryCharge,
@@ -100,19 +108,23 @@ export const completeOrder = async (req, res, next) => {
       invoiceNumber: `INV-${Date.now().toString().slice(-8)}`,
     });
 
+    console.log('Order Saved Successfully');
+    console.log('Sending Confirmation Email....');
+
     const itemsToUpdate = order.items || [];
     for (const item of itemsToUpdate) {
-      if (item.productId) {
-        await Product.findByIdAndUpdate(item.productId, {
-          $inc: {
-            stock: item.quantity ? -item.quantity : 0,
-            'variants.$[variant].stock': item.quantity ? -item.quantity : 0,
-          },
-        }, {
-          arrayFilters: [{ 'variant.weight': item.selectedWeight }],
-          new: true,
-        });
-      }
+      if (!item.productId) continue;
+      if (!mongoose.Types.ObjectId.isValid(item.productId)) continue;
+
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: {
+          stock: item.quantity ? -item.quantity : 0,
+          'variants.$[variant].stock': item.quantity ? -item.quantity : 0,
+        },
+      }, {
+        arrayFilters: [{ 'variant.weight': item.selectedWeight }],
+        new: true,
+      });
     }
 
     if (order.paymentId && provider === 'razorpay') {
@@ -128,21 +140,38 @@ export const completeOrder = async (req, res, next) => {
       });
     }
 
-    res.json({ success: true, order });
-
-    (async () => {
+    try {
+      let pdfBuffer = null;
       try {
-        const pdfBuffer = await generateInvoiceBuffer(order);
-        await sendInvoiceEmail(order, pdfBuffer);
-        await sendOrderConfirmationEmail(order);
-        await sendNewOrderReceivedNotification(order);
-        if (order.paymentStatus === 'Paid') {
-          await sendBusinessPaymentSuccessNotification(order);
-        }
-      } catch (emailErr) {
-        console.error('Background email sending error', emailErr);
+        pdfBuffer = await generateInvoiceBuffer(order);
+      } catch (invoiceErr) {
+        console.warn('Invoice generation failed, continuing without invoice attachment:', invoiceErr.message || invoiceErr);
       }
-    })();
+
+      const emailResults = await Promise.allSettled([
+        pdfBuffer ? sendInvoiceEmail(order, pdfBuffer) : Promise.resolve(),
+        sendOrderConfirmationEmail(order),
+        sendNewOrderReceivedNotification(order),
+        order.paymentStatus === 'Paid' ? sendBusinessPaymentSuccessNotification(order) : Promise.resolve(),
+      ]);
+
+      const failedEmails = emailResults.filter((result) => result.status === 'rejected');
+      if (failedEmails.length) {
+        console.warn(`Email Sending Failed (${failedEmails.length} email(s))`);
+        failedEmails.forEach((result) => {
+          console.warn('Reason:', result.reason?.message || result.reason || 'Unknown email error');
+        });
+        console.warn('Continuing Checkout Process');
+      } else {
+        console.log('Email Sent Successfully');
+      }
+    } catch (emailErr) {
+      console.warn('Email Sending Failed');
+      console.warn('Reason:', emailErr.message || emailErr);
+      console.warn('Continuing Checkout Process');
+    }
+
+    res.json({ success: true, order });
   } catch (err) {
     next(err);
   }

@@ -57,9 +57,9 @@ export default function AboutPage() {
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {productPackets.map((packet) => (
                 <div key={packet.name} className="rounded-[20px] border border-gray-100 bg-[#fff8f0] p-3">
-                  <div className="flex h-32 items-center justify-center rounded-[16px] bg-white p-2">
-                    <ImageWithFallback src={packet.src} alt={packet.name} className="h-full w-full object-contain" />
-                  </div>
+                  <div className="product-image-container rounded-[16px] bg-white p-2 h-auto">
+                      <ImageWithFallback src={packet.src} alt={packet.name} className="product-image" />
+                    </div>
                   <p className="mt-3 text-center text-sm font-semibold text-gray-900">{packet.name}</p>
                 </div>
               ))}
