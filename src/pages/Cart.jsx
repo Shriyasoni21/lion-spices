@@ -105,7 +105,9 @@ export default function CartPage() {
               ) : (
                 cartItems.map((item) => (
                   <article key={`${item._id}-${item.selectedWeight}`} className="flex flex-col gap-3 rounded-[20px] border border-gray-200 bg-[#fffaf5] p-4 md:flex-row md:items-center md:justify-between">
-                    <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-20 w-20 rounded-[16px] object-contain" loading="lazy" />
+                    <div className="flex h-32 w-32 flex-shrink-0 items-center justify-center rounded-[16px] border border-gray-100 bg-white p-3 shadow-sm sm:h-40 sm:w-40">
+                      <ImageWithFallback src={getProductImageSrc(item)} alt={item.title} className="h-full w-full rounded-[12px] object-contain" loading="lazy" />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
                       <p className="mt-1 text-sm text-gray-500">Weight: {item.selectedWeight}</p>
