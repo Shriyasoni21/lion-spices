@@ -31,16 +31,16 @@ export default function RecipeDetailsPage() {
 
   return (
     <main className="page-shell-compact bg-cream">
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
-        <article className="rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
-          <ImageWithFallback src={recipe.image} alt={recipe.title} className="h-[420px] w-full rounded-[28px] object-cover" loading="eager" />
+      <section className="mx-auto grid max-w-7xl items-start gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:px-8">
+        <article className="flex flex-col self-start rounded-[32px] bg-white p-6 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
+          <ImageWithFallback src={recipe.image} alt={recipe.title} className="w-full rounded-[28px] object-cover" style={{ aspectRatio: '4 / 3' }} loading="eager" />
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-gray-700">
             <span className="rounded-full bg-amber-50 px-3 py-1">Time: {recipe.cookTime}</span>
             <span className="rounded-full bg-green-50 px-3 py-1">Difficulty: {recipe.difficulty}</span>
             <span className="rounded-full bg-red-50 px-3 py-1">Servings: {recipe.servings}</span>
           </div>
         </article>
-        <article className="rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
+        <article className="self-start rounded-[32px] bg-white p-8 shadow-[0_18px_45px_-24px_rgba(0,0,0,0.35)]">
           <p className="text-sm uppercase tracking-[0.28em] text-primary-red">Recipe</p>
           <h1 className="mt-3 text-4xl font-bold text-gray-900">{recipe.title}</h1>
           <p className="mt-4 text-gray-600">{recipe.description}</p>
